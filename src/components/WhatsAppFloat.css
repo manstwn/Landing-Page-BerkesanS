@@ -1,0 +1,59 @@
+.wa-float {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #25D366;
+    color: white;
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+    transition: all var(--transition-normal);
+    cursor: pointer;
+}
+
+.wa-float:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 28px rgba(37, 211, 102, 0.45);
+}
+
+/* Pulse ring */
+.wa-float__pulse {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid #25D366;
+    animation: waPulse 2s infinite;
+    pointer-events: none;
+}
+
+@keyframes waPulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1.6);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .wa-float {
+        width: 52px;
+        height: 52px;
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .wa-float svg {
+        width: 24px;
+        height: 24px;
+    }
+}

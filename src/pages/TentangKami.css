@@ -1,0 +1,170 @@
+/* ============================================
+   TENTANG KAMI — Bright
+   ============================================ */
+
+/* Story */
+.tentang__story {
+    background: var(--color-white);
+}
+
+.tentang__story-inner {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.tentang__story-content h2 {
+    margin-bottom: 24px;
+}
+
+.tentang__story-text {
+    font-size: 1rem;
+    color: var(--color-gray-dark);
+    line-height: 1.9;
+    margin-bottom: 16px;
+}
+
+.tentang__story-frame {
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    border: var(--border);
+}
+
+.tentang__story-placeholder {
+    aspect-ratio: 3/4;
+    background: linear-gradient(135deg, var(--color-light), var(--color-white));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.tentang__story-placeholder span {
+    font-size: 4rem;
+    color: var(--color-gray);
+}
+
+.tentang__story-placeholder p {
+    color: var(--color-gray);
+    font-size: 0.9rem;
+}
+
+/* Vision */
+.tentang__vision {
+    background: var(--color-light);
+}
+
+.tentang__vision-card {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 60px 40px;
+    background: var(--color-white);
+    border: var(--border);
+    border-radius: var(--border-radius-lg);
+}
+
+.tentang__vision-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.tentang__vision-card h2 {
+    margin-bottom: 16px;
+}
+
+.tentang__vision-card p {
+    font-size: 1.05rem;
+    color: var(--color-gray-dark);
+    line-height: 1.8;
+}
+
+/* Mission */
+.tentang__mission {
+    background: var(--color-white);
+}
+
+.tentang__mission-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.tentang__mission-card {
+    padding: 32px 28px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.tentang__mission-icon {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+}
+
+.tentang__mission-card p {
+    font-size: 0.95rem;
+    color: var(--color-gray-dark);
+    line-height: 1.7;
+}
+
+/* Values */
+.tentang__values {
+    background: var(--color-light);
+}
+
+.tentang__values-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.tentang__value-card {
+    padding: 36px 24px;
+    text-align: center;
+}
+
+.tentang__value-icon {
+    font-size: 2.4rem;
+    margin-bottom: 16px;
+    display: block;
+}
+
+.tentang__value-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.tentang__value-card p {
+    font-size: 0.88rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .tentang__story-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .tentang__mission-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tentang__values-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .tentang__vision-card {
+        padding: 40px 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .tentang__values-grid {
+        grid-template-columns: 1fr;
+    }
+}

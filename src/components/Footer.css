@@ -1,0 +1,133 @@
+.footer {
+    background: var(--color-light);
+    border-top: 1px solid var(--color-border);
+    padding: 80px 0 0;
+}
+
+.footer__grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+    gap: 48px;
+}
+
+/* Brand */
+.footer__logo {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+    color: var(--color-black);
+}
+
+.footer__desc {
+    font-size: 0.9rem;
+    color: var(--color-gray-dark);
+    margin-bottom: 20px;
+    line-height: 1.8;
+}
+
+.footer__social {
+    display: flex;
+    gap: 12px;
+}
+
+.footer__social a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    color: var(--color-dark);
+    transition: all var(--transition-fast);
+}
+
+.footer__social a:hover {
+    background: var(--color-black);
+    color: var(--color-white);
+    border-color: var(--color-black);
+    transform: translateY(-3px);
+}
+
+/* Links */
+.footer__links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer__links h4 {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    color: var(--color-black);
+    margin-bottom: 8px;
+}
+
+.footer__links a,
+.footer__links span {
+    font-size: 0.9rem;
+    color: var(--color-gray-dark);
+    transition: color var(--transition-fast);
+}
+
+.footer__links a:hover {
+    color: var(--color-black);
+    padding-left: 4px;
+}
+
+/* Contact */
+.footer__contact {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer__contact h4 {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    color: var(--color-black);
+    margin-bottom: 8px;
+}
+
+.footer__contact p {
+    font-size: 0.88rem;
+    color: var(--color-gray-dark);
+}
+
+.footer__wa-btn {
+    margin-top: 12px;
+    width: fit-content;
+}
+
+/* Bottom */
+.footer__bottom {
+    margin-top: 48px;
+    padding: 24px 0;
+    border-top: 1px solid var(--color-border);
+    text-align: center;
+}
+
+.footer__bottom p {
+    font-size: 0.82rem;
+    color: var(--color-gray);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .footer {
+        padding: 60px 0 0;
+    }
+
+    .footer__grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 36px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer__grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+}

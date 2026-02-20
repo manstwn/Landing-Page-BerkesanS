@@ -1,0 +1,275 @@
+/* ============================================
+   SHARED PAGE HERO — Bright
+   ============================================ */
+.page-hero {
+    position: relative;
+    padding: 160px 0 80px;
+    text-align: center;
+    background: var(--color-light);
+    overflow: hidden;
+}
+
+.page-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center top, rgba(0, 0, 0, 0.02) 0%, transparent 60%);
+}
+
+.page-hero__content {
+    position: relative;
+    z-index: 2;
+}
+
+.page-hero__content h1 {
+    margin-top: 16px;
+    margin-bottom: 12px;
+}
+
+.page-hero__content>p {
+    color: var(--color-gray-dark);
+    font-size: 1.1rem;
+}
+
+/* ============================================
+   PAKET FOTO — Bright
+   ============================================ */
+
+.paket__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+}
+
+.paket__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.paket__badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 2;
+    background: var(--color-black);
+    color: var(--color-white);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.paket__image {
+    aspect-ratio: 1/1;
+    background: linear-gradient(135deg, var(--color-light), var(--color-white));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.paket__card:hover .paket__image {
+    background: linear-gradient(135deg, var(--color-border), var(--color-light));
+}
+
+.paket__info {
+    padding: 20px 18px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.paket__info h3 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+}
+
+.paket__price {
+    font-family: var(--font-body);
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--color-black);
+    letter-spacing: -0.3px;
+}
+
+.paket__features {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 16px;
+    flex: 1;
+}
+
+.paket__features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: var(--color-dark);
+}
+
+.paket__check {
+    color: var(--color-gray);
+    font-size: 0.7rem;
+}
+
+.paket__image-link {
+    display: block;
+}
+
+.paket__image-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-normal);
+}
+
+.paket__card:hover .paket__image-img {
+    transform: scale(1.05);
+}
+
+.paket__name-link {
+    display: block;
+    transition: color var(--transition-fast);
+}
+
+.paket__name-link:hover h3 {
+    color: var(--color-gray-dark);
+}
+
+.paket__card-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: auto;
+}
+
+.paket__btn-detail {
+    width: 100%;
+    text-align: center;
+    white-space: nowrap;
+    font-size: 0.8rem;
+    padding: 2px 12px;
+    line-height: 1.2;
+}
+
+.paket__btn {
+    width: 100%;
+    text-align: center;
+    padding: 2px 12px;
+    font-size: 0.8rem;
+    line-height: 1.2;
+}
+
+/* Section dividers */
+.paket__section {
+    margin-bottom: 48px;
+}
+
+.paket__section:last-child {
+    margin-bottom: 0;
+}
+
+.paket__divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.paket__divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--color-border);
+}
+
+.paket__divider-label {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-black);
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .paket__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .page-hero {
+        padding: 120px 0 50px;
+    }
+
+    .page-hero__content>p {
+        font-size: 0.95rem;
+    }
+
+    .paket__grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .paket__info {
+        padding: 16px 12px;
+    }
+
+    .paket__info h3 {
+        font-size: 1rem;
+    }
+
+    .paket__price {
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+    }
+
+    .paket__features {
+        gap: 3px;
+        margin-bottom: 16px;
+    }
+
+    .paket__features li {
+        font-size: 0.78rem;
+    }
+
+    .paket__badge {
+        font-size: 0.62rem;
+        padding: 3px 10px;
+        top: 10px;
+        right: 10px;
+    }
+
+    .paket__image {
+        font-size: 2rem;
+    }
+
+    .paket__btn,
+    .paket__btn-detail,
+    .paket__card-actions .btn.btn-sm {
+        font-size: 0.72rem;
+        padding: 6px 12px;
+        line-height: 1.1;
+        min-height: auto;
+    }
+
+    .paket__card-actions {
+        gap: 4px;
+    }
+}
+
+@media (max-width: 380px) {
+    .paket__grid {
+        grid-template-columns: 1fr;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+}
