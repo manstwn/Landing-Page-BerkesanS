@@ -50,13 +50,13 @@ function PaketCard({ paket }) {
                     >
                         Lihat Detail
                     </Link>
-                    <Link
+                    {/* <Link
                         to={`/booking?packageId=${paket.id}`}
                         className="btn btn-gold btn-sm"
                         style={{ width: '100%' }}
                     >
                         Booking Form
-                    </Link>
+                    </Link> */}
                     <a
                         href={`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER || '6281234567890'}?text=Halo%20Berkesan%20Studio%2C%20saya%20tertarik%20dengan%20paket%20${encodeURIComponent(paket.name)}%20(${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(paket.price)}).%20Apakah%20bisa%20dibantu%20untuk%20jadwalnya%3F`}
                         target="_blank"
@@ -100,8 +100,9 @@ function PaketFoto() {
     if (loading) {
         return (
             <div className="paket-foto">
-                <section className="section">
-                    <div className="container" style={{ textAlign: 'center', padding: '100px 0' }}>
+                <section className="section" style={{ position: 'relative', overflow: 'hidden' }}>
+                    <div className="bg-grid"></div>
+                    <div className="container" style={{ textAlign: 'center', padding: '100px 0', position: 'relative', zIndex: 2 }}>
                         <div className="loading-spinner"></div>
                         <p>Memuat Paket Foto...</p>
                     </div>
@@ -113,8 +114,9 @@ function PaketFoto() {
     if (error) {
         return (
             <div className="paket-foto">
-                <section className="section">
-                    <div className="container" style={{ textAlign: 'center', padding: '100px 0' }}>
+                <section className="section" style={{ position: 'relative', overflow: 'hidden' }}>
+                    <div className="bg-grid"></div>
+                    <div className="container" style={{ textAlign: 'center', padding: '100px 0', position: 'relative', zIndex: 2 }}>
                         <p style={{ color: 'red' }}>Error: {error}</p>
                         <button onClick={() => window.location.reload()} className="btn btn-gold">Coba Lagi</button>
                     </div>
@@ -126,18 +128,27 @@ function PaketFoto() {
     return (
         <div className="paket-foto">
             {/* Page Header */}
-            <section className="page-hero">
+            <section className="page-hero" style={{ position: 'relative', overflow: 'hidden' }}>
                 <div className="page-hero__overlay"></div>
-                <div className="container page-hero__content">
-                    <span className="hero__badge">📸 Foto Studio</span>
+                <div className="bg-pattern-dots" style={{ opacity: 0.6 }}></div>
+                {/* Visual Decors */}
+                <div className="decor-glow decor-glow--tl"></div>
+                <div className="decor-cross decor-floating" style={{ top: '20%', right: '10%', animationDelay: '0s' }}></div>
+
+                <div className="container page-hero__content" style={{ position: 'relative', zIndex: 2 }}>
                     <h1>Paket <span className="text-gradient">Fotostudio</span></h1>
                     <p>Pilih paket yang sesuai kebutuhanmu</p>
                 </div>
             </section>
 
             {/* Category Filter */}
-            <section className="katalog__categories">
-                <div className="container">
+            <section className="katalog__categories" style={{ position: 'relative', overflow: 'hidden' }}>
+                <div className="bg-dots"></div>
+                {/* Visual Decors */}
+                <div className="decor-glow decor-glow--tr" style={{ opacity: 0.5 }}></div>
+                <div className="decor-cross decor-floating" style={{ top: '15%', left: '10%', animationDelay: '0.5s' }}></div>
+
+                <div className="container" style={{ position: 'relative', zIndex: 2 }}>
                     <h3 style={{ textAlign: 'center', marginBottom: '16px', fontSize: '1.1rem', fontWeight: '500' }}>Silakan Pilih Kategori</h3>
                     <div className="katalog__category-list">
                         {categories.map((cat) => (
@@ -154,8 +165,14 @@ function PaketFoto() {
             </section>
 
             {/* Paket Grid */}
-            <section className="section" style={{ paddingTop: '40px' }}>
-                <div className="container">
+            <section className="section" style={{ paddingTop: '40px', position: 'relative', overflow: 'hidden' }}>
+                <div className="bg-grid" style={{ opacity: 0.5 }}></div>
+                {/* Visual Decors */}
+                <div className="decor-glow decor-glow--bl"></div>
+                <div className="decor-ring" style={{ bottom: '-100px', left: '-50px', width: '400px', height: '400px' }}></div>
+                <div className="decor-cross decor-floating" style={{ top: '15%', right: '15%', animationDelay: '0.8s' }}></div>
+
+                <div className="container" style={{ position: 'relative', zIndex: 2 }}>
                     {data.filter(cat => activeCategory === 'Semua' || cat.category_name === activeCategory).map((cat) => (
                         <div key={cat.category_id} className="paket__section">
                             <div className="paket__divider" style={{ marginBottom: '10px' }}>

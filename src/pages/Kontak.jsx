@@ -38,7 +38,6 @@ function Kontak() {
             <section className="page-hero">
                 <div className="page-hero__overlay"></div>
                 <div className="container page-hero__content">
-                    <span className="hero__badge">📞 Contact</span>
                     <h1>Hubungi <span className="text-gradient">Kami</span></h1>
                     <p>Kami siap membantu Anda. Hubungi kami kapan saja!</p>
                 </div>

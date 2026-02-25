@@ -22,11 +22,11 @@
   --gradient-hero: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(245, 245, 245, 0.95) 100%);
 
   /* Typography */
-  --font-heading: 'Playfair Display', Georgia, serif;
-  --font-body: 'Poppins', 'Segoe UI', sans-serif;
+  --font-heading: 'Merriweather', Georgia, serif;
+  --font-body: 'Nunito', 'Segoe UI', sans-serif;
 
   /* Spacing */
-  --section-padding: 100px 0;
+  --section-padding: 64px 0;
   --container-width: 1200px;
   --header-height: 80px;
 
@@ -70,7 +70,7 @@ body {
   background-color: var(--color-white);
   color: var(--color-dark);
   line-height: 1.7;
-  font-weight: 300;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -83,8 +83,9 @@ h4,
 h5,
 h6 {
   font-family: var(--font-heading);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.2;
+  letter-spacing: -0.02em;
   color: var(--color-black);
 }
 
@@ -137,11 +138,12 @@ ul {
 
 .section-header {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 
 .section-header h2 {
   margin-bottom: 16px;
+  font-size: clamp(1.6rem, 5vw, 2.8rem);
 }
 
 .section-header .gold-line {
@@ -340,7 +342,7 @@ ul {
 
 @media (max-width: 768px) {
   :root {
-    --section-padding: 60px 0;
+    --section-padding: 44px 0;
     --header-height: 70px;
   }
 
@@ -360,6 +362,6 @@ ul {
 
 @media (max-width: 480px) {
   :root {
-    --section-padding: 48px 0;
+    --section-padding: 36px 0;
   }
 }

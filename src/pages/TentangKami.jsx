@@ -3,45 +3,51 @@ import './TentangKami.css'
 const missions = [
     {
         icon: '🎯',
-        text: 'Memberikan hasil berkualitas tinggi di setiap proyek',
+        text: 'Menghadirkan hasil foto dan desain undangan digital dengan standar kualitas tinggi, detail yang rapi, dan sentuhan kreatif di setiap proyek.',
     },
     {
         icon: '💎',
-        text: 'Pelayanan terbaik dari awal konsultasi hingga selesai',
+        text: 'Memberikan pelayanan yang ramah, responsif, dan komunikatif mulai dari konsultasi hingga hasil akhir, sehingga setiap klien merasa nyaman dan dihargai.',
     },
     {
         icon: '💰',
-        text: 'Harga terjangkau dengan kualitas premium',
+        text: 'Menyediakan layanan dengan harga di bawah rata-rata tanpa mengorbankan kualitas hasil, sehingga lebih banyak orang dapat mengabadikan momen berharga mereka.',
     },
     {
         icon: '🤝',
-        text: 'Membangun hubungan jangka panjang dengan klien',
+        text: 'Menjalin hubungan yang baik dengan setiap pelanggan agar tidak hanya menjadi klien sekali pakai, tetapi mitra jangka panjang untuk berbagai momen spesial.',
     },
 ]
 
-const values = [
-    { icon: '📸', title: 'Kualitas', desc: 'Hasil foto berkualitas tinggi dengan peralatan profesional' },
-    { icon: '⏰', title: 'Ketepatan Waktu', desc: 'Komitmen penyelesaian tepat waktu sesuai jadwal' },
-    { icon: '💬', title: 'Komunikatif', desc: 'Selalu responsif dan terbuka untuk diskusi' },
-    { icon: '🎨', title: 'Kreativitas', desc: 'Sentuhan artistik unik di setiap karya' },
-]
+
 
 function TentangKami() {
     return (
         <div className="tentang">
             {/* Page Header */}
-            <section className="page-hero">
+            <section className="page-hero" style={{ position: 'relative', overflow: 'hidden' }}>
                 <div className="page-hero__overlay"></div>
-                <div className="container page-hero__content">
-                    <span className="hero__badge">👤 About Us</span>
+                <div className="bg-pattern-dots" style={{ opacity: 0.6 }}></div>
+                {/* Visual Decors */}
+                <div className="decor-glow decor-glow--tl"></div>
+                <div className="decor-cross decor-floating" style={{ top: '20%', right: '10%', animationDelay: '0s' }}></div>
+
+                <div className="container page-hero__content" style={{ position: 'relative', zIndex: 2 }}>
                     <h1>Tentang <span className="text-gradient">Kami</span></h1>
                     <p>Mengenal lebih dekat tim di balik karya-karya terbaik kami</p>
                 </div>
             </section>
 
             {/* Story */}
-            <section className="section tentang__story">
-                <div className="container">
+            <section className="section tentang__story" style={{ position: 'relative', overflow: 'hidden' }}>
+                <div className="bg-grid"></div>
+                {/* Visual Decors */}
+                <div className="decor-glow decor-glow--br"></div>
+                <div className="decor-ring" style={{ top: '-100px', left: '-100px', width: '400px', height: '400px' }}></div>
+                <div className="decor-cross decor-floating" style={{ top: '15%', right: '10%' }}></div>
+                <div className="decor-cross decor-floating" style={{ bottom: '15%', left: '15%', animationDelay: '1s' }}></div>
+
+                <div className="container" style={{ position: 'relative', zIndex: 2 }}>
                     <div className="tentang__story-inner">
                         <div className="tentang__story-content">
                             <div className="gold-line" style={{ margin: '0 0 20px' }}></div>
@@ -76,22 +82,33 @@ function TentangKami() {
             </section>
 
             {/* Vision */}
-            <section className="section tentang__vision">
-                <div className="container">
+            <section className="section tentang__vision" style={{ position: 'relative', overflow: 'hidden' }}>
+                <div className="bg-dots"></div>
+                {/* Visual Decors */}
+                <div className="decor-glow decor-glow--tl"></div>
+                <div className="decor-ring" style={{ bottom: '-150px', right: '-50px', width: '300px', height: '300px' }}></div>
+                <div className="decor-cross decor-floating" style={{ bottom: '25%', right: '8%', animationDelay: '2s' }}></div>
+
+                <div className="container" style={{ position: 'relative', zIndex: 2 }}>
                     <div className="tentang__vision-card">
                         <div className="tentang__vision-icon">🔭</div>
                         <h2>Visi</h2>
                         <p>
-                            Menjadi studio foto dan penyedia undangan digital terpercaya yang menghadirkan
-                            karya berkualitas tinggi, inovatif, dan bermakna bagi setiap klien.
+                            Menjadi studio foto rumahan dan penyedia undangan digital yang terpercaya, dikenal karena kualitas karya yang profesional, harga yang terjangkau, serta pelayanan yang hangat dan berorientasi pada kepuasan pelanggan.
                         </p>
                     </div>
                 </div>
             </section>
 
             {/* Mission */}
-            <section className="section tentang__mission">
-                <div className="container">
+            <section className="section tentang__mission" style={{ position: 'relative', overflow: 'hidden' }}>
+                <div className="bg-pattern-dots"></div>
+                {/* Visual Decors */}
+                <div className="decor-glow decor-glow--br"></div>
+                <div className="decor-ring" style={{ top: '-80px', right: '-80px', width: '250px', height: '250px' }}></div>
+                <div className="decor-cross decor-floating" style={{ top: '25%', left: '8%', animationDelay: '1.5s' }}></div>
+
+                <div className="container" style={{ position: 'relative', zIndex: 2 }}>
                     <div className="section-header">
                         <div className="gold-line"></div>
                         <h2>Misi Kami</h2>
@@ -107,25 +124,7 @@ function TentangKami() {
                 </div>
             </section>
 
-            {/* Values */}
-            <section className="section tentang__values">
-                <div className="container">
-                    <div className="section-header">
-                        <div className="gold-line"></div>
-                        <h2>Nilai Kami</h2>
-                        <p>Prinsip yang kami pegang dalam setiap karya</p>
-                    </div>
-                    <div className="tentang__values-grid">
-                        {values.map((v, i) => (
-                            <div key={i} className="tentang__value-card card">
-                                <span className="tentang__value-icon">{v.icon}</span>
-                                <h3>{v.title}</h3>
-                                <p>{v.desc}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
+
         </div>
     )
 }

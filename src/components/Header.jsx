@@ -6,6 +6,7 @@ const navLinks = [
     { path: '/', label: 'Home' },
     { path: '/paket-foto', label: 'Paket Foto' },
     { path: '/katalog-undangan', label: 'Katalog Undangan' },
+    { path: '/artikel', label: 'Artikel' },
     { path: '/tentang-kami', label: 'Tentang Kami' },
 ]
 
@@ -38,7 +39,7 @@ function Header() {
             <div className="container header__inner">
                 <Link to="/" className="header__logo">
                     <span className="header__logo-icon">✦</span>
-                    <span className="header__logo-text">Kece<span className="text-gold">Studio</span></span>
+                    <span className="header__logo-text">Berkesan<span className="text-gold"> Studio</span></span>
                 </Link>
 
                 <nav className={`header__nav ${menuOpen ? 'header__nav--open' : ''}`}>
@@ -51,12 +52,15 @@ function Header() {
                             {link.label}
                         </Link>
                     ))}
-                    <Link
-                        to="/booking"
+                    <a
+                        href={`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER || '6281234567890'}?text=Halo%20Berkesan%20Studio%2C%20saya%20tertarik%20dengan%20layanan%20yang%20ditawarkan.%20Boleh%20minta%20info%20lebih%20lanjut%3F`}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="btn btn-gold btn-sm header__cta"
+                        style={{ background: '#25D366', borderColor: '#25D366', color: '#fff' }}
                     >
-                        Booking Sekarang
-                    </Link>
+                        WhatsApp
+                    </a>
                     <a
                         href={import.meta.env.VITE_BACKEND_URL || '#'}
                         target="_blank"

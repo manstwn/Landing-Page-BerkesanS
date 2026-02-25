@@ -143,13 +143,13 @@ function PaketFotoDetail() {
 
                             {/* Actions */}
                             <div className="detail-actions" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                                <Link
+                                {/* <Link
                                     to={`/booking?packageId=${paket.id}`}
                                     className="btn btn-gold"
                                     style={{ width: '100%', padding: '16px' }}
                                 >
                                     Booking Form
-                                </Link>
+                                </Link> */}
                                 <a
                                     href={`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER || '6281234567890'}?text=Halo%20Berkesan%20Studio%2C%20saya%20tertarik%20dengan%20paket%20${encodeURIComponent(paket.name)}%20(${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(paket.price)}).%20Apakah%20bisa%20dibantu%20untuk%20jadwalnya%3F`}
                                     target="_blank"

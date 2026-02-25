@@ -1,0 +1,276 @@
+/* ============================================
+   INFINITE MARQUEE
+   ============================================ */
+
+/* Outer wrapper — holds nav buttons + shell */
+.marquee-outer {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+
+/* ====== SHELL ====== */
+.marquee-shell {
+    overflow: hidden;
+    flex: 1;
+    min-width: 0;
+    /* Soft fade edges */
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+    user-select: none;
+}
+
+/* ====== TRACK — driven by JS (rAF), no CSS animation ====== */
+.marquee-track {
+    display: flex;
+    gap: 16px;
+    padding: 8px;
+    width: max-content;
+    will-change: transform;
+}
+
+/* ====== NAV BUTTONS ====== */
+.marquee-nav {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-border);
+    background: var(--color-white);
+    color: var(--color-dark);
+    font-size: 1.6rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    z-index: 2;
+    padding: 0 0 2px;
+    /* optical align for › ‹ */
+    user-select: none;
+}
+
+.marquee-nav:hover {
+    background: var(--color-black);
+    color: var(--color-white);
+    border-color: var(--color-black);
+    transform: scale(1.08);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.marquee-nav:active {
+    transform: scale(0.95);
+}
+
+.marquee-nav--prev {
+    margin-right: 10px;
+}
+
+.marquee-nav--next {
+    margin-left: 10px;
+}
+
+/* ====== CARD ====== */
+.marquee-card {
+    flex: 0 0 220px;
+    width: 220px;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.marquee-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-card-hover);
+}
+
+/* ====== IMAGE ====== */
+.marquee-card__img {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    background: var(--color-light);
+    overflow: hidden;
+}
+
+.marquee-card__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.45s ease;
+}
+
+.marquee-card:hover .marquee-card__img img {
+    transform: scale(1.07);
+}
+
+.marquee-card__img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.8rem;
+    background: linear-gradient(135deg, var(--color-light), #f0f0f0);
+}
+
+/* ====== INFO ====== */
+.marquee-card__info {
+    padding: 13px 15px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.marquee-card__name {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--color-black);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+}
+
+.marquee-card__price {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-gray-dark);
+    letter-spacing: 0.01em;
+    margin-bottom: 6px;
+}
+
+.marquee-card__btn {
+    display: inline-block;
+    align-self: flex-start;
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--color-black);
+    border: 1px solid var(--color-border);
+    border-radius: 50px;
+    padding: 4px 13px;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    white-space: nowrap;
+}
+
+.marquee-card__btn:hover {
+    background: var(--color-black);
+    color: var(--color-white);
+    border-color: var(--color-black);
+}
+
+/* ====== EMPTY / ERROR ====== */
+.marquee-shell--empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+    color: var(--color-gray);
+    font-size: 0.9rem;
+    mask-image: none;
+    -webkit-mask-image: none;
+}
+
+/* ====== SKELETON ====== */
+.marquee-shell--skeleton {
+    display: flex;
+    gap: 16px;
+    padding: 8px 24px;
+    mask-image: none;
+    -webkit-mask-image: none;
+}
+
+@keyframes shimmer {
+    from {
+        background-position: 200% 0;
+    }
+
+    to {
+        background-position: -200% 0;
+    }
+}
+
+.marquee-card--skeleton {
+    flex: 0 0 220px;
+    height: 225px;
+    background: linear-gradient(90deg,
+            var(--color-light) 25%,
+            var(--color-border) 50%,
+            var(--color-light) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+    border-radius: var(--border-radius);
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 768px) and (min-width: 481px) {
+    .marquee-card {
+        flex: 0 0 175px;
+        width: 175px;
+    }
+
+    .marquee-card__img {
+        height: 125px;
+    }
+
+    .marquee-nav {
+        width: 34px;
+        height: 34px;
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .marquee-card {
+        flex: 0 0 155px;
+        width: 155px;
+    }
+
+    .marquee-card__img {
+        height: 110px;
+    }
+
+    .marquee-card__name {
+        font-size: 0.88rem;
+    }
+
+    .marquee-card__price {
+        font-size: 0.72rem;
+    }
+
+    .marquee-card__btn {
+        font-size: 0.65rem;
+        padding: 3px 10px;
+    }
+
+    .marquee-card--skeleton {
+        flex: 0 0 155px;
+        height: 175px;
+    }
+
+    .marquee-nav {
+        width: 30px;
+        height: 30px;
+        font-size: 1.1rem;
+    }
+
+    .marquee-nav--prev {
+        margin-right: 6px;
+    }
+
+    .marquee-nav--next {
+        margin-left: 6px;
+    }
+}

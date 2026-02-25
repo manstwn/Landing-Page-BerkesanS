@@ -11,6 +11,8 @@ import TentangKami from './pages/TentangKami'
 import FormPage from './pages/FormPage'
 import SharePage from './pages/SharePage'
 import BookingPage from './pages/BookingPage'
+import Artikel from './pages/Artikel'
+import ArtikelDetail from './pages/ArtikelDetail'
 
 function App() {
     return (
@@ -28,6 +30,8 @@ function App() {
                     <Route path="/share" element={<SharePage />} />
                     <Route path="/share/:id" element={<SharePage />} />
                     <Route path="/booking" element={<BookingPage />} />
+                    <Route path="/artikel" element={<Artikel />} />
+                    <Route path="/artikel/:slug" element={<ArtikelDetail />} />
                 </Routes>
             </main>
             <Footer />

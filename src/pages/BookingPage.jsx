@@ -191,12 +191,13 @@ const BookingPage = () => {
 
             setSubmitStatus('success')
 
+            // Fire booking-specific backup webhooks (fire and forget)
             const backupWebhooks = [
-                import.meta.env.VITE_WEBHOOK_URL_2,
-                import.meta.env.VITE_WEBHOOK_URL_3,
-                import.meta.env.VITE_WEBHOOK_URL_4,
-                import.meta.env.VITE_WEBHOOK_URL_5
-            ].filter(url => url && url.trim() !== '');
+                import.meta.env.VITE_WEBHOOK_BOOKING_URL_2,
+                import.meta.env.VITE_WEBHOOK_BOOKING_URL_3,
+                import.meta.env.VITE_WEBHOOK_BOOKING_URL_4,
+                import.meta.env.VITE_WEBHOOK_BOOKING_URL_5,
+            ].filter(url => url && url.trim() !== '')
 
             if (backupWebhooks.length > 0) {
                 Promise.allSettled(backupWebhooks.map(url =>
