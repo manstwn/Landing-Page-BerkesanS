@@ -1,13 +1,20 @@
 import { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import './WhatsAppFloat.css'
 
 function WhatsAppFloat() {
     const [showBubble, setShowBubble] = useState(false)
+    const location = useLocation()
 
     useEffect(() => {
         const timer = setTimeout(() => setShowBubble(true), 3000)
         return () => clearTimeout(timer)
     }, [])
+
+    // Hide WhatsApp on /share pages
+    if (location.pathname.startsWith('/share')) {
+        return null
+    }
 
     return (
         <div className="wa-float__wrapper">
