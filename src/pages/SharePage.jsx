@@ -345,7 +345,6 @@ Terima kasih.`
                             <h4 style={{ marginTop: 0, marginBottom: '8px' }}>📝 Cara Pakai</h4>
                             <ol style={{ margin: '0 0 16px 20px', padding: 0, lineHeight: '1.6' }}>
                                 <li>Pilih Mode: <strong>Pesan WhatsApp</strong> atau <strong>Hanya Link</strong>.</li>
-                                <li>Pastikan <strong>ID Undangan</strong> (kode unik link undangan) sesuai.</li>
                                 <li>Tulis <strong>Daftar Nama Tamu</strong> (satu nama per baris).</li>
                                 {generationMode === 'message' && <li>Pilih <strong>Template Pesan</strong> yang diinginkan.</li>}
                                 <li>Klik <strong>Generate {generationMode === 'message' ? 'Pesan' : 'Link'}</strong>.</li>
@@ -354,29 +353,18 @@ Terima kasih.`
                     </div>
                 </div>
 
-                {/* SETTING CONFIGURATION */}
-                <section className="form-section">
-                    <h2 className="section-title">⚙️ 1. Pengaturan Tautan</h2>
-                    <div className="form-group">
-                        <label>Slug Undangan (ID Undangan)</label>
-                        <input
-                            type="text"
-                            placeholder="Contoh: dimas-ayu"
-                            value={slug}
-                            onChange={(e) => setSlug(e.target.value)}
-                            disabled={isSlugLocked}
-                            style={isSlugLocked ? { backgroundColor: '#e9ecef', cursor: 'not-allowed' } : {}}
-                        />
-                        <p className="helper-text">
-                            Link akan menjadi: <code>{import.meta.env.VITE_INVITATION_HOST || 'https://m.berkesanstudio.com'}/{slug || 'dimas-ayu'}?to=Nama+Tamu</code>
-                        </p>
-                    </div>
-                </section>
+                {/* DATA UNDANGAN - Read Only */}
+                {slug && (
+                    <section className="form-section" style={{ textAlign: 'center', padding: '20px', background: 'var(--bg-card, #fff)' }}>
+                        <p style={{ margin: '0 0 8px 0', fontSize: '1rem', color: '#64748b', fontWeight: 'bold' }}>Data Undangan</p>
+                        <h2 style={{ margin: 0, fontSize: '1.5rem', color: 'var(--primary-color, #667eea)' }}>{slug}</h2>
+                    </section>
+                )}
 
                 {/* GUEST LIST */}
                 <section className="form-section">
                     <div className="section-header-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                        <h2 className="section-title" style={{ marginBottom: 0 }}>👥 2. Daftar Nama Tamu</h2>
+                        <h2 className="section-title" style={{ marginBottom: 0 }}>👥 1. Daftar Nama Tamu</h2>
                         <button
                             onClick={() => {
                                 if (window.confirm('Yakin ingin menghapus semua nama tamu?')) {
@@ -411,7 +399,7 @@ Terima kasih.`
                 {/* TEMPLATE SELECTION - Only for 'message' mode */}
                 {generationMode === 'message' && (
                     <section className="form-section">
-                        <h2 className="section-title">📝 3. Template Pesan</h2>
+                        <h2 className="section-title">📝 2. Template Pesan</h2>
 
                         <label style={{ fontSize: '1.1rem', marginBottom: '12px', display: 'block' }}>✏️ Pilih Template</label>
                         <div className="template-selector">
@@ -499,7 +487,7 @@ Terima kasih.`
                 {/* RESULTS */}
                 {generatedList.length > 0 && (
                     <section className="form-section results-section">
-                        <h2 className="section-title">📤 {generationMode === 'message' ? '4.' : '3.'} Hasil ({generatedList.length})</h2>
+                        <h2 className="section-title">📤 {generationMode === 'message' ? '3.' : '2.'} Hasil ({generatedList.length})</h2>
                         <div className="info-banner" style={{ marginBottom: '20px', display: 'block' }}>
                             <p style={{ margin: '0 0 10px 0', fontWeight: 'bold' }}>Keterangan Tombol:</p>
                             <ul style={{ margin: 0, paddingLeft: '20px', lineHeight: '1.5' }}>

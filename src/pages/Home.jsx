@@ -11,7 +11,7 @@ const highlights = [
     },
     {
         icon: '👗',
-        title: 'Sewa Baju',
+        title: 'Kostum & Baju',
         desc: 'Koleksi gaun pernikahan, kebaya, dan busana formal dengan desain anggun dan modern untuk menyempurnakan hari istimewa Anda.',
     },
     {
