@@ -2,6 +2,85 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import './InfiniteMarquee.css'
 
+// --- drag / swipe helpers ---
+function useDragScroll({ trackRef, offsetRef, pausedRef, manualPauseRef, lastTimeRef }) {
+    const dragRef = useRef({ active: false, startX: 0, lastX: 0, velocity: 0, lastTime: 0 })
+
+    const getHalfWidth = () => {
+        const el = trackRef.current
+        return el ? el.scrollWidth / 2 : 0
+    }
+
+    const applyOffset = (delta) => {
+        const el = trackRef.current
+        if (!el) return
+        const halfWidth = getHalfWidth()
+        offsetRef.current += delta
+        if (offsetRef.current >= halfWidth) offsetRef.current -= halfWidth
+        if (offsetRef.current < 0) offsetRef.current += halfWidth
+        el.style.transform = `translateX(-${offsetRef.current}px)`
+    }
+
+    const onDragStart = useCallback((clientX) => {
+        dragRef.current = { active: true, startX: clientX, lastX: clientX, velocity: 0, lastTime: performance.now() }
+        pausedRef.current = true
+        manualPauseRef.current = true
+    }, [pausedRef, manualPauseRef])
+
+    const onDragMove = useCallback((clientX) => {
+        if (!dragRef.current.active) return
+        const now = performance.now()
+        const dt = (now - dragRef.current.lastTime) / 1000 || 0.016
+        const delta = clientX - dragRef.current.lastX
+        dragRef.current.velocity = delta / dt
+        dragRef.current.lastX = clientX
+        dragRef.current.lastTime = now
+        applyOffset(-delta) // drag right → scroll right (offset increases)
+    }, [])
+
+    const onDragEnd = useCallback(() => {
+        if (!dragRef.current.active) return
+        dragRef.current.active = false
+
+        // momentum / flick
+        let velocity = -dragRef.current.velocity // px/s, positive = scrolling forward
+        const DAMPING = 0.92
+        const MIN_V = 10
+
+        const momentum = () => {
+            if (Math.abs(velocity) < MIN_V) {
+                // resume auto-scroll after a short rest
+                setTimeout(() => {
+                    manualPauseRef.current = false
+                    pausedRef.current = false
+                    lastTimeRef.current = null
+                }, 400)
+                return
+            }
+            applyOffset(velocity * 0.016)
+            velocity *= DAMPING
+            requestAnimationFrame(momentum)
+        }
+        requestAnimationFrame(momentum)
+    }, [manualPauseRef, pausedRef, lastTimeRef])
+
+    // Mouse events
+    const onMouseDown = useCallback((e) => { onDragStart(e.clientX) }, [onDragStart])
+    const onMouseMove = useCallback((e) => { onDragMove(e.clientX) }, [onDragMove])
+    const onMouseUp = useCallback(() => { onDragEnd() }, [onDragEnd])
+    const onMouseLeave = useCallback(() => {
+        if (dragRef.current.active) onDragEnd()
+        else { pausedRef.current = false; lastTimeRef.current = null }
+    }, [onDragEnd, pausedRef, lastTimeRef])
+
+    // Touch events
+    const onTouchStart = useCallback((e) => { onDragStart(e.touches[0].clientX) }, [onDragStart])
+    const onTouchMove = useCallback((e) => { onDragMove(e.touches[0].clientX) }, [onDragMove])
+    const onTouchEnd = useCallback(() => { onDragEnd() }, [onDragEnd])
+
+    return { onMouseDown, onMouseMove, onMouseUp, onMouseLeave, onTouchStart, onTouchMove, onTouchEnd, dragRef }
+}
+
 // Fisher-Yates shuffle
 function shuffle(arr) {
     const a = [...arr]
@@ -137,6 +216,23 @@ export default function InfiniteMarquee({ type = 'foto', direction = 'left' }) {
     const pausedRef = useRef(false)  // hover pause
     const manualPauseRef = useRef(false) // after manual click, pause briefly
 
+    const drag = useDragScroll({ trackRef, offsetRef, pausedRef, manualPauseRef, lastTimeRef })
+    const shellRef = useRef(null)
+
+    // Non-passive touchmove so we can preventDefault (blocks page scroll while swiping)
+    useEffect(() => {
+        const el = shellRef.current
+        if (!el) return
+        const handler = (e) => {
+            if (drag.dragRef.current.active) {
+                e.preventDefault()
+                drag.onTouchMove(e)
+            }
+        }
+        el.addEventListener('touchmove', handler, { passive: false })
+        return () => el.removeEventListener('touchmove', handler)
+    }, [drag])
+
     useEffect(() => {
         const fetcher = type === 'foto' ? fetchFoto : fetchUndangan
         fetcher()
@@ -243,9 +339,15 @@ export default function InfiniteMarquee({ type = 'foto', direction = 'left' }) {
             </button>
 
             <div
+                ref={shellRef}
                 className="marquee-shell"
-                onMouseEnter={() => { pausedRef.current = true }}
-                onMouseLeave={() => { pausedRef.current = false; lastTimeRef.current = null }}
+                onMouseDown={drag.onMouseDown}
+                onMouseMove={drag.onMouseMove}
+                onMouseUp={drag.onMouseUp}
+                onMouseLeave={drag.onMouseLeave}
+                onTouchStart={drag.onTouchStart}
+                onTouchEnd={drag.onTouchEnd}
+                style={{ cursor: 'grab' }}
             >
                 <div
                     ref={trackRef}

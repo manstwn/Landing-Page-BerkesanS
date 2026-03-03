@@ -11,8 +11,8 @@ function WhatsAppFloat() {
         return () => clearTimeout(timer)
     }, [])
 
-    // Hide WhatsApp on /share pages
-    if (location.pathname.startsWith('/share')) {
+    // Hide WhatsApp on /share and /form pages
+    if (location.pathname.startsWith('/share') || location.pathname.startsWith('/form')) {
         return null
     }
 

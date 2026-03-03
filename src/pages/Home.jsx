@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useInView } from '../hooks/useInView'
 import InfiniteMarquee from '../components/InfiniteMarquee'
+import CountUp from '../components/CountUp'
 import './Home.css'
 
 const highlights = [
@@ -118,17 +119,17 @@ function Home() {
                     </div>
                     <div className="hero__stats hero-anim hero-anim--5">
                         <div className="hero__stat">
-                            <span className="hero__stat-number">200+</span>
+                            <span className="hero__stat-number"><CountUp end={200} suffix="+" /></span>
                             <span className="hero__stat-label">Klien</span>
                         </div>
                         <div className="hero__stat-divider"></div>
                         <div className="hero__stat">
-                            <span className="hero__stat-number">4</span>
+                            <span className="hero__stat-number"><CountUp end={4} /></span>
                             <span className="hero__stat-label">Tahun</span>
                         </div>
                         <div className="hero__stat-divider"></div>
                         <div className="hero__stat">
-                            <span className="hero__stat-number">20+</span>
+                            <span className="hero__stat-number"><CountUp end={20} suffix="+" /></span>
                             <span className="hero__stat-label">Template</span>
                         </div>
                     </div>

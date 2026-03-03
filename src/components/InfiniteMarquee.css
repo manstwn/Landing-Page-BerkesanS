@@ -17,9 +17,15 @@
     flex: 1;
     min-width: 0;
     /* Soft fade edges */
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
-    mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 2%, black 98%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 2%, black 98%, transparent 100%);
     user-select: none;
+    touch-action: pan-y;
+    /* allow vertical scroll, block horizontal so we handle it */
+}
+
+.marquee-shell:active {
+    cursor: grabbing;
 }
 
 /* ====== TRACK — driven by JS (rAF), no CSS animation ====== */
@@ -232,45 +238,92 @@
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 480px) and (min-width: 361px) {
+
+    /* 375px phone: shell ≈ 303px, 2×135+16 = 286px → 2 cards visible */
     .marquee-card {
-        flex: 0 0 155px;
-        width: 155px;
+        flex: 0 0 135px;
+        width: 135px;
     }
 
     .marquee-card__img {
-        height: 110px;
+        height: 105px;
     }
 
     .marquee-card__name {
-        font-size: 0.88rem;
+        font-size: 0.85rem;
     }
 
     .marquee-card__price {
-        font-size: 0.72rem;
+        font-size: 0.7rem;
     }
 
     .marquee-card__btn {
-        font-size: 0.65rem;
+        font-size: 0.63rem;
         padding: 3px 10px;
     }
 
     .marquee-card--skeleton {
-        flex: 0 0 155px;
-        height: 175px;
+        flex: 0 0 135px;
+        height: 165px;
     }
 
     .marquee-nav {
-        width: 30px;
-        height: 30px;
-        font-size: 1.1rem;
+        width: 28px;
+        height: 28px;
+        font-size: 1.05rem;
     }
 
     .marquee-nav--prev {
-        margin-right: 6px;
+        margin-right: 5px;
     }
 
     .marquee-nav--next {
-        margin-left: 6px;
+        margin-left: 5px;
+    }
+}
+
+@media (max-width: 360px) {
+
+    /* 320px phone: shell ≈ 248px, 2×115+16 = 246px → 2 cards visible */
+    .marquee-card {
+        flex: 0 0 115px;
+        width: 115px;
+    }
+
+    .marquee-card__img {
+        height: 90px;
+    }
+
+    .marquee-card__name {
+        font-size: 0.8rem;
+    }
+
+    .marquee-card__price {
+        font-size: 0.67rem;
+    }
+
+    .marquee-card__btn {
+        font-size: 0.6rem;
+        padding: 3px 8px;
+    }
+
+    .marquee-card--skeleton {
+        flex: 0 0 115px;
+        height: 150px;
+    }
+
+    .marquee-nav {
+        width: 26px;
+        height: 26px;
+        font-size: 1rem;
+    }
+
+    .marquee-nav--prev {
+        margin-right: 4px;
+    }
+
+    .marquee-nav--next {
+        margin-left: 4px;
     }
 }
