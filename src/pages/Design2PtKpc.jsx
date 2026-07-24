@@ -3,6 +3,13 @@ import React, { useEffect } from 'react'
 export default function Design2PtKpc() {
     useEffect(() => {
         document.title = "Undangan Resmi Grand Opening - PT Karya Pratama Cargo"
+        let link = document.querySelector("link[rel*='icon']")
+        if (!link) {
+            link = document.createElement('link')
+            link.rel = 'icon'
+            document.head.appendChild(link)
+        }
+        link.href = "/request-page-live-same-system/design2-pt-kpc/logo-pt-v2.jpg"
     }, [])
 
     return (
