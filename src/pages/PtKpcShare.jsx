@@ -96,7 +96,7 @@ Terima kasih.`
         if (selectedTemplateId === 'custom') return;
 
         const firstGuest = guestNames.split('\n')[0].trim() || 'Bapak Ahmad';
-        const baseUrl = window.location.origin;
+        const baseUrl = window.location.origin.replace('://www.', '://');
         const cleanSlug = slug.trim() || 'pt-kpc';
 
         const guestLink = `${baseUrl}/${cleanSlug}?to=${encodeURIComponent(firstGuest).replace(/%20/g, '+')}`;
@@ -119,7 +119,7 @@ Terima kasih.`
 
     const handleGenerate = () => {
         const guests = guestNames.split('\n').filter(name => name.trim() !== '');
-        const baseUrl = window.location.origin;
+        const baseUrl = window.location.origin.replace('://www.', '://');
         const cleanSlug = slug.trim() || 'pt-kpc';
 
         const results = guests.map(guest => {
