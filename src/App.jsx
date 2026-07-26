@@ -13,8 +13,9 @@ import SharePage from './pages/SharePage'
 import BookingPage from './pages/BookingPage'
 import Artikel from './pages/Artikel'
 import ArtikelDetail from './pages/ArtikelDetail'
-import DesignPtKpc from './pages/DesignPtKpc'
-import Design2PtKpc from './pages/Design2PtKpc'
+import PtKpc from './pages/PtKpc'
+import PtKpcShare from './pages/PtKpcShare'
+import PtKpcRsvp from './pages/PtKpcRsvp'
 import LiveRequestPage from './pages/LiveRequestPage'
 
 const MAIN_ROUTES = [
@@ -36,7 +37,13 @@ function App() {
         location.pathname.startsWith('/share/') ||
         location.pathname.startsWith('/artikel/')
 
-    const isStandalonePage = !isMainRoute
+    const isStandalonePage =
+        !isMainRoute ||
+        location.pathname === '/pt-kpc' ||
+        location.pathname === '/pt-kpc-share' ||
+        location.pathname === '/pt-kpc-rsvp' ||
+        location.pathname === '/design2-pt-kpc' ||
+        location.pathname === '/design-pt-kpc'
 
     return (
         <>
@@ -58,8 +65,9 @@ function App() {
                     <Route path="/artikel/:slug" element={<ArtikelDetail />} />
 
                     {/* Specific Design Landing Page Routes */}
-                    <Route path="/design-pt-kpc" element={<DesignPtKpc />} />
-                    <Route path="/design2-pt-kpc" element={<Design2PtKpc />} />
+                    <Route path="/pt-kpc" element={<PtKpc />} />
+                    <Route path="/pt-kpc-share" element={<PtKpcShare />} />
+                    <Route path="/pt-kpc-rsvp" element={<PtKpcRsvp />} />
 
                     {/* Dynamic Fallback for any /foldername inside request-page-live-same-system/ */}
                     <Route path="/request-page-live-same-system/:folderName" element={<LiveRequestPage />} />

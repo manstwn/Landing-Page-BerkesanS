@@ -5,9 +5,7 @@ export default function LiveRequestPage() {
     const { folderName } = useParams()
 
     useEffect(() => {
-        if (folderName === 'design-pt-kpc') {
-            document.title = "Grand Opening - PT Karya Pratama Cargo"
-        } else if (folderName === 'design2-pt-kpc') {
+        if (folderName === 'pt-kpc' || folderName === 'design2-pt-kpc') {
             document.title = "Undangan Resmi Grand Opening - PT Karya Pratama Cargo"
         } else {
             document.title = folderName || "PT Karya Pratama Cargo"
@@ -24,10 +22,12 @@ export default function LiveRequestPage() {
         }
     }, [folderName])
 
+    const iframeSrc = `/request-page-live-same-system/${folderName}/code.html${window.location.search}`
+
     return (
         <div style={{ width: '100%', height: '100vh', margin: 0, padding: 0, overflow: 'hidden' }}>
             <iframe
-                src={`/request-page-live-same-system/${folderName}/code.html`}
+                src={iframeSrc}
                 title={folderName}
                 style={{
                     width: '100%',

@@ -1,11 +1,7 @@
 {
     "rewrites": [
         {
-            "source": "/design-pt-kpc",
-            "destination": "/request-page-live-same-system/design-pt-kpc/code.html"
-        },
-        {
-            "source": "/design2-pt-kpc",
+            "source": "/pt-kpc",
             "destination": "/request-page-live-same-system/design2-pt-kpc/code.html"
         },
         {

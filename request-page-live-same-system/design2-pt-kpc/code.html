@@ -21,9 +21,6 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet">
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -35,37 +32,40 @@
                         "on-surface-variant": "#43474e",
                         "primary-fixed-dim": "#acc8f8",
                         "outline": "#74777f",
-                        "secondary-fixed": "#ffdad6",
+                        "secondary-fixed": "#FAF0D7",
                         "surface-container-lowest": "#ffffff",
                         "inverse-primary": "#acc8f8",
                         "primary": "#001735",
                         "outline-variant": "#c4c6cf",
                         "surface": "#f7f9fb",
-                        "on-secondary-container": "#650006",
+                        "on-secondary-container": "#001735",
                         "surface-container-highest": "#e0e3e5",
                         "tertiary": "#0c1829",
                         "on-tertiary-container": "#8893a9",
                         "on-surface": "#191c1e",
-                        "on-secondary-fixed-variant": "#900c12",
+                        "on-secondary-fixed-variant": "#8A6D3B",
                         "on-primary-container": "#7994c2",
                         "primary-fixed": "#d5e3ff",
-                        "on-secondary": "#ffffff",
+                        "on-secondary": "#001735",
                         "surface-container-high": "#e6e8ea",
                         "surface-tint": "#445f8a",
-                        "on-secondary-fixed": "#410002",
+                        "on-secondary-fixed": "#3E2B00",
                         "tertiary-fixed-dim": "#bcc7de",
                         "tertiary-fixed": "#d8e3fb",
                         "error-container": "#ffdad6",
                         "tertiary-container": "#212c3e",
                         "on-primary-fixed-variant": "#2b4771",
                         "on-background": "#191c1e",
-                        "secondary": "#b22926",
+                        "secondary": "#D4AF37",
+                        "gold": "#D4AF37",
+                        "gold-light": "#F4E0A5",
+                        "gold-dark": "#AA7C11",
                         "on-tertiary-fixed-variant": "#3c475a",
                         "background": "#f7f9fb",
-                        "secondary-fixed-dim": "#ffb4ac",
+                        "secondary-fixed-dim": "#E5C158",
                         "on-error": "#ffffff",
                         "on-primary-fixed": "#001b3c",
-                        "secondary-container": "#ff6157",
+                        "secondary-container": "#F4E0A5",
                         "primary-container": "#0b2c54",
                         "surface-container-low": "#f2f4f6",
                         "inverse-on-surface": "#eff1f3",
@@ -118,12 +118,59 @@
         }
     </script>
     <style>
-        .cargo-slash-bg {
-            background: linear-gradient(140deg, #0b2c54 50%, #a31d1d 50%);
+        @keyframes navyGoldFlow {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
-        .cargo-slash-mask {
-            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        .cargo-slash-bg {
+            background: linear-gradient(135deg, #001229 0%, #0b2c54 40%, #1e3f6d 70%, #997828 90%, #001229 100%);
+            background-size: 250% 250%;
+            animation: navyGoldFlow 6s ease-in-out infinite;
+        }
+
+        @keyframes bottomRightGlowPulse {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(0.95) translate(5%, 5%);
+            }
+            50% {
+                opacity: 0.85;
+                transform: scale(1.3) translate(-2%, -2%);
+            }
+        }
+
+        .bottom-right-glowing-spot {
+            position: absolute;
+            bottom: -15%;
+            right: -10%;
+            width: 55%;
+            height: 55%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.55) 0%, rgba(244, 224, 165, 0.25) 45%, rgba(0, 23, 53, 0) 75%);
+            filter: blur(70px);
+            border-radius: 50%;
+            animation: bottomRightGlowPulse 4.5s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .hero-navy-gold-bg {
+            background: linear-gradient(135deg, #001229 0%, #082242 35%, #0f3566 65%, #846824 88%, #001229 100%);
+            background-size: 250% 250%;
+            animation: navyGoldFlow 6s ease-in-out infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #FFF6D6 0%, #D4AF37 50%, #AA7C11 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .reveal {
@@ -141,6 +188,19 @@
             scroll-behavior: smooth;
         }
 
+        /* Custom sleek scrollbar for RSVP feed */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.04);
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #D4AF37;
+            border-radius: 4px;
+        }
+
         /* Disable scroll initially for modal */
         body.modal-open {
             overflow: hidden;
@@ -148,29 +208,32 @@
     </style>
 </head>
 
-<body class="bg-background text-on-background font-body-md text-body-md"
+<body class="bg-background text-on-background font-body-md text-body-md modal-open"
     style="background: linear-gradient(rgb(11, 44, 84), rgb(247, 249, 251)) fixed;">
     <!-- Opening Modal -->
-    <div class="fixed inset-0 z-50 flex items-center justify-center bg-primary transition-opacity duration-700 bg-secondary"
-        id="openingModal" data-stitch-orig-opacity="0" style="display: none;">
-        <div class="absolute inset-0 cargo-slash-bg opacity-90"></div>
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-primary transition-opacity duration-700 overflow-hidden"
+        id="openingModal">
+        <div class="absolute inset-0 cargo-slash-bg opacity-95"></div>
+        <!-- 35% Bottom Right Pulsing Bright Spot for Cover -->
+        <div class="bottom-right-glowing-spot opacity-90"></div>
         <div class="relative z-10 text-center flex flex-col items-center justify-center p-md md:p-xl h-full w-full">
-            <div class="bg-surface-container-lowest p-md rounded-xl shadow-md mb-lg">
-                <img alt="KCARGO Logo" class="h-24 md:h-32 object-contain"
-                    data-alt="Corporate logo of PT Karya Pratama Cargo, a professional logistics and freight company, featuring sharp geometric shapes and a primary navy color palette on a clean white background. High-quality vector style."
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_lbeDAdedGM7nNlGJjdp34rTDyY6HZNQzqFXgODNatbkHoxfiIpqujsK5qoAxXilWtS9_En329qK7WJIvn62LpHeAD6C1V0hvjTjnyeSWr2BYfdlXAMj7CDLTyO9YSM1iaFk4erkkSRCSH0Y5NLunvzb5-yuSelMOol72-H7cSLIqE2BApwnf7hFolvJrN5ASD5Box8ovaixG0EYpCBsKKSI_-YL7U6G_Mpr7jnOCHHOodEHFGPj23RWjwzj8Qx_ppdwam2Ith4HF">
+            <div class="mb-lg flex justify-center">
+                <img alt="KCARGO Logo" class="h-20 md:h-28 w-auto object-contain rounded-lg shadow-lg"
+                    src="logo-pt-v2.jpg">
             </div>
             <h1
-                class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-primary mb-sm">
-                UNDANGAN RESMI<br>GRAND OPENING</h1>
-            <p class="font-body-lg text-body-lg text-primary-fixed-dim mb-lg">Kepada Yth,</p>
+                class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-primary mb-sm font-black tracking-tight leading-tight">
+                UNDANGAN<br>
+                <span class="gold-gradient-text">GRAND OPENING</span><br>
+                <span class="text-white text-lg md:text-2xl font-bold tracking-wider block mt-1">PT KARYA PRATAMA CARGO</span>
+            </h1>
+            <p class="font-body-md text-[#F4E0A5] mb-xs font-medium">Kepada Yth,</p>
             <div
-                class="bg-surface-container-lowest/10 backdrop-blur-sm border border-outline-variant px-xl py-sm rounded-lg mb-xl">
-                <h2 class="font-headline-md text-headline-md text-on-primary font-bold" id="guestNameDisplay">Bapak/Ibu
-                    / Rekan Bisnis</h2>
+                class="bg-white/10 backdrop-blur-md border border-[#D4AF37]/50 px-lg py-1.5 rounded-lg mb-lg shadow-md">
+                <h2 class="text-base md:text-lg text-white font-semibold" id="guestNameDisplay">Tamu Undangan</h2>
             </div>
             <button
-                class="bg-secondary text-on-secondary px-xl py-md rounded font-label-bold text-label-bold uppercase tracking-wider hover:translate-x-1 hover:bg-on-error-container transition-all shadow-md group flex items-center gap-xs"
+                class="bg-gradient-to-r from-[#D4AF37] via-[#F4E0A5] to-[#AA7C11] text-[#001735] font-extrabold px-xl py-sm rounded-lg font-label-bold text-label-bold uppercase tracking-wider hover:scale-105 hover:shadow-[0_0_25px_rgba(212,175,55,0.6)] transition-all shadow-lg group flex items-center gap-xs cursor-pointer"
                 id="openInvitationBtn">
                 Buka Undangan
                 <span
@@ -184,26 +247,33 @@
     <main class="transition-opacity duration-1000" id="mainContent">
         <!-- Hero Section -->
         <section
-            class="relative min-h-[80vh] flex flex-col items-center justify-center text-center px-md py-xl cargo-slash-mask bg-primary overflow-hidden"
-            style="background: linear-gradient(135deg, rgb(11, 44, 84) 0%, rgb(11, 44, 84) 60%, rgb(163, 29, 29) 100%);">
-
-            <div
-                class="absolute right-0 bottom-0 w-1/2 h-full bg-secondary/10 transform rotate-[40deg] translate-x-1/4 translate-y-1/4">
+            class="relative min-h-[85vh] flex flex-col items-center justify-center text-center px-md pt-xl pb-24 md:pb-32 hero-navy-gold-bg overflow-hidden">
+            <!-- Ambient Smooth Glow & Bottom-Right Bright Spot -->
+            <div class="absolute inset-0 pointer-events-none overflow-hidden">
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#D4AF37]/15 rounded-full blur-[100px]"></div>
+                <!-- 35% Bottom Right Pulsing Bright Spot -->
+                <div class="bottom-right-glowing-spot"></div>
             </div>
+
             <div class="relative z-10 w-full max-w-4xl mx-auto flex flex-col items-center reveal active">
 
                 <h1
-                    class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-primary mb-md">
+                    class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-primary mb-md font-black tracking-tight">
                     GRAND OPENING</h1>
-                <h2 class="font-headline-sm text-headline-sm text-primary-fixed-dim mb-lg max-w-2xl">Gudang Pusat PT
+                <h2 class="font-headline-sm text-headline-sm text-[#F4E0A5] mb-lg max-w-2xl font-semibold">Gudang Pusat PT
                     Karya Pratama Cargo</h2>
-                <div class="w-24 h-1 bg-secondary mb-lg"></div>
+                <div class="w-28 h-1.5 bg-gradient-to-r from-[#D4AF37] via-[#F4E0A5] to-[#D4AF37] mb-lg rounded-full shadow-md"></div>
                 <p class="font-headline-md text-headline-md text-on-primary font-bold">Minggu, 02 Agustus 2026</p>
+
+                <!-- Scroll Down Hint Indicator -->
+                <a href="#details" aria-label="Gulir ke bawah" class="mt-lg flex flex-col items-center text-[#D4AF37] opacity-85 hover:opacity-100 transition-opacity cursor-pointer">
+                    <span class="material-symbols-outlined text-[36px] animate-bounce">keyboard_double_arrow_down</span>
+                </a>
             </div>
         </section>
         <!-- Countdown Timer -->
         <section
-            class="px-md bg-surface-container-lowest shadow-md -mt-lg relative z-20 mx-md rounded-xl border border-outline-variant reveal active py-sm md:mx-auto max-w-2xl">
+            class="px-md bg-surface-container-lowest shadow-xl -mt-lg relative z-20 mx-md rounded-[12px] border border-[#D4AF37]/40 reveal active py-sm md:mx-auto max-w-2xl">
             <div class="flex flex-wrap justify-center gap-sm md:gap-md">
                 <div class="flex flex-col items-center text-center">
                     <span class="font-headline-md text-headline-md text-primary font-bold w-12" id="days">08</span>
@@ -221,26 +291,26 @@
                 </div>
                 <div class="text-xl text-outline-variant font-light hidden sm:block">:</div>
                 <div class="flex flex-col items-center text-center">
-                    <span class="font-headline-md text-headline-md text-secondary font-bold w-12" id="seconds">35</span>
+                    <span class="font-headline-md text-headline-md text-primary font-bold w-12" id="seconds">35</span>
                     <span class="font-label-bold text-[10px] text-on-surface-variant uppercase">Detik</span>
                 </div>
             </div>
             <div class="flex justify-center mt-sm">
                 <a href="https://calendar.app.google/S2yn4NNeRrmdXQYz7" target="_blank" rel="noopener noreferrer"
-                    class="inline-flex items-center gap-xs border border-primary text-primary px-md py-xs rounded font-label-bold text-label-bold hover:bg-surface-container transition-colors">
+                    class="inline-flex items-center gap-xs border border-[#D4AF37] text-primary px-md py-xs rounded font-label-bold text-label-bold hover:bg-[#D4AF37] hover:text-[#001735] transition-all font-semibold shadow-sm">
                     <span class="material-symbols-outlined text-[18px]">calendar_today</span>
                     Simpan Kalender
                 </a>
             </div>
         </section>
         <!-- Details & Schedule Sections -->
-        <section class="py-xl px-md md:px-xl max-w-6xl mx-auto" id="details">
-            <div class="grid md:grid-cols-2 gap-xl">
+        <section class="py-md md:py-xl px-md md:px-xl max-w-6xl mx-auto" id="details">
+            <div class="grid md:grid-cols-2 gap-md md:gap-xl">
                 <!-- Invitation Letter -->
                 <div
-                    class="bg-surface-container-lowest border border-outline-variant rounded-lg p-lg shadow-sm border-l-4 border-l-secondary reveal active relative overflow-hidden">
-                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDldGilsjRry4jck_Odzfutp2bD-HYKOgHeDmamgsauN2FNcFh7ZSIG8Wl6hA-soMmNBcXbuSAOzJR4a41BsQbbRWvyJq0AxhiGZKR18RdPdwTN6QcPQRXI0OWn5ACBogPCi4gSr65yFxnvx66YXhPsjw_NN68A7WmUf2mUcI3oDoELsHt8zr0ZsScJqgcsvRW8QuoAb_mNTX5zn2rRklfJsvYs8TFDRLHOT0LJsS97OhWEGs7pvjkV50abu6eMAw_G0Hzn8KTLa7Q-"
-                        alt="Karya Pratama Logo" class="h-12 md:h-16 object-contain mb-sm">
+                    class="bg-surface-container-lowest border border-outline-variant rounded-[12px] px-md py-md sm:px-lg sm:py-lg shadow-sm border-l-4 border-l-[#D4AF37] reveal active relative overflow-hidden">
+                    <img src="logo-pt-v2.jpg"
+                        alt="Karya Pratama Logo" class="h-12 md:h-16 object-contain mb-sm rounded-md">
 
                     <div class="font-body-md text-body-md text-on-surface-variant mb-sm">
                         <div class="mb-xs">Dengan Hormat,</div>Kami mengundang Bapak/Ibu serta rekan-rekan untuk
@@ -255,45 +325,53 @@
                         Bapak/Ibu, kami mengucapkan terima kasih.
                     </div>
                     <div class="mt-lg">
-                        <p class="font-label-bold text-label-bold text-primary">Salam Hangat,</p>
+                        <p class="font-label-bold text-label-bold text-primary font-semibold">Salam Hangat,</p>
                         <p class="font-headline-sm text-headline-sm text-primary font-bold mt-xs">Syahrul Natsir</p>
                         <p class="font-body-sm text-body-sm text-outline">CEO PT Karya Pratama Cargo</p>
                     </div>
                     <div class="absolute top-0 right-0 w-12 h-12 overflow-hidden pointer-events-none">
                         <div
-                            class="absolute top-0 right-0 w-full h-full bg-primary transform rotate-45 translate-x-1/2 -translate-y-1/2">
+                            class="absolute top-0 right-0 w-full h-full bg-[#D4AF37] transform rotate-45 translate-x-1/2 -translate-y-1/2">
                         </div>
                         <div
-                            class="absolute top-0 right-0 w-3/4 h-3/4 bg-secondary transform rotate-45 translate-x-1/2 -translate-y-1/2 opacity-90">
+                            class="absolute top-0 right-0 w-3/4 h-3/4 bg-primary transform rotate-45 translate-x-1/2 -translate-y-1/2">
                         </div>
                     </div>
                 </div>
+
+                <!-- Mobile Divider 1 (Between Letter & Event Details) -->
+                <div class="my-xs md:hidden flex items-center justify-center gap-sm px-md opacity-80">
+                    <div class="h-px bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent flex-1"></div>
+                    <span class="w-1.5 h-1.5 bg-[#D4AF37] rotate-45 inline-block"></span>
+                    <div class="h-px bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent flex-1"></div>
+                </div>
+
                 <!-- Event Details -->
                 <div class="flex flex-col gap-sm reveal active" id="schedule">
                     <div
-                        class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md shadow-sm flex items-start gap-sm border-l-[8px] border-l-secondary relative overflow-hidden">
-                        <span class="material-symbols-outlined text-primary bg-primary-fixed p-xs rounded"
+                        class="bg-surface-container-lowest border border-outline-variant rounded-[12px] px-sm py-sm sm:px-md sm:py-md shadow-sm flex items-start gap-sm border-l-[8px] border-l-[#D4AF37] relative overflow-hidden">
+                        <span class="material-symbols-outlined text-[#001735] bg-[#F4E0A5] p-xs rounded font-bold"
                             style="font-variation-settings: 'FILL' 1;">calendar_today</span>
                         <div>
                             <h4 class="font-headline-sm text-headline-sm text-primary mb-xs">Tanggal</h4>
                             <p class="font-body-md text-body-md text-on-surface-variant">Minggu, 02 Agustus 2026</p>
                             <a href="https://calendar.app.google/S2yn4NNeRrmdXQYz7" target="_blank"
                                 rel="noopener noreferrer"
-                                class="inline-flex items-center gap-xs border border-outline-variant text-primary px-sm py-xs rounded font-label-bold text-label-bold hover:bg-surface-container transition-colors mt-sm"><span
+                                class="inline-flex items-center gap-xs border border-[#D4AF37] text-primary px-sm py-xs rounded font-label-bold text-label-bold hover:bg-[#D4AF37] hover:text-[#001735] transition-all mt-sm font-semibold"><span
                                     class="material-symbols-outlined text-[16px]">event</span>Simpan Kalender</a>
                         </div>
                         <div class="absolute top-0 right-0 w-12 h-12 overflow-hidden pointer-events-none">
                             <div
-                                class="absolute top-0 right-0 w-full h-full bg-primary transform rotate-45 translate-x-1/2 -translate-y-1/2">
+                                class="absolute top-0 right-0 w-full h-full bg-[#D4AF37] transform rotate-45 translate-x-1/2 -translate-y-1/2">
                             </div>
                             <div
-                                class="absolute top-0 right-0 w-3/4 h-3/4 bg-secondary transform rotate-45 translate-x-1/2 -translate-y-1/2 opacity-90">
+                                class="absolute top-0 right-0 w-3/4 h-3/4 bg-primary transform rotate-45 translate-x-1/2 -translate-y-1/2">
                             </div>
                         </div>
                     </div>
                     <div
-                        class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md shadow-sm flex items-start gap-sm border-l-[8px] border-l-secondary relative overflow-hidden">
-                        <span class="material-symbols-outlined text-primary bg-primary-fixed p-xs rounded"
+                        class="bg-surface-container-lowest border border-outline-variant rounded-[12px] px-sm py-sm sm:px-md sm:py-md shadow-sm flex items-start gap-sm border-l-[8px] border-l-[#D4AF37] relative overflow-hidden">
+                        <span class="material-symbols-outlined text-[#001735] bg-[#F4E0A5] p-xs rounded font-bold"
                             style="font-variation-settings: 'FILL' 1;">schedule</span>
                         <div>
                             <h4 class="font-headline-sm text-headline-sm text-primary mb-xs">Waktu</h4>
@@ -301,16 +379,16 @@
                         </div>
                         <div class="absolute top-0 right-0 w-12 h-12 overflow-hidden pointer-events-none">
                             <div
-                                class="absolute top-0 right-0 w-full h-full bg-primary transform rotate-45 translate-x-1/2 -translate-y-1/2">
+                                class="absolute top-0 right-0 w-full h-full bg-[#D4AF37] transform rotate-45 translate-x-1/2 -translate-y-1/2">
                             </div>
                             <div
-                                class="absolute top-0 right-0 w-3/4 h-3/4 bg-secondary transform rotate-45 translate-x-1/2 -translate-y-1/2 opacity-90">
+                                class="absolute top-0 right-0 w-3/4 h-3/4 bg-primary transform rotate-45 translate-x-1/2 -translate-y-1/2">
                             </div>
                         </div>
                     </div>
                     <div
-                        class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md shadow-sm flex items-start gap-sm border-l-[8px] border-l-secondary relative overflow-hidden">
-                        <span class="material-symbols-outlined text-primary bg-primary-fixed p-xs rounded"
+                        class="bg-surface-container-lowest border border-outline-variant rounded-[12px] px-sm py-sm sm:px-md sm:py-md shadow-sm flex items-start gap-sm border-l-[8px] border-l-[#D4AF37] relative overflow-hidden">
+                        <span class="material-symbols-outlined text-[#001735] bg-[#F4E0A5] p-xs rounded font-bold"
                             style="font-variation-settings: 'FILL' 1;">location_on</span>
                         <div class="w-full">
                             <h4 class="font-headline-sm text-headline-sm text-primary mb-xs">Lokasi</h4>
@@ -324,19 +402,199 @@
                         </div>
                         <div class="absolute top-0 right-0 w-12 h-12 overflow-hidden pointer-events-none">
                             <div
-                                class="absolute top-0 right-0 w-full h-full bg-primary transform rotate-45 translate-x-1/2 -translate-y-1/2">
+                                class="absolute top-0 right-0 w-full h-full bg-[#D4AF37] transform rotate-45 translate-x-1/2 -translate-y-1/2">
                             </div>
                             <div
-                                class="absolute top-0 right-0 w-3/4 h-3/4 bg-secondary transform rotate-45 translate-x-1/2 -translate-y-1/2 opacity-90">
+                                class="absolute top-0 right-0 w-3/4 h-3/4 bg-primary transform rotate-45 translate-x-1/2 -translate-y-1/2">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- Divider 2 (Before RSVP Section) -->
+        <div class="my-xs md:my-lg flex items-center justify-center gap-md max-w-4xl mx-auto px-md opacity-80">
+            <div class="h-px bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent flex-1"></div>
+            <span class="w-2 h-2 bg-[#D4AF37] rotate-45 inline-block shadow-xs"></span>
+            <div class="h-px bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent flex-1"></div>
+        </div>
         <!-- Map Section -->
 
         <!-- RSVP Form Section -->
+        <section class="py-xs md:py-lg px-md md:px-xl max-w-6xl mx-auto reveal active" id="rsvp">
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-[12px] px-md py-md sm:px-lg sm:py-lg shadow-sm border-l-4 border-l-[#D4AF37] relative overflow-hidden">
+                <!-- Top-Right Accent Ribbon -->
+                <div class="absolute top-0 right-0 w-12 h-12 overflow-hidden pointer-events-none">
+                    <div class="absolute top-0 right-0 w-full h-full bg-[#D4AF37] transform rotate-45 translate-x-1/2 -translate-y-1/2"></div>
+                    <div class="absolute top-0 right-0 w-3/4 h-3/4 bg-primary transform rotate-45 translate-x-1/2 -translate-y-1/2"></div>
+                </div>
+
+                <!-- Header -->
+                <div class="mb-md pr-8">
+                    <h3 class="font-headline-sm text-headline-sm text-primary font-bold">RSVP</h3>
+                </div>
+
+                <!-- Form & Feed Grid -->
+                <div class="grid md:grid-cols-2 gap-lg">
+                    <!-- Form Column -->
+                    <form id="rsvpForm" class="flex flex-col gap-xs">
+                        <!-- Form 1: Nama -->
+                        <div>
+                            <label for="rsvpName" class="block font-label-bold text-[11px] text-primary mb-1 uppercase tracking-wide">Nama</label>
+                            <input type="text" id="rsvpName" name="nama" required placeholder="Nama Anda / Perusahaan"
+                                class="w-full px-sm py-xs rounded border border-outline-variant focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none transition-all font-body-sm text-on-surface bg-surface-container-low">
+                        </div>
+
+                        <!-- Form 2: Kehadiran (2 Button Toggles) -->
+                        <div>
+                            <label class="block font-label-bold text-[11px] text-primary mb-1 uppercase tracking-wide">Konfirmasi Kehadiran</label>
+                            <input type="hidden" id="rsvpKehadiran" name="kehadiran" required value="">
+                            <div class="grid grid-cols-2 gap-xs">
+                                <button type="button" id="btnHadir"
+                                    class="py-1.5 px-sm rounded border border-outline-variant text-body-sm font-semibold transition-all flex items-center justify-center gap-1 cursor-pointer bg-surface-container-low text-on-surface-variant hover:border-[#001735]">
+                                    <span class="material-symbols-outlined text-[16px]">check_circle</span> Hadir
+                                </button>
+                                <button type="button" id="btnTidakHadir"
+                                    class="py-1.5 px-sm rounded border border-outline-variant text-body-sm font-semibold transition-all flex items-center justify-center gap-1 cursor-pointer bg-surface-container-low text-on-surface-variant hover:border-rose-400">
+                                    <span class="material-symbols-outlined text-[16px]">cancel</span> Tidak Hadir
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Form 3: Pesan (Opsional) -->
+                        <div>
+                            <label for="rsvpPesan" class="block font-label-bold text-[11px] text-primary mb-1 uppercase tracking-wide">Pesan (Opsional)</label>
+                            <textarea id="rsvpPesan" name="pesan" rows="2" placeholder="Tuliskan ucapan & doa..."
+                                class="w-full px-sm py-xs rounded border border-outline-variant focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none transition-all font-body-sm text-on-surface bg-surface-container-low"></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" id="submitRsvpBtn"
+                            class="w-full bg-primary text-on-primary font-bold px-md py-xs rounded font-label-bold text-label-bold uppercase tracking-wider hover:bg-[#0b2c54] transition-all shadow-sm flex items-center justify-center gap-xs cursor-pointer mt-xs">
+                            <span id="btnText">Kirim RSVP & Ucapan</span>
+                            <span id="btnSpinner" class="hidden material-symbols-outlined text-[18px] animate-spin">progress_activity</span>
+                        </button>
+                        <div id="rsvpAlert" class="hidden text-center py-xs px-sm rounded font-body-sm text-xs font-semibold mt-xs"></div>
+                    </form>
+
+                    <!-- Feed Column -->
+                    <div class="flex flex-col border-t md:border-t-0 md:border-l border-outline-variant/60 pt-md md:pt-0 md:pl-lg">
+                        <div class="flex items-center justify-between mb-xs">
+                            <h4 class="font-label-bold text-label-bold text-primary font-bold flex items-center gap-xs">
+                                <span class="material-symbols-outlined text-[18px] text-[#D4AF37]">forum</span>
+                                <span>Pesan (<span id="rsvpCount">0</span>)</span>
+                            </h4>
+                            <button id="refreshRsvpBtn" type="button" class="text-[12px] text-[#001735] hover:text-[#D4AF37] flex items-center gap-0.5 font-semibold cursor-pointer">
+                    <span class="material-symbols-outlined text-[14px]">refresh</span> Refresh
+                            </button>
+                        </div>
+
+                        <!-- Feed Container -->
+                        <div id="rsvpList" class="flex flex-col gap-1.5 max-h-[170px] overflow-y-auto pr-1 custom-scrollbar">
+                            <div class="text-center text-outline py-md font-body-sm text-xs">Memuat ucapan...</div>
+                        </div>
+                    </div>
+        </section>
+
+        <!-- Divider 3 (Before Perjalanan Kami Section) -->
+        <div class="my-xs md:my-lg flex items-center justify-center gap-md max-w-4xl mx-auto px-md opacity-80">
+            <div class="h-px bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent flex-1"></div>
+            <span class="w-2 h-2 bg-[#D4AF37] rotate-45 inline-block shadow-xs"></span>
+            <div class="h-px bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent flex-1"></div>
+        </div>
+
+        <!-- Perjalanan Kami (Gallery Section) -->
+        <section class="py-xs md:py-lg px-md md:px-xl max-w-6xl mx-auto reveal active" id="gallery">
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-[12px] px-md py-md sm:px-lg sm:py-lg shadow-sm border-l-4 border-l-[#D4AF37] relative overflow-hidden">
+                <!-- Top-Right Accent Ribbon -->
+                <div class="absolute top-0 right-0 w-12 h-12 overflow-hidden pointer-events-none">
+                    <div class="absolute top-0 right-0 w-full h-full bg-[#D4AF37] transform rotate-45 translate-x-1/2 -translate-y-1/2"></div>
+                    <div class="absolute top-0 right-0 w-3/4 h-3/4 bg-primary transform rotate-45 translate-x-1/2 -translate-y-1/2"></div>
+                </div>
+
+                <!-- Header -->
+                <div class="mb-md pr-8">
+                    <h3 class="font-headline-sm text-headline-sm text-primary font-bold">PERJALANAN KAMI</h3>
+                </div>
+
+                <!-- Featured Slideshow (Top) -->
+                <div class="relative w-full overflow-hidden rounded-[10px] mb-md bg-black border border-outline-variant/60 shadow-sm group">
+                    <div id="slideshowContainer" class="relative w-full h-[250px] sm:h-[350px] md:h-[420px] bg-black flex items-center justify-center overflow-hidden">
+                        <!-- Ambient Blurred Background for Portrait Images -->
+                        <img id="slideBgImg" src="image-gallery/pt-kpc-1.jpeg" alt="" class="absolute inset-0 w-full h-full object-cover blur-xl opacity-30 pointer-events-none scale-110">
+                        <!-- Main Uncropped Image -->
+                        <img id="slideImg" src="image-gallery/pt-kpc-1.jpeg" alt="Featured Gallery" class="relative z-10 max-w-full max-h-full object-contain cursor-pointer transition-opacity duration-300" onclick="openImageModal(this.src)">
+                    </div>
+
+                    <!-- Slide Controls -->
+                    <button type="button" onclick="prevSlide()" class="absolute z-20 left-2 top-1/2 -translate-y-1/2 bg-[#001735]/85 hover:bg-[#001735] text-[#D4AF37] p-1.5 rounded-full transition-all cursor-pointer shadow-md flex items-center justify-center border border-[#D4AF37]/40">
+                        <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+                    </button>
+                    <button type="button" onclick="nextSlide()" class="absolute z-20 right-2 top-1/2 -translate-y-1/2 bg-[#001735]/85 hover:bg-[#001735] text-[#D4AF37] p-1.5 rounded-full transition-all cursor-pointer shadow-md flex items-center justify-center border border-[#D4AF37]/40">
+                        <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+                    </button>
+
+                    <!-- Dot Indicators -->
+                    <div id="slideDots" class="absolute z-20 bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 bg-[#001735]/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-[#D4AF37]/30">
+                    </div>
+                </div>
+
+                <!-- Masonry Gallery Grid (Original Ratio Bawah) -->
+                <div class="columns-2 sm:columns-3 md:columns-4 gap-1.5 sm:gap-2 space-y-1.5 sm:space-y-2">
+                    <div class="break-inside-avoid overflow-hidden rounded-md bg-surface-container-low border border-outline-variant/50 shadow-2xs group mb-1.5 sm:mb-2">
+                        <img src="image-gallery/pt-kpc-1.jpeg" alt="Perjalanan PT KPC 1" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer block rounded-md" onclick="openImageModal(this.src)">
+                    </div>
+                    <div class="break-inside-avoid overflow-hidden rounded-md bg-surface-container-low border border-outline-variant/50 shadow-2xs group mb-1.5 sm:mb-2">
+                        <img src="image-gallery/pt-kpc-2.jpeg" alt="Perjalanan PT KPC 2" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer block rounded-md" onclick="openImageModal(this.src)">
+                    </div>
+                    <div class="break-inside-avoid overflow-hidden rounded-md bg-surface-container-low border border-outline-variant/50 shadow-2xs group mb-1.5 sm:mb-2">
+                        <img src="image-gallery/pt-kpc-3.jpeg" alt="Perjalanan PT KPC 3" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer block rounded-md" onclick="openImageModal(this.src)">
+                    </div>
+                    <div class="break-inside-avoid overflow-hidden rounded-md bg-surface-container-low border border-outline-variant/50 shadow-2xs group mb-1.5 sm:mb-2">
+                        <img src="image-gallery/pt-kpc-5.jpeg" alt="Perjalanan PT KPC 5" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer block rounded-md" onclick="openImageModal(this.src)">
+                    </div>
+                    <div class="break-inside-avoid overflow-hidden rounded-md bg-surface-container-low border border-outline-variant/50 shadow-2xs group mb-1.5 sm:mb-2">
+                        <img src="image-gallery/pt-kpc-6.jpeg" alt="Perjalanan PT KPC 6" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer block rounded-md" onclick="openImageModal(this.src)">
+                    </div>
+                    <div class="break-inside-avoid overflow-hidden rounded-md bg-surface-container-low border border-outline-variant/50 shadow-2xs group mb-1.5 sm:mb-2">
+                        <img src="image-gallery/pt-kpc-7.jpeg" alt="Perjalanan PT KPC 7" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer block rounded-md" onclick="openImageModal(this.src)">
+                    </div>
+                    <div class="break-inside-avoid overflow-hidden rounded-md bg-surface-container-low border border-outline-variant/50 shadow-2xs group mb-1.5 sm:mb-2">
+                        <img src="image-gallery/pt-kpc-8.jpeg" alt="Perjalanan PT KPC 8" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer block rounded-md" onclick="openImageModal(this.src)">
+                    </div>
+                    <div class="break-inside-avoid overflow-hidden rounded-md bg-surface-container-low border border-outline-variant/50 shadow-2xs group mb-1.5 sm:mb-2">
+                        <img src="image-gallery/pt-kpc-9.jpeg" alt="Perjalanan PT KPC 9" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer block rounded-md" onclick="openImageModal(this.src)">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Image Preview Lightbox Modal -->
+        <div id="imageLightbox" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-sm sm:p-md transition-opacity duration-300 cursor-pointer" onclick="closeImageModal()">
+            <div class="relative max-w-5xl max-h-[90vh] flex items-center justify-center w-full h-full" onclick="event.stopPropagation()">
+                <!-- Lightbox Image -->
+                <img id="lightboxImg" src="" alt="Gallery Preview" class="max-w-full max-h-[85vh] rounded-lg object-contain shadow-2xl transition-opacity duration-300">
+                
+                <!-- Close Button -->
+                <button type="button" class="absolute top-2 right-2 sm:top-4 sm:right-4 bg-[#D4AF37] text-[#001735] w-9 h-9 rounded-full flex items-center justify-center font-bold text-xl shadow-lg hover:scale-110 transition-transform cursor-pointer z-30" onclick="closeImageModal()">&times;</button>
+                
+                <!-- Prev Button -->
+                <button type="button" onclick="lightboxPrev(event)" class="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-[#001735]/80 hover:bg-[#001735] text-[#D4AF37] p-2 rounded-full transition-all cursor-pointer shadow-lg z-30 border border-[#D4AF37]/50 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[24px]">chevron_left</span>
+                </button>
+                
+                <!-- Next Button -->
+                <button type="button" onclick="lightboxNext(event)" class="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-[#001735]/80 hover:bg-[#001735] text-[#D4AF37] p-2 rounded-full transition-all cursor-pointer shadow-lg z-30 border border-[#D4AF37]/50 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[24px]">chevron_right</span>
+                </button>
+
+                <!-- Image Counter Indicator -->
+                <div id="lightboxCounter" class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-[#001735]/80 backdrop-blur-md text-[#F4E0A5] text-xs font-semibold px-3 py-1 rounded-full border border-[#D4AF37]/40 z-30">
+                    1 / 8
+                </div>
+            </div>
+        </div>
 
         <!-- Footer (Shared Component) -->
         <footer
@@ -355,21 +613,152 @@
         </footer>
     </main>
     <script>
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyAW2A95G1F2sajA575FLUtRKngIwdHxCgShj-Y5GODopsnnivhEFTVNlw0kMN2BWk4/exec";
+
+        // Lightbox Functions
+        let currentLightboxIndex = 0;
+
+        function openImageModal(src) {
+            const cleanSrc = src.replace(/^[a-zA-Z]+:\/\/[^\/]+/, ''); // normalize path if full URL
+            let index = galleryImages.findIndex(img => src.includes(img));
+            if (index !== -1) {
+                currentLightboxIndex = index;
+            } else {
+                currentLightboxIndex = 0;
+            }
+            updateLightboxContent();
+
+            const modal = document.getElementById('imageLightbox');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function updateLightboxContent() {
+            const img = document.getElementById('lightboxImg');
+            const counter = document.getElementById('lightboxCounter');
+            if (!img) return;
+
+            img.style.opacity = '0.3';
+            setTimeout(() => {
+                img.src = galleryImages[currentLightboxIndex];
+                img.style.opacity = '1';
+            }, 100);
+
+            if (counter) {
+                counter.textContent = `${currentLightboxIndex + 1} / ${galleryImages.length}`;
+            }
+        }
+
+        function lightboxPrev(e) {
+            if (e) e.stopPropagation();
+            currentLightboxIndex = (currentLightboxIndex - 1 + galleryImages.length) % galleryImages.length;
+            updateLightboxContent();
+        }
+
+        function lightboxNext(e) {
+            if (e) e.stopPropagation();
+            currentLightboxIndex = (currentLightboxIndex + 1) % galleryImages.length;
+            updateLightboxContent();
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('imageLightbox');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        // Keyboard navigation for lightbox
+        document.addEventListener('keydown', (e) => {
+            const modal = document.getElementById('imageLightbox');
+            if (modal && !modal.classList.contains('hidden')) {
+                if (e.key === 'ArrowLeft') lightboxPrev();
+                if (e.key === 'ArrowRight') lightboxNext();
+                if (e.key === 'Escape') closeImageModal();
+            }
+        });
+
+        // Slideshow Logic
+        const galleryImages = [
+            "image-gallery/pt-kpc-1.jpeg",
+            "image-gallery/pt-kpc-2.jpeg",
+            "image-gallery/pt-kpc-3.jpeg",
+            "image-gallery/pt-kpc-5.jpeg",
+            "image-gallery/pt-kpc-6.jpeg",
+            "image-gallery/pt-kpc-7.jpeg",
+            "image-gallery/pt-kpc-8.jpeg",
+            "image-gallery/pt-kpc-9.jpeg"
+        ];
+        let currentSlideIndex = 0;
+        let slideInterval = null;
+
+        function updateSlideshow() {
+            const img = document.getElementById('slideImg');
+            const bgImg = document.getElementById('slideBgImg');
+            const dotsContainer = document.getElementById('slideDots');
+            if (!img) return;
+
+            img.style.opacity = '0.4';
+            setTimeout(() => {
+                img.src = galleryImages[currentSlideIndex];
+                if (bgImg) bgImg.src = galleryImages[currentSlideIndex];
+                img.style.opacity = '1';
+            }, 120);
+
+            if (dotsContainer) {
+                dotsContainer.innerHTML = galleryImages.map((_, idx) => `
+                    <button type="button" onclick="goToSlide(${idx})" class="h-2 rounded-full transition-all cursor-pointer ${idx === currentSlideIndex ? 'bg-[#D4AF37] w-4' : 'bg-white/50 w-2 hover:bg-white'}"></button>
+                `).join('');
+            }
+        }
+
+        function nextSlide() {
+            currentSlideIndex = (currentSlideIndex + 1) % galleryImages.length;
+            updateSlideshow();
+            resetSlideTimer();
+        }
+
+        function prevSlide() {
+            currentSlideIndex = (currentSlideIndex - 1 + galleryImages.length) % galleryImages.length;
+            updateSlideshow();
+            resetSlideTimer();
+        }
+
+        function goToSlide(idx) {
+            currentSlideIndex = idx;
+            updateSlideshow();
+            resetSlideTimer();
+        }
+
+        function resetSlideTimer() {
+            if (slideInterval) clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 4000);
+        }
+
         // URL Parameter Handling
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
-            const guestName = urlParams.get('to');
-            const defaultName = "Bapak/Ibu / Rekan Bisnis";
-            const displayName = guestName ? decodeURIComponent(guestName) : defaultName;
+            const rawGuestName = urlParams.get('to');
+            const defaultName = "Tamu Undangan";
+            const guestName = rawGuestName ? decodeURIComponent(rawGuestName.replace(/\+/g, ' ')) : '';
+            const displayName = guestName || defaultName;
 
             document.getElementById('guestNameDisplay').textContent = displayName;
 
             // Pre-fill form if element exists
             const rsvpNameInput = document.getElementById('rsvpName');
             if (rsvpNameInput) {
-                rsvpNameInput.value = guestName ? decodeURIComponent(guestName) : '';
+                rsvpNameInput.value = guestName;
                 if (!guestName) rsvpNameInput.removeAttribute('readonly');
             }
+
+            // Load initial RSVP entries & Slideshow
+            loadRsvpList();
+            updateSlideshow();
+            resetSlideTimer();
         });
 
         // Modal Opening Logic
@@ -382,8 +771,8 @@
             setTimeout(() => {
                 modal.style.display = 'none';
                 document.body.classList.remove('modal-open');
-                mainContent.classList.remove('opacity-0');
-                topNav.classList.remove('-translate-y-full');
+                if (mainContent) mainContent.classList.remove('opacity-0');
+                if (topNav) topNav.classList.remove('-translate-y-full');
 
                 // Trigger scroll reveals for initial items in view
                 reveal();
@@ -430,6 +819,177 @@
             document.getElementById("minutes").innerHTML = String(minutes).padStart(2, '0');
             document.getElementById("seconds").innerHTML = String(seconds).padStart(2, '0');
         }, 1000);
+
+        // Load RSVP List from Google Sheets
+        async function loadRsvpList() {
+            const listContainer = document.getElementById('rsvpList');
+            const countContainer = document.getElementById('rsvpCount');
+            if (!listContainer || !countContainer) return;
+
+            try {
+                const response = await fetch(APPS_SCRIPT_URL, { redirect: 'follow' });
+                if (!response.ok) throw new Error('Response not ok: ' + response.status);
+                const data = await response.json();
+
+                if (Array.isArray(data) && data.length > 0) {
+                    countContainer.textContent = data.length;
+                    listContainer.innerHTML = '';
+                    
+                    // Show newest submissions at top
+                    [...data].reverse().forEach(item => {
+                        const card = document.createElement('div');
+                        card.className = "bg-surface-container-low border border-outline-variant/60 rounded-md px-2.5 py-1.5 shadow-2xs transition-all text-xs shrink-0";
+                        
+                        const isHadir = item.kehadiran === 'Hadir';
+                        const badgeClass = isHadir 
+                            ? "bg-[#D4AF37]/20 text-[#001735] border border-[#D4AF37]/40" 
+                            : "bg-surface-container-high text-on-surface-variant border border-outline-variant";
+
+                        card.innerHTML = `
+                            <div class="flex items-center justify-between gap-1 mb-0.5">
+                                <span class="font-bold text-primary text-[12px] truncate max-w-[140px]">${escapeHtml(item.nama || 'Tamu')}</span>
+                                <span class="text-[9px] font-semibold px-1.5 py-0.2 rounded-full ${badgeClass} shrink-0">${escapeHtml(item.kehadiran || '-')}</span>
+                            </div>
+                            <p class="text-[11px] leading-snug text-on-surface-variant whitespace-pre-line">${escapeHtml(item.pesan || '')}</p>
+                        `;
+                        listContainer.appendChild(card);
+                    });
+                } else {
+                    countContainer.textContent = '0';
+                    listContainer.innerHTML = '<div class="text-center text-outline py-md font-body-sm text-xs">Belum ada ucapan. Jadilah yang pertama memberikan ucapan!</div>';
+                }
+            } catch (err) {
+                console.error('Error fetching RSVP data:', err);
+                listContainer.innerHTML = '<div class="text-center text-outline py-xs font-body-sm text-xs">Gagal memuat pesan</div>';
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // Attendance Toggle Buttons Logic
+        let userManuallySelected = false;
+
+        function setKehadiran(status) {
+            const hiddenInput = document.getElementById('rsvpKehadiran');
+            const btnHadir = document.getElementById('btnHadir');
+            const btnTidakHadir = document.getElementById('btnTidakHadir');
+
+            if (!hiddenInput || !btnHadir || !btnTidakHadir) return;
+
+            hiddenInput.value = status;
+
+            if (status === 'Hadir') {
+                btnHadir.className = "py-1.5 px-sm rounded border border-[#001735] text-body-sm font-bold transition-all flex items-center justify-center gap-1 cursor-pointer bg-[#001735] text-white shadow-xs";
+                btnTidakHadir.className = "py-1.5 px-sm rounded border border-outline-variant text-body-sm font-semibold transition-all flex items-center justify-center gap-1 cursor-pointer bg-surface-container-low text-on-surface-variant opacity-75 hover:opacity-100";
+            } else if (status === 'Tidak Hadir') {
+                btnTidakHadir.className = "py-1.5 px-sm rounded border border-[#001735] text-body-sm font-bold transition-all flex items-center justify-center gap-1 cursor-pointer bg-[#001735] text-white shadow-xs";
+                btnHadir.className = "py-1.5 px-sm rounded border border-outline-variant text-body-sm font-semibold transition-all flex items-center justify-center gap-1 cursor-pointer bg-surface-container-low text-on-surface-variant opacity-75 hover:opacity-100";
+            } else {
+                hiddenInput.value = '';
+                btnHadir.className = "py-1.5 px-sm rounded border border-outline-variant text-body-sm font-semibold transition-all flex items-center justify-center gap-1 cursor-pointer bg-surface-container-low text-on-surface-variant hover:border-[#001735]";
+                btnTidakHadir.className = "py-1.5 px-sm rounded border border-outline-variant text-body-sm font-semibold transition-all flex items-center justify-center gap-1 cursor-pointer bg-surface-container-low text-on-surface-variant hover:border-rose-400";
+            }
+        }
+
+        const nameInputField = document.getElementById('rsvpName');
+        if (nameInputField) {
+            nameInputField.addEventListener('input', (e) => {
+                const hiddenInput = document.getElementById('rsvpKehadiran');
+                if (e.target.value.trim().length > 0 && !hiddenInput.value && !userManuallySelected) {
+                    setKehadiran('Hadir');
+                }
+            });
+        }
+
+        const btnHadirElement = document.getElementById('btnHadir');
+        if (btnHadirElement) {
+            btnHadirElement.addEventListener('click', () => {
+                userManuallySelected = true;
+                setKehadiran('Hadir');
+            });
+        }
+
+        const btnTidakHadirElement = document.getElementById('btnTidakHadir');
+        if (btnTidakHadirElement) {
+            btnTidakHadirElement.addEventListener('click', () => {
+                userManuallySelected = true;
+                setKehadiran('Tidak Hadir');
+            });
+        }
+
+        // Handle Form Submit
+        const rsvpForm = document.getElementById('rsvpForm');
+        if (rsvpForm) {
+            rsvpForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const btn = document.getElementById('submitRsvpBtn');
+                const btnText = document.getElementById('btnText');
+                const btnSpinner = document.getElementById('btnSpinner');
+                const alert = document.getElementById('rsvpAlert');
+
+                const nama = document.getElementById('rsvpName').value.trim();
+                const kehadiran = document.getElementById('rsvpKehadiran').value;
+                const pesan = document.getElementById('rsvpPesan').value.trim();
+
+                if (!nama || !kehadiran) {
+                    alert.className = "text-center py-xs px-sm rounded font-body-sm text-xs font-semibold mt-xs bg-amber-100 text-amber-900 border border-amber-300";
+                    alert.textContent = "Mohon isi Nama dan pilih status Konfirmasi Kehadiran.";
+                    alert.classList.remove('hidden');
+                    return;
+                }
+
+                btn.disabled = true;
+                btnText.textContent = "Mengirim...";
+                if (btnSpinner) btnSpinner.classList.remove('hidden');
+                alert.classList.add('hidden');
+
+                try {
+                    await fetch(APPS_SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'text/plain' },
+                        body: JSON.stringify({ nama: nama, kehadiran: kehadiran, pesan: pesan })
+                    });
+
+                    alert.className = "text-center py-xs px-md rounded-lg font-body-md font-semibold mt-xs bg-emerald-100 text-emerald-800 border border-emerald-300";
+                    alert.textContent = "Terima kasih! Konfirmasi & ucapan Anda berhasil terkirim.";
+                    alert.classList.remove('hidden');
+
+                    document.getElementById('rsvpPesan').value = '';
+                    userManuallySelected = false;
+                    setKehadiran('');
+
+                    setTimeout(() => {
+                        loadRsvpList();
+                    }, 1500);
+
+                } catch (err) {
+                    console.error('Error submitting RSVP:', err);
+                    alert.className = "text-center py-xs px-md rounded-lg font-body-md font-semibold mt-xs bg-rose-100 text-rose-800 border border-rose-300";
+                    alert.textContent = "Gagal mengirim. Silakan periksa koneksi atau coba lagi.";
+                    alert.classList.remove('hidden');
+                } finally {
+                    btn.disabled = false;
+                    btnText.textContent = "Kirim RSVP & Ucapan";
+                    if (btnSpinner) btnSpinner.classList.add('hidden');
+                }
+            });
+        }
+
+        const refreshRsvpBtn = document.getElementById('refreshRsvpBtn');
+        if (refreshRsvpBtn) {
+            refreshRsvpBtn.addEventListener('click', () => {
+                loadRsvpList();
+            });
+        }
     </script>
 
 
