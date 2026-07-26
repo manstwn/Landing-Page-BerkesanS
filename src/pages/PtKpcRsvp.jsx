@@ -6,9 +6,8 @@ export default function PtKpcRsvp() {
     }, []);
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#001735', color: '#D4AF37', fontFamily: 'sans-serif', textAlign: 'center', padding: '1rem' }}>
-            <h2 style={{ marginBottom: '0.5rem' }}>PT KARYA PRATAMA CARGO</h2>
-            <p style={{ color: '#ffffff', opacity: 0.9 }}>Mengalihkan ke Data RSVP Google Sheets...</p>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#ffffff', color: '#64748b', fontFamily: 'system-ui, -apple-system, sans-serif', textAlign: 'center' }}>
+            <p style={{ fontSize: '0.95rem' }}>Mengalihkan ke data RSVP...</p>
         </div>
     );
 }
