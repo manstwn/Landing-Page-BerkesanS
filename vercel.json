@@ -5,6 +5,10 @@
             "destination": "/request-page-live-same-system/design2-pt-kpc/code.html"
         },
         {
+            "source": "/sumpahdokter-fkung-2026",
+            "destination": "/request-page-live-same-system/sumpahdokter-fkung-2026/index.html"
+        },
+        {
             "source": "/(.*)",
             "destination": "/"
         }

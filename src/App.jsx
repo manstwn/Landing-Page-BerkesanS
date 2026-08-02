@@ -17,6 +17,9 @@ import PtKpc from './pages/PtKpc'
 import PtKpcShare from './pages/PtKpcShare'
 import PtKpcRsvp from './pages/PtKpcRsvp'
 import LiveRequestPage from './pages/LiveRequestPage'
+import SumpahDokterPage from './pages/SumpahDokterPage'
+import SumpahDokterShare from './pages/SumpahDokterShare'
+import SumpahDokterRsvp from './pages/SumpahDokterRsvp'
 
 const MAIN_ROUTES = [
     '/',
@@ -43,7 +46,10 @@ function App() {
         location.pathname === '/pt-kpc-share' ||
         location.pathname === '/pt-kpc-rsvp' ||
         location.pathname === '/design2-pt-kpc' ||
-        location.pathname === '/design-pt-kpc'
+        location.pathname === '/design-pt-kpc' ||
+        location.pathname === '/sumpahdokter-fkung-2026' ||
+        location.pathname === '/sumpahdokter-fkung-2026-share' ||
+        location.pathname === '/sumpahdokter-fkung-2026-rsvp'
 
     return (
         <>
@@ -68,6 +74,9 @@ function App() {
                     <Route path="/pt-kpc" element={<PtKpc />} />
                     <Route path="/pt-kpc-share" element={<PtKpcShare />} />
                     <Route path="/pt-kpc-rsvp" element={<PtKpcRsvp />} />
+                    <Route path="/sumpahdokter-fkung-2026" element={<SumpahDokterPage />} />
+                    <Route path="/sumpahdokter-fkung-2026-share" element={<SumpahDokterShare />} />
+                    <Route path="/sumpahdokter-fkung-2026-rsvp" element={<SumpahDokterRsvp />} />
 
                     {/* Dynamic Fallback for any /foldername inside request-page-live-same-system/ */}
                     <Route path="/request-page-live-same-system/:folderName" element={<LiveRequestPage />} />
