@@ -47,6 +47,9 @@ function App() {
         location.pathname === '/pt-kpc-rsvp' ||
         location.pathname === '/design2-pt-kpc' ||
         location.pathname === '/design-pt-kpc' ||
+        location.pathname === '/fkung' ||
+        location.pathname === '/fkung-share' ||
+        location.pathname === '/fkung-rsvp' ||
         location.pathname === '/sumpahdokter-fkung-2026' ||
         location.pathname === '/sumpahdokter-fkung-2026-share' ||
         location.pathname === '/sumpahdokter-fkung-2026-rsvp'
@@ -74,6 +77,9 @@ function App() {
                     <Route path="/pt-kpc" element={<PtKpc />} />
                     <Route path="/pt-kpc-share" element={<PtKpcShare />} />
                     <Route path="/pt-kpc-rsvp" element={<PtKpcRsvp />} />
+                    <Route path="/fkung" element={<SumpahDokterPage />} />
+                    <Route path="/fkung-share" element={<SumpahDokterShare />} />
+                    <Route path="/fkung-rsvp" element={<SumpahDokterRsvp />} />
                     <Route path="/sumpahdokter-fkung-2026" element={<SumpahDokterPage />} />
                     <Route path="/sumpahdokter-fkung-2026-share" element={<SumpahDokterShare />} />
                     <Route path="/sumpahdokter-fkung-2026-rsvp" element={<SumpahDokterRsvp />} />

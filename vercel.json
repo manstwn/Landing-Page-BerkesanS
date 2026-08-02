@@ -5,8 +5,24 @@
             "destination": "/request-page-live-same-system/design2-pt-kpc/code.html"
         },
         {
+            "source": "/fkung",
+            "destination": "/request-page-live-same-system/sumpahdokter-fkung-2026/index.html"
+        },
+        {
             "source": "/sumpahdokter-fkung-2026",
             "destination": "/request-page-live-same-system/sumpahdokter-fkung-2026/index.html"
+        },
+        {
+            "source": "/fkung/fkung/(.*)",
+            "destination": "/request-page-live-same-system/sumpahdokter-fkung-2026/fkung/$1"
+        },
+        {
+            "source": "/fkung/(.*)",
+            "destination": "/request-page-live-same-system/sumpahdokter-fkung-2026/$1"
+        },
+        {
+            "source": "/sumpahdokter-fkung-2026/(.*)",
+            "destination": "/request-page-live-same-system/sumpahdokter-fkung-2026/$1"
         },
         {
             "source": "/(.*)",

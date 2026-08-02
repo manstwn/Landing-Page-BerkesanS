@@ -4,7 +4,7 @@ import '../styles/FormStyles.css';
 
 const SumpahDokterShare = () => {
     const [searchParams] = useSearchParams();
-    const [slug, setSlug] = useState('sumpahdokter-fkung-2026');
+    const [slug, setSlug] = useState('fkung');
     const [guestNames, setGuestNames] = useState('');
     const [selectedTemplateId, setSelectedTemplateId] = useState('formal_resmi');
     const [customTemplate, setCustomTemplate] = useState('');
@@ -97,7 +97,7 @@ Terima kasih.`
 
         const firstGuest = guestNames.split('\n')[0].trim() || 'Bapak/Ibu Tamu Undangan';
         const baseUrl = window.location.origin.replace('://www.', '://');
-        const cleanSlug = slug.trim() || 'sumpahdokter-fkung-2026';
+        const cleanSlug = slug.trim() || 'fkung';
 
         const guestLink = `${baseUrl}/${cleanSlug}?to=${encodeURIComponent(firstGuest).replace(/%20/g, '+')}`;
         const rawContent = TEMPLATES[selectedTemplateId].content;
@@ -120,7 +120,7 @@ Terima kasih.`
     const handleGenerate = () => {
         const guests = guestNames.split('\n').filter(name => name.trim() !== '');
         const baseUrl = window.location.origin.replace('://www.', '://');
-        const cleanSlug = slug.trim() || 'sumpahdokter-fkung-2026';
+        const cleanSlug = slug.trim() || 'fkung';
 
         const results = guests.map(guest => {
             const guestName = guest.trim();

@@ -19953,7 +19953,8 @@ function Pu() {
                     alt: e.title,
                     className: `w-full h-full object-cover group-hover:scale-110 transition-transform duration-700`,
                     onError: (e) => {
-                      e.target.src = `https://via.placeholder.com/400x400?text=Foto+Belum+Ada`;
+                      e.target.onerror = null;
+                      e.target.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23050c1e'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%2394a3b8' font-family='sans-serif' font-size='16'%3EFoto Belum Ada%3C/text%3E%3C/svg%3E`;
                     },
                   }),
                   (0, V.jsx)(`div`, {
