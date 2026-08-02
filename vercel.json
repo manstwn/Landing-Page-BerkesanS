@@ -13,12 +13,36 @@
             "destination": "/request-page-live-same-system/sumpahdokter-fkung-2026/index.html"
         },
         {
+            "source": "/fkung/assets/(.*)",
+            "destination": "/request-page-live-same-system/sumpahdokter-fkung-2026/fkung/assets/$1"
+        },
+        {
+            "source": "/fkung/gallery/(.*)",
+            "destination": "/request-page-live-same-system/sumpahdokter-fkung-2026/fkung/gallery/$1"
+        },
+        {
+            "source": "/fkung/qrcode.png",
+            "destination": "/request-page-live-same-system/sumpahdokter-fkung-2026/fkung/qrcode.png"
+        },
+        {
+            "source": "/fkung/api.json",
+            "destination": "/request-page-live-same-system/sumpahdokter-fkung-2026/fkung/api.json"
+        },
+        {
             "source": "/fkung/fkung/(.*)",
             "destination": "/request-page-live-same-system/sumpahdokter-fkung-2026/fkung/$1"
         },
         {
             "source": "/fkung/(.*)",
             "destination": "/request-page-live-same-system/sumpahdokter-fkung-2026/$1"
+        },
+        {
+            "source": "/sumpahdokter-fkung-2026/assets/(.*)",
+            "destination": "/request-page-live-same-system/sumpahdokter-fkung-2026/fkung/assets/$1"
+        },
+        {
+            "source": "/sumpahdokter-fkung-2026/gallery/(.*)",
+            "destination": "/request-page-live-same-system/sumpahdokter-fkung-2026/fkung/gallery/$1"
         },
         {
             "source": "/sumpahdokter-fkung-2026/(.*)",
