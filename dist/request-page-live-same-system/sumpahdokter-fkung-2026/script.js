@@ -19655,10 +19655,11 @@ function ku() {
           ],
         }),
         (0, V.jsx)(`div`, {
-          className: `divider-gold my-8`,
-          children: (0, V.jsx)(`span`, {
-            className: `text-gold-500 text-sm`,
-            children: `✦`,
+          className: `flex justify-center items-center my-5`,
+          children: (0, V.jsx)(`img`, {
+            src: `/request-page-live-same-system/sumpahdokter-fkung-2026/fkung/assets/ume-flower-divider.png`,
+            alt: `Flower Divider`,
+            className: `w-20 md:w-24 h-auto object-contain mx-auto opacity-90`,
           }),
         }),
         (0, V.jsxs)(X.div, {
@@ -20401,11 +20402,11 @@ function Iu() {
               children: `Fakultas Kedokteran UNG 2026`,
             }),
             (0, V.jsx)(`div`, {
-              className: `flex justify-center mt-12 mb-4`,
+              className: `flex justify-center mt-4 mb-3`,
               children: (0, V.jsx)(`img`, {
-                src: Cu,
-                className: `w-32 md:w-48 mx-auto opacity-80 rotate-180`,
-                alt: `ornament`,
+                src: `/request-page-live-same-system/sumpahdokter-fkung-2026/fkung/assets/ume-flower-divider.png`,
+                className: `w-12 md:w-16 h-auto object-contain mx-auto opacity-90`,
+                alt: `Flower Divider`,
               }),
             }),
             (0, V.jsx)(`div`, {
