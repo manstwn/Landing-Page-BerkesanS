@@ -19861,7 +19861,7 @@ var Au = [
   { no: 14, nama: `Sambutan Rektor` },
   { no: 15, nama: `Pembacaan Do'a` },
   { no: 16, nama: `Penutupan Sidang Senat Terbuka FK UNG` },
-  { no: 17, nama: `Pemberian Penghargaan Sertifikat -- NOTE MUNGKING ADA` },
+  { no: 17, nama: `Pemberian Penghargaan Sertifikat` },
   { no: 18, nama: `Pengambilan Foto Bersama` },
   { no: 19, nama: `Ramah Tamah` },
   { no: 20, nama: `Penutupan acara` },
