@@ -21,7 +21,7 @@ export default defineConfig({
   plugins: [react(), copyRequestPageLivePlugin()],
   server: {
     host: true,
-    port: 5173,
+    port: 8584,
     allowedHosts: true,
   },
 })
