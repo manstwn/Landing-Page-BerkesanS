@@ -19419,7 +19419,7 @@ function Du({ guestName: e, onOpen: t }) {
         },
       }),
       (0, V.jsxs)(`div`, {
-        className: `relative z-20 w-full h-[100dvh] max-w-lg mx-auto flex flex-col items-center justify-between py-6 px-6 text-center`,
+        className: `relative z-20 w-full min-h-[100dvh] max-w-lg mx-auto flex flex-col items-center justify-center py-8 px-6 text-center gap-2 md:gap-4`,
         children: [
           (0, V.jsxs)(`div`, {
             className: `w-full flex flex-col items-center`,
@@ -19460,7 +19460,7 @@ function Du({ guestName: e, onOpen: t }) {
             ],
           }),
           (0, V.jsxs)(`div`, {
-            className: `flex-1 flex flex-col items-center justify-center w-full py-1`,
+            className: `flex flex-col items-center justify-center w-full py-1`,
             children: [
               (0, V.jsx)(X.p, {
                 className: `font-cinzel text-gold-shine/70 text-[12px] tracking-[4px] uppercase mb-1`,
@@ -19468,7 +19468,7 @@ function Du({ guestName: e, onOpen: t }) {
               }),
               (0, V.jsx)(X.h1, {
                 className: `font-cinzel text-gold-shimmer text-lg md:text-2xl font-bold tracking-wider leading-snug mb-2`,
-                children: `PELANTIKAN DAN PENGAMBILAN SUMPAH DOKTER KE-III`,
+                children: `PELANTIKAN DAN PENGAMBILAN SUMPAH DOKTER KE-IV`,
               }),
               (0, V.jsx)(`div`, {
                 className: `divider-gold my-1 opacity-50`,
@@ -19479,7 +19479,7 @@ function Du({ guestName: e, onOpen: t }) {
               }),
               (0, V.jsx)(X.p, {
                 className: `font-poppins text-white/60 text-[10px] tracking-[2px] uppercase mb-4`,
-                children: `PERIODE I TAHUN 2026`,
+                children: `PERIODE II TAHUN 2026`,
               }),
               (0, V.jsxs)(X.div, {
                 className: `mb-2`,
@@ -19613,9 +19613,13 @@ function ku() {
               className: `font-cinzel text-gold-glow text-xl md:text-2xl font-bold mb-2`,
               children: `The Hippocratic Oath`,
             }),
-            (0, V.jsx)(`p`, {
+            (0, V.jsxs)(`p`, {
               className: `font-cinzel text-gold-shine text-sm md:text-lg tracking-widest mb-1`,
-              children: `SUMPAH DOKTER KE-III PERIODE I TAHUN 2026`,
+              children: [
+                `SUMPAH DOKTER KE-IV`,
+                (0, V.jsx)(`br`, {}),
+                `PERIODE II TAHUN 2026`,
+              ],
             }),
             (0, V.jsx)(`p`, {
               className: `font-poppins text-white/90 text-sm md:text-base font-medium`,
@@ -19655,11 +19659,12 @@ function ku() {
           ],
         }),
         (0, V.jsx)(`div`, {
-          className: `flex justify-center items-center my-5`,
+          className: `flex justify-center items-center my-6`,
           children: (0, V.jsx)(`img`, {
             src: `/request-page-live-same-system/sumpahdokter-fkung-2026/fkung/assets/ume-flower-divider.png`,
             alt: `Flower Divider`,
-            className: `w-20 md:w-24 h-auto object-contain mx-auto opacity-90`,
+            className: `mx-auto object-contain opacity-90`,
+            style: { width: `450px`, maxWidth: `90%`, height: `auto` },
           }),
         }),
         (0, V.jsxs)(X.div, {
@@ -19680,7 +19685,7 @@ function ku() {
                     }),
                     (0, V.jsx)(`p`, {
                       className: `font-poppins text-white text-base md:text-xl font-bold`,
-                      children: `Jum'at, 15 Mei 2026`,
+                      children: `Sabtu, 22 Agustus 2026`,
                     }),
                   ],
                 }),
@@ -19696,9 +19701,9 @@ function ku() {
                         (0, V.jsxs)(`p`, {
                           className: `font-poppins text-white text-sm md:text-lg font-semibold leading-snug`,
                           children: [
-                            `13.00 WITA`,
+                            `08.00 WITA`,
                             (0, V.jsx)(`br`, {}),
-                            `s/d Selesai`,
+                            `s.d Selesai`,
                           ],
                         }),
                       ],
@@ -19710,8 +19715,8 @@ function ku() {
                           children: `Tempat`,
                         }),
                         (0, V.jsx)(`p`, {
-                          className: `font-poppins text-gold-glow text-sm md:text-lg italic font-bold leading-snug`,
-                          children: `Azlea Convention Centre`,
+                          className: `font-poppins text-gold-glow text-sm md:text-lg font-bold leading-snug`,
+                          children: `Grand Sumber Ria Ballroom`,
                         }),
                       ],
                     }),
@@ -19720,23 +19725,35 @@ function ku() {
               ],
             }),
             (0, V.jsxs)(`div`, {
-              className: `mt-6 pt-4 border-t border-white/10 flex flex-col md:flex-row md:justify-center items-center gap-3 w-full`,
+              className: `mt-6 pt-4 border-t border-white/10 event-btn-container`,
               children: [
                 (0, V.jsxs)(`a`, {
-                  href: `https://maps.google.com/?q=Azlea+Convention+Centre+Gorontalo`,
+                  href: `https://maps.app.goo.gl/CadJfppjx2XgmSHG8`,
                   target: `_blank`,
                   rel: `noopener noreferrer`,
                   className: `glass-btn`,
                   children: [`📍 Google Maps`],
                 }),
                 (0, V.jsxs)(`a`, {
-                  href: `https://calendar.google.com/calendar/render?action=TEMPLATE&text=Pelantikan+%26+Pengambilan+Sumpah+Dokter+-+UNG&dates=20260515T050000Z/20260515T100000Z&details=Acara+Pelantikan+dan+Pengambilan+Sumpah+Dokter+Angkatan+3+Periode+2026+FK+UNG&location=Azlea+Convention+Centre`,
+                  href: `https://calendar.app.google/Q4rfXpJ9uersaUSy7`,
                   target: `_blank`,
                   rel: `noopener noreferrer`,
                   className: `glass-btn`,
                   children: [`📅 Add to Calendar`],
                 }),
               ],
+            }),
+            (0, V.jsx)(`div`, {
+              className: `mt-6 w-full rounded-xl overflow-hidden border border-white/20 shadow-lg`,
+              children: (0, V.jsx)(`iframe`, {
+                src: `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d18977.97457302098!2d123.0706358234255!3d0.5600812832382215!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32792b50428fdb33%3A0x909de63644ffb01!2sGrand%20Sumber%20Ria%20Ballroom!5e0!3m2!1sid!2sid!4v1785720435077!5m2!1sid!2sid`,
+                width: `100%`,
+                height: `280`,
+                style: { border: 0 },
+                allowFullScreen: ``,
+                loading: `lazy`,
+                referrerPolicy: `strict-origin-when-cross-origin`,
+              }),
             }),
           ],
         }),
@@ -19749,7 +19766,7 @@ function ku() {
           children: [
             (0, V.jsx)(`p`, {
               className: `font-poppins text-white/80 text-sm mb-1`,
-              children: `Gorontalo, Mei 2026`,
+              children: `Gorontalo, Agustus 2026`,
             }),
             (0, V.jsx)(`p`, {
               className: `font-poppins text-white/80 text-sm mb-6`,
@@ -19803,7 +19820,7 @@ function ku() {
                 `Hadir 15 menit sebelum acara dimulai`,
                 `Undangan dibawa serta`,
                 `Undangan Orang Tua/Wali berlaku untuk 2 orang`,
-                `Tamu Undangan berpakaian bebas rapi atau batik`,
+                `Tamu Undangan berpakaian bebas rapi`,
               ].map((e, t) =>
                 (0, V.jsxs)(
                   `li`,
@@ -19838,7 +19855,7 @@ var Au = [
   { no: 8, nama: `Prosesi Penyematan Jas Dokter` },
   { no: 9, nama: `Pelantikan Dokter` },
   { no: 10, nama: `Penyerahan Dokter baru ke IDI Wilayah Gorontalo` },
-  { no: 11, nama: `Penyampaian Pesan dan Kesan Dokter Baru` },
+  { no: 11, nama: `Penyampaian Pesan dan Kesan Oleh Perwakilan Dokter Baru` },
   { no: 12, nama: `Sambutan IDI Wilayah` },
   { no: 13, nama: `Sambutan Dekan` },
   { no: 14, nama: `Sambutan Rektor` },
@@ -19904,10 +19921,13 @@ function Mu() {
   });
 }
 var Nu = [
-  { id: 1, src: `./fkung/gallery/foto1.jpg`, title: `Dokumentasi 1` },
-  { id: 2, src: `./fkung/gallery/foto2.jpg`, title: `Dokumentasi 2` },
-  { id: 3, src: `./fkung/gallery/foto3.jpg`, title: `Dokumentasi 3` },
-  { id: 4, src: `./fkung/gallery/foto4.jpg`, title: `Dokumentasi 4` },
+  { id: 1, src: `./fkung/gallery/foto-rev-1.jpg`, title: `Dokumentasi 1` },
+  { id: 2, src: `./fkung/gallery/foto-rev-2.jpg`, title: `Dokumentasi 2` },
+  { id: 3, src: `./fkung/gallery/foto-rev-3.jpg`, title: `Dokumentasi 3` },
+  { id: 4, src: `./fkung/gallery/foto-rev-4.jpg`, title: `Dokumentasi 4` },
+  { id: 5, src: `./fkung/gallery/foto-rev-5.jpg`, title: `Dokumentasi 5` },
+  { id: 6, src: `./fkung/gallery/foto-rev-6.jpg`, title: `Dokumentasi 6` },
+  { id: 7, src: `./fkung/gallery/foto-rev-7.jpg`, title: `Dokumentasi 7` },
 ];
 function Pu() {
   let [e, t] = Ou({ threshold: 0.1 }),
@@ -19937,35 +19957,77 @@ function Pu() {
           className: `font-cinzel text-gold-shimmer text-2xl md:text-3xl font-bold tracking-widest mb-12 uppercase`,
           children: `Gallery Moment`,
         }),
-        (0, V.jsx)(`div`, {
-          className: `grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6`,
-          children: Nu.map((e, n) =>
+        (0, V.jsxs)(`div`, {
+          className: `w-full`,
+          children: [
             (0, V.jsxs)(
               X.div,
               {
                 initial: { opacity: 0, scale: 0.9 },
                 animate: t ? { opacity: 1, scale: 1 } : {},
-                transition: { delay: n * 0.1 },
-                onClick: () => i(n),
-                className: `aspect-video glass-card overflow-hidden group relative border border-gold-900/20 cursor-pointer active:scale-95 transition-transform`,
+                transition: { delay: 0 },
+                onClick: () => i(0),
+                className: `w-full glass-card overflow-hidden group relative border border-gold-900/20 cursor-pointer mb-6 active:scale-95 transition-transform`,
                 children: [
                   (0, V.jsx)(`img`, {
-                    src: e.src,
-                    alt: e.title,
-                    className: `w-full h-full object-cover group-hover:scale-110 transition-transform duration-700`,
-                    onError: (e) => {
-                      e.target.onerror = null;
-                      e.target.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23050c1e'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%2394a3b8' font-family='sans-serif' font-size='16'%3EFoto Belum Ada%3C/text%3E%3C/svg%3E`;
-                    },
+                    src: Nu[0].src,
+                    alt: Nu[0].title,
+                    className: `w-full h-auto block group-hover:scale-105 transition-transform duration-700`,
                   }),
                   (0, V.jsx)(`div`, {
                     className: `absolute inset-0 bg-black/10 md:group-hover:bg-black/40 transition-all`,
                   }),
                 ],
               },
-              e.id,
+              Nu[0].id,
             ),
-          ),
+            (0, V.jsxs)(X.div, {
+              initial: { opacity: 0, y: 15 },
+              animate: t ? { opacity: 1, y: 0 } : {},
+              transition: { delay: 0.15 },
+              className: `my-6 py-6 px-4 border-y border-white/10 flex flex-col items-center justify-center text-center mb-8`,
+              children: [
+                (0, V.jsx)(`p`, {
+                  className: `font-cinzel text-gold-glow italic text-base md:text-xl font-medium leading-relaxed max-w-2xl mx-auto`,
+                  children: `"Wherever the art of medicine is loved, there is also a love of humanity"`,
+                }),
+                (0, V.jsx)(`span`, {
+                  className: `font-cinzel text-gold-glow/70 text-lg md:text-xl mt-3 leading-none`,
+                  children: `—`,
+                }),
+                (0, V.jsx)(`span`, {
+                  className: `font-cinzel text-white/70 text-xs md:text-sm tracking-widest uppercase mt-1`,
+                  children: `Hippocrates`,
+                }),
+              ],
+            }),
+            (0, V.jsx)(`div`, {
+              className: `gallery-subgrid`,
+              children: Nu.slice(1).map((e, n) =>
+                (0, V.jsxs)(
+                  X.div,
+                  {
+                    initial: { opacity: 0, scale: 0.9 },
+                    animate: t ? { opacity: 1, scale: 1 } : {},
+                    transition: { delay: (n + 2) * 0.1 },
+                    onClick: () => i(n + 1),
+                    className: `gallery-subgrid-item glass-card overflow-hidden group relative border border-gold-900/20 cursor-pointer active:scale-95 transition-transform`,
+                    children: [
+                      (0, V.jsx)(`img`, {
+                        src: e.src,
+                        alt: e.title,
+                        className: `w-full h-auto block group-hover:scale-105 transition-transform duration-700`,
+                      }),
+                      (0, V.jsx)(`div`, {
+                        className: `absolute inset-0 bg-black/10 md:group-hover:bg-black/40 transition-all`,
+                      }),
+                    ],
+                  },
+                  e.id,
+                ),
+              ),
+            }),
+          ],
         }),
         (0, V.jsx)(Pc, {
           children:
@@ -20402,10 +20464,11 @@ function Iu() {
               children: `Fakultas Kedokteran UNG 2026`,
             }),
             (0, V.jsx)(`div`, {
-              className: `flex justify-center mt-4 mb-3`,
+              className: `flex justify-center mt-6 mb-2`,
               children: (0, V.jsx)(`img`, {
                 src: `/request-page-live-same-system/sumpahdokter-fkung-2026/fkung/assets/ume-flower-divider.png`,
-                className: `w-12 md:w-16 h-auto object-contain mx-auto opacity-90`,
+                className: `mx-auto object-contain opacity-90`,
+                style: { width: `450px`, maxWidth: `90%`, height: `auto` },
                 alt: `Flower Divider`,
               }),
             }),

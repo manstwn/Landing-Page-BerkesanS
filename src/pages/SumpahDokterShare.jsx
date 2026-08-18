@@ -21,7 +21,7 @@ Bapak/Ibu/Saudara/i {{nama}}
 
 Dengan hormat,
 
-Sehubungan dengan pelaksanaan Acara Pelantikan & Pengambilan Sumpah Dokter Angkatan III Periode 2026 Fakultas Kedokteran Universitas Negeri Gorontalo, kami mengundang Bapak/Ibu/Saudara/i untuk berkenan hadir menyaksikan prosesi ini.
+Sehubungan dengan pelaksanaan Acara Pelantikan & Pengambilan Sumpah Dokter Angkatan IV Periode 2026 Fakultas Kedokteran Universitas Negeri Gorontalo, kami mengundang Bapak/Ibu/Saudara/i untuk berkenan hadir menyaksikan prosesi ini.
 
 Silakan buka tautan berikut untuk informasi selengkapnya:
 🔗 {{link}}
@@ -38,7 +38,7 @@ Hormat kami,
             label: 'Formal Ringkas',
             content: `Yth. {{nama}}
 
-Dengan hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i pada Acara *Pelantikan & Pengambilan Sumpah Dokter Angkatan III Periode 2026* Fakultas Kedokteran UNG.
+Dengan hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i pada Acara *Pelantikan & Pengambilan Sumpah Dokter Angkatan IV Periode 2026* Fakultas Kedokteran UNG.
 
 Silakan buka tautan berikut untuk rincian acara:
 🔗 {{link}}
@@ -56,7 +56,7 @@ Hormat kami,
 Kepada Yth.
 {{nama}}
 
-Tanpa mengurangi rasa hormat, kami bermaksud mengundang Bapak/Ibu/Tamu Kehormatan untuk hadir dalam acara *Pelantikan & Pengambilan Sumpah Dokter Angkatan III Periode 2026 Fakultas Kedokteran UNG*.
+Tanpa mengurangi rasa hormat, kami bermaksud mengundang Bapak/Ibu/Tamu Kehormatan untuk hadir dalam acara *Pelantikan & Pengambilan Sumpah Dokter Angkatan IV Periode 2026 Fakultas Kedokteran UNG*.
 
 Untuk informasi selengkapnya mengenai rincian acara, silakan klik tautan di bawah ini:
 🔗 {{link}}
@@ -71,7 +71,7 @@ Hormat kami,
             label: 'Buat Sendiri (Kustom)',
             content: `Kepada Yth. {{nama}}
 
-Dengan hormat, kami mengundang Bapak/Ibu/Saudara/i untuk hadir pada acara Pelantikan & Pengambilan Sumpah Dokter Angkatan III Periode 2026 FK UNG.
+Dengan hormat, kami mengundang Bapak/Ibu/Saudara/i untuk hadir pada acara Pelantikan & Pengambilan Sumpah Dokter Angkatan IV Periode 2026 FK UNG.
 
 Detail undangan selengkapnya:
 🔗 {{link}}
@@ -221,7 +221,7 @@ Terima kasih.`
                         Generator Undangan WhatsApp
                     </h1>
                     <p style={{ color: '#64748b', fontSize: '0.95rem', margin: 0 }}>
-                        Pelantikan & Pengambilan Sumpah Dokter Angkatan III Periode 2026
+                        Pelantikan & Pengambilan Sumpah Dokter Angkatan IV Periode 2026
                     </p>
                 </header>
 
