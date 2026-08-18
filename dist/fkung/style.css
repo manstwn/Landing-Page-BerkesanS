@@ -238,6 +238,20 @@ html, body {
   }
 }
 
+/* Ensure all Hero Cover content and sections are always visible */
+#hero,
+#hero * {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+#root {
+  min-height: 100vh !important;
+  width: 100% !important;
+  display: block !important;
+  position: relative !important;
+}
+
 
 
 

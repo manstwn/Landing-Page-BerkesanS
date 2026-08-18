@@ -1,0 +1,49 @@
+{
+  "cleanUrls": false,
+  "rewrites": [
+    {
+      "source": "/fkung",
+      "destination": "/request-page-live-same-system/sumpahdokter-fkung-2026/index.html"
+    },
+    {
+      "source": "/sumpahdokter-fkung-2026",
+      "destination": "/request-page-live-same-system/sumpahdokter-fkung-2026/index.html"
+    },
+    {
+      "source": "/fkung-share",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/fkung-rsvp",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/sumpahdokter-fkung-2026-share",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/sumpahdokter-fkung-2026-rsvp",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/pt-kpc",
+      "destination": "/request-page-live-same-system/design2-pt-kpc/code.html"
+    },
+    {
+      "source": "/pt-kpc-share",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/pt-kpc-rsvp",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/design2-pt-kpc",
+      "destination": "/request-page-live-same-system/design2-pt-kpc/code.html"
+    },
+    {
+      "source": "/**",
+      "destination": "/index.html"
+    }
+  ]
+}
