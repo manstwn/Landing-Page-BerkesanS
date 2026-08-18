@@ -16,10 +16,11 @@ export default function SumpahDokterPage() {
     const iframeSrc = `/request-page-live-same-system/sumpahdokter-fkung-2026/index.html${window.location.search}`
 
     return (
-        <div style={{ width: '100%', height: '100vh', margin: 0, padding: 0, overflow: 'hidden' }}>
+        <div style={{ position: 'fixed', inset: 0, width: '100vw', height: '100vh', margin: 0, padding: 0, overflow: 'hidden', zIndex: 99999, background: '#050a18' }}>
             <iframe
                 src={iframeSrc}
                 title="Sumpah Dokter FKUNG 2026"
+                allow="autoplay; fullscreen; camera; microphone"
                 style={{
                     width: '100%',
                     height: '100%',

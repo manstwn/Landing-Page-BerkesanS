@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "name": "dr. Andhika Gunawan, Sp.PD",
+    "attendance": "hadir",
+    "message": "Selamat teman-teman sejawat atas Pelantikan & Pengambilan Sumpah Dokter Ke-III! Semoga amanah, berkah ilmunya, dan dilancarkan masa internshipnya. 😇",
+    "date": "13 Mei 2026"
+  },
+  {
+    "id": 2,
+    "name": "Sefry M. Pantow & Keluarga",
+    "attendance": "hadir",
+    "message": "Selamat dan sukses untuk seluruh Dokter Baru FK UNG. Tetap semangat dan selalu rendah hati dalam melayani sesama. 🙏",
+    "date": "12 Mei 2026"
+  },
+  {
+    "id": 3,
+    "name": "dr. Farid Abdul Razak, Sp.An-TI",
+    "attendance": "hadir",
+    "message": "Congratulations! Selamat bergabung di dunia profesi medis. Semoga ilmunya dapat memberi pengabdian terbaik bagi masyarakat.",
+    "date": "11 Mei 2026"
+  },
+  {
+    "id": 4,
+    "name": "Zulfikar Puluhulawa, S.Sos",
+    "attendance": "hadir",
+    "message": "Selamat menyandang gelar Dokter! Sukses selalu dalam mengamalkan ilmu kedokteran serta menjadi kebanggaan orang tua dan Universitas Negeri Gorontalo.",
+    "date": "11 Mei 2026"
+  },
+  {
+    "id": 5,
+    "name": "dr. Helen M.Y Nazaruddin, Sp.THT-BKL",
+    "attendance": "hadir",
+    "message": "Semoga kalian semua meenjadi dokter yang amanah, humanis, dan selalu memberikan manfaat untuk sesama. Barakallahu fiikum.",
+    "date": "10 Mei 2026"
+  }
+]

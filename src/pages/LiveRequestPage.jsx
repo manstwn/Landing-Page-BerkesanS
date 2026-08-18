@@ -25,10 +25,11 @@ export default function LiveRequestPage() {
     const iframeSrc = `/request-page-live-same-system/${folderName}/code.html${window.location.search}`
 
     return (
-        <div style={{ width: '100%', height: '100vh', margin: 0, padding: 0, overflow: 'hidden' }}>
+        <div style={{ position: 'fixed', inset: 0, width: '100vw', height: '100vh', margin: 0, padding: 0, overflow: 'hidden', zIndex: 99999 }}>
             <iframe
                 src={iframeSrc}
                 title={folderName}
+                allow="autoplay; fullscreen"
                 style={{
                     width: '100%',
                     height: '100%',
