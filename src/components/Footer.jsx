@@ -32,7 +32,6 @@ function Footer() {
                         <Link to="/katalog-undangan">Katalog Undangan</Link>
                         <Link to="/tentang-kami">Tentang Kami</Link>
                         <Link to="/form">Form Pemesanan Undangan</Link>
-                        <Link to="/booking">Form Booking Foto</Link>
                     </div>
 
                     {/* Layanan */}
@@ -49,7 +48,6 @@ function Footer() {
                     <div className="footer__contact">
                         <h4>Hubungi Kami</h4>
                         <p>📍 Cibitung, Kabupaten Bekasi, Jawa Barat.</p>
-                        <p>📞 +62 851-5628-4364</p>
                         <p>🕐 08:00 – 21:00</p>
                         <a
                             href={`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER || '6281234567890'}`}

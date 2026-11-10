@@ -62,7 +62,7 @@ function PaketCard({ paket }) {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn btn-gold btn-sm"
-                        style={{ width: '100%', background: '#25D366', borderColor: '#25D366', textAlign: 'center', justifyContent: 'center' }}
+                        style={{ width: '100%', background: '#25D366', borderColor: '#25D366', color: 'var(--color-black)', textAlign: 'center', justifyContent: 'center' }}
                     >
                         Booking via WhatsApp
                     </a>

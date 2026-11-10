@@ -38,7 +38,13 @@ function Header() {
         <header className={`header ${isScrolled ? 'header--scrolled' : ''}`}>
             <div className="container header__inner">
                 <Link to="/" className="header__logo">
-                    <span className="header__logo-icon">✦</span>
+                    <img
+                        src="/website-logo.png"
+                        alt=""
+                        className="header__logo-img"
+                        width="48"
+                        height="48"
+                    />
                     <span className="header__logo-text">Berkesan<span className="text-gold"> Studio</span></span>
                 </Link>
 

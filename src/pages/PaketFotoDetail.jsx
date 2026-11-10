@@ -155,7 +155,7 @@ function PaketFotoDetail() {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="btn btn-gold"
-                                    style={{ width: '100%', padding: '16px', background: '#25D366', borderColor: '#25D366', textAlign: 'center', justifyContent: 'center' }}
+                                    style={{ width: '100%', padding: '16px', background: '#25D366', borderColor: '#25D366', color: 'var(--color-black)', textAlign: 'center', justifyContent: 'center' }}
                                 >
                                     Booking via WhatsApp
                                 </a>

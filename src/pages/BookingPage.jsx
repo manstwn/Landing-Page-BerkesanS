@@ -2,6 +2,13 @@ import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import '../styles/FormStyles.css'
 
+const escapeHtml = (value) => String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+
 const BookingPage = () => {
     const [formData, setFormData] = useState({
         name: '',
@@ -122,24 +129,28 @@ const BookingPage = () => {
     }
 
     const generateEmailHtml = (data, packageName) => {
+        const orDash = (value) => (value === undefined || value === null || String(value).trim() === '')
+            ? '-'
+            : escapeHtml(value)
+
         return `
             <h2>Data Booking Foto</h2>
-            <p><strong>Nama:</strong> ${data.name || '-'}</p>
-            <p><strong>WhatsApp:</strong> ${data.whatsapp || '-'}</p>
-            <p><strong>Email:</strong> ${data.email || '-'}</p>
+            <p><strong>Nama:</strong> ${orDash(data.name)}</p>
+            <p><strong>WhatsApp:</strong> ${orDash(data.whatsapp)}</p>
+            <p><strong>Email:</strong> ${orDash(data.email)}</p>
             <hr>
 
             <h2>Rencana Jadwal</h2>
-            <p><strong>Tanggal:</strong> ${data.date || '-'}</p>
-            <p><strong>Jam:</strong> ${data.time ? data.time + ' WIB' : '-'}</p>
+            <p><strong>Tanggal:</strong> ${orDash(data.date)}</p>
+            <p><strong>Jam:</strong> ${data.time ? `${escapeHtml(data.time)} WIB` : '-'}</p>
             <hr>
 
             <h2>Detail Paket</h2>
-            <p><strong>Paket:</strong> ${packageName || '-'}</p>
+            <p><strong>Paket:</strong> ${orDash(packageName)}</p>
             <hr>
 
             <h2>Catatan Tambahan</h2>
-            <p>${data.notes ? data.notes.replace(/\n/g, '<br>') : '-'}</p>
+            <p>${data.notes ? escapeHtml(data.notes).replace(/\r?\n/g, '<br>') : '-'}</p>
         `
     }
 

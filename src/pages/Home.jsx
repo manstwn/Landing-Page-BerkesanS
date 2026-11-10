@@ -1,27 +1,25 @@
 import { Link } from 'react-router-dom'
 import { useInView } from '../hooks/useInView'
+import useImageFallback from '../hooks/useImageFallback'
 import InfiniteMarquee from '../components/InfiniteMarquee'
 import CountUp from '../components/CountUp'
+import ServiceImage from '../components/ServiceImage'
 import './Home.css'
 
 const highlights = [
     {
-        icon: '📸',
         title: 'Studio Foto',
         desc: 'Abadikan momen spesial Anda untuk prewedding, wedding, wisuda, keluarga, dan lainnya.',
     },
     {
-        icon: '👗',
         title: 'Kostum & Baju',
         desc: 'Koleksi gaun pernikahan, kebaya, dan busana formal dengan desain anggun dan modern untuk menyempurnakan hari istimewa Anda.',
     },
     {
-        icon: '📸',
         title: 'Paket Foto Wedding',
         desc: 'Pilihan paket lengkap dengan harga terbaik, dokumentasi maksimal, dan hasil foto yang berkesan.',
     },
     {
-        icon: '💌',
         title: 'Undangan Digital',
         desc: 'Template cantik dengan musik, RSVP, dan link demo.',
     },
@@ -61,6 +59,7 @@ function Home() {
     const [previewRef, previewVisible] = useInView()
     const [testimonialsRef, testimonialsVisible] = useInView()
     const [ctaRef, ctaVisible] = useInView()
+    const studio = useImageFallback('/studio-kami/gambar-studio')
 
     return (
         <div className="home">
@@ -102,6 +101,13 @@ function Home() {
                 </div>
 
                 <div className="container hero__content">
+                    <img
+                        src="/website-logo.png"
+                        alt="Berkesan Studio"
+                        className="hero__logo hero-anim hero-anim--1"
+                        width="140"
+                        height="140"
+                    />
                     <h1 className="hero__title hero-anim hero-anim--2">
                         Foto Bagus,<br />
                         <span className="text-gradient">Harga Bersahabat</span>
@@ -111,7 +117,7 @@ function Home() {
                     </p>
                     <div className="hero__buttons hero-anim hero-anim--4">
                         <Link to="/paket-foto" className="btn btn-gold">
-                            Lihat Paket Foto
+                            Paket Foto Studio
                         </Link>
                         <Link to="/katalog-undangan" className="btn btn-outline">
                             Katalog Undangan
@@ -119,17 +125,17 @@ function Home() {
                     </div>
                     <div className="hero__stats hero-anim hero-anim--5">
                         <div className="hero__stat">
-                            <span className="hero__stat-number"><CountUp end={200} suffix="+" /></span>
+                            <span className="hero__stat-number"><CountUp end={2000} suffix="++" /></span>
                             <span className="hero__stat-label">Klien</span>
                         </div>
                         <div className="hero__stat-divider"></div>
                         <div className="hero__stat">
-                            <span className="hero__stat-number"><CountUp end={4} /></span>
+                            <span className="hero__stat-number"><CountUp end={5} /></span>
                             <span className="hero__stat-label">Tahun</span>
                         </div>
                         <div className="hero__stat-divider"></div>
                         <div className="hero__stat">
-                            <span className="hero__stat-number"><CountUp end={20} suffix="+" /></span>
+                            <span className="hero__stat-number"><CountUp end={50} suffix="+" /></span>
                             <span className="hero__stat-label">Template</span>
                         </div>
                     </div>
@@ -161,7 +167,7 @@ function Home() {
                                 className={`highlights__card card reveal-up ${highlightsVisible ? 'is-visible' : ''}`}
                                 style={{ transitionDelay: `${i * 0.1}s` }}
                             >
-                                <div className="highlights__icon">{item.icon}</div>
+                                <ServiceImage index={i + 1} alt={item.title} />
                                 <h3>{item.title}</h3>
                                 <p>{item.desc}</p>
                             </div>
@@ -191,10 +197,20 @@ function Home() {
                     <div className="why-us__inner">
                         <div className={`why-us__visual reveal-left ${whyVisible ? 'is-visible' : ''}`}>
                             <div className="why-us__image-frame">
-                                <div className="why-us__image-placeholder">
-                                    <span>📸</span>
-                                    <p>Studio Kami</p>
-                                </div>
+                                {studio.src ? (
+                                    <img
+                                        className="why-us__image"
+                                        src={studio.src}
+                                        alt="Studio Berkesan"
+                                        loading="lazy"
+                                        decoding="async"
+                                        onError={studio.onError}
+                                    />
+                                ) : (
+                                    <div className="why-us__image-placeholder">
+                                        <span>Gambar Studio</span>
+                                    </div>
+                                )}
                             </div>
                         </div>
                         <div className={`why-us__content reveal-right ${whyVisible ? 'is-visible' : ''}`}>
@@ -222,6 +238,31 @@ function Home() {
                                 ))}
                             </ul>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ====== LOKASI ====== */}
+            <section className="section lokasi">
+                <div className="container">
+                    <div className="section-header">
+                        <div className="gold-line"></div>
+                        <h2 className="lokasi__title">
+                            <svg className="lokasi__icon" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" />
+                            </svg>
+                            Lokasi Studio
+                        </h2>
+                        <p>Mampir langsung ke studio kami — lokasinya gampang ditemukan.</p>
+                    </div>
+                    <div className="lokasi__map">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11217.904045876512!2d107.08613868178229!3d-6.246857003275013!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e698fcd6b4e8055%3A0x38abb44e29f99256!2sBerkesan%20Studio!5e0!3m2!1sid!2sid!4v1794321700740!5m2!1sid!2sid"
+                            title="Lokasi Berkesan Studio"
+                            allowFullScreen
+                            loading="lazy"
+                            referrerPolicy="strict-origin-when-cross-origin"
+                        ></iframe>
                     </div>
                 </div>
             </section>

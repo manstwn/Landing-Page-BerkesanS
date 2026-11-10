@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import '../styles/FormStyles.css';
+
+const STORAGE_KEY = 'weddingFormData_v2';
+
+const escapeHtml = (value) => String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 
 const INITIAL_STATE = {
     // 1. Data Pemesan
@@ -24,6 +33,9 @@ const INITIAL_STATE = {
     brideMother: '',
     brideOrderInFamily: '',
 
+    // 3b. Urutan Nama Undangan ('bride' = Wanita dulu, 'groom' = Pria dulu)
+    nameOrder: 'bride',
+
     // 4. Data Akad
     akadDate: '',
     akadTime: '',
@@ -38,6 +50,9 @@ const INITIAL_STATE = {
     receptionMaps: '',
     receptionAddress: '',
 
+    // 5b. Informasi Acara Tambahan
+    extraEvents: [{ name: '', date: '', time: '', place: '', maps: '', address: '' }],
+
     // 6. Data Pelengkap
     groomWhatsapp: '',
     groomInstagram: '',
@@ -46,7 +61,7 @@ const INITIAL_STATE = {
     photoVideoLink: '',
 
     // 6. Love Story
-    loveStories: [{ imageCode: '', title: '', date: '', story: '' }],
+    loveStories: [{ imageCode: '', title: '', date: '', story: '', imageFileName: '', imageSize: 0 }],
 
     // 7. Amplop Digital
     digitalEnvelopes: [{ bank: '', number: '', owner: '' }],
@@ -64,7 +79,7 @@ const FormPage = () => {
 
         // 1. Load from local storage
         try {
-            const saved = localStorage.getItem('weddingFormData');
+            const saved = localStorage.getItem(STORAGE_KEY);
             if (saved) {
                 const parsed = JSON.parse(saved);
                 // Check if data is older than 24 hours
@@ -72,7 +87,7 @@ const FormPage = () => {
                 if (isRecent) {
                     Object.assign(INITIAL_LOCAL_STATE, parsed.data);
                 } else {
-                    localStorage.removeItem('weddingFormData'); // Expired
+                    localStorage.removeItem(STORAGE_KEY); // Expired
                 }
             }
         } catch (e) {
@@ -91,6 +106,12 @@ const FormPage = () => {
 
     const [submitStatus, setSubmitStatus] = useState('idle'); // idle, loading, success, error
     const [errorMessage, setErrorMessage] = useState('');
+    const [showCopyModal, setShowCopyModal] = useState(false);
+    // Picked files for Love Story (compressed client-side, uploaded on submit)
+    const [storyUploads, setStoryUploads] = useState([]);
+
+    // Template chosen from the catalog (/?template=...) must stay fixed
+    const isTemplateLocked = Boolean(new URLSearchParams(location.search).get('template'));
 
     // Handle incoming template param changes (e.g., if navigating between templates)
     React.useEffect(() => {
@@ -110,13 +131,17 @@ const FormPage = () => {
             timestamp: Date.now(),
             data: formData
         };
-        localStorage.setItem('weddingFormData', JSON.stringify(dataToSave));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
     }, [formData]);
 
     const handleReset = () => {
         if (window.confirm("Apakah Anda yakin ingin mereset formulir? Semua data yang tersimpan akan dihapus.")) {
             setFormData(INITIAL_STATE);
-            localStorage.removeItem('weddingFormData');
+            storyUploads.forEach(upload => {
+                if (upload && upload.previewUrl) URL.revokeObjectURL(upload.previewUrl);
+            });
+            setStoryUploads([]);
+            localStorage.removeItem(STORAGE_KEY);
             window.scrollTo(0, 0);
         }
     };
@@ -175,16 +200,173 @@ const FormPage = () => {
         if (formData.loveStories.length < 3) {
             setFormData(prev => ({
                 ...prev,
-                loveStories: [...prev.loveStories, { imageCode: '', title: '', date: '', story: '' }]
+                loveStories: [...prev.loveStories, { imageCode: '', title: '', date: '', story: '', imageFileName: '', imageSize: 0 }]
             }));
+            setStoryUploads(prev => [...prev, null]);
         }
     };
 
     const removeLoveStory = (index) => {
+        const upload = storyUploads[index];
+        if (upload && upload.previewUrl) URL.revokeObjectURL(upload.previewUrl);
         const newStories = formData.loveStories.filter((_, i) => i !== index);
         setFormData(prev => ({
             ...prev,
             loveStories: newStories
+        }));
+        setStoryUploads(prev => prev.filter((_, i) => i !== index));
+    };
+
+    const compressImage = (file, maxDimension = 1600, quality = 0.8) => {
+        return new Promise((resolve, reject) => {
+            const objectUrl = URL.createObjectURL(file);
+            const image = new Image();
+
+            image.onload = () => {
+                URL.revokeObjectURL(objectUrl);
+
+                let width = image.naturalWidth;
+                let height = image.naturalHeight;
+
+                if (width > maxDimension || height > maxDimension) {
+                    const scale = Math.min(maxDimension / width, maxDimension / height);
+                    width = Math.round(width * scale);
+                    height = Math.round(height * scale);
+                }
+
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+
+                const ctx = canvas.getContext('2d');
+                if (!ctx) {
+                    reject(new Error('Kompresi gambar tidak didukung browser ini.'));
+                    return;
+                }
+
+                ctx.drawImage(image, 0, 0, width, height);
+
+                canvas.toBlob((blob) => {
+                    if (!blob) {
+                        reject(new Error('Gagal mengompres foto.'));
+                        return;
+                    }
+                    resolve(blob);
+                }, 'image/jpeg', quality);
+            };
+
+            image.onerror = () => {
+                URL.revokeObjectURL(objectUrl);
+                reject(new Error('Gagal membaca file gambar.'));
+            };
+
+            image.src = objectUrl;
+        });
+    };
+
+    const handleStoryImageUpload = async (index, file) => {
+        if (!file) return;
+
+        const isImageMime = file.type && file.type.startsWith('image/');
+        const isImageExt = /\.(jpe?g|png|webp|gif|bmp|heic|heif|avif)$/i.test(file.name || '');
+
+        if (!isImageMime && !isImageExt) {
+            setStoryUploads(prev => {
+                const next = [...prev];
+                next[index] = { error: 'File harus berupa gambar (JPG, PNG, WEBP, GIF, dll).' };
+                return next;
+            });
+            return;
+        }
+
+        setStoryUploads(prev => {
+            const next = [...prev];
+            next[index] = { loading: true, name: file.name };
+            return next;
+        });
+
+        try {
+            const compressedBlob = await compressImage(file);
+
+            if (compressedBlob.size > 5 * 1024 * 1024) {
+                setStoryUploads(prev => {
+                    const next = [...prev];
+                    const previous = next[index];
+                    if (previous && previous.previewUrl) URL.revokeObjectURL(previous.previewUrl);
+                    next[index] = { error: 'Foto terlalu besar setelah kompresi (maks 5 MB).' };
+                    return next;
+                });
+                return;
+            }
+
+            const previewUrl = URL.createObjectURL(compressedBlob);
+
+            setStoryUploads(prev => {
+                const next = [...prev];
+                const previous = next[index];
+                if (previous && previous.previewUrl) URL.revokeObjectURL(previous.previewUrl);
+                next[index] = {
+                    name: file.name,
+                    originalSize: file.size,
+                    size: compressedBlob.size,
+                    previewUrl,
+                    blob: compressedBlob
+                };
+                return next;
+            });
+
+            setFormData(prev => {
+                const stories = [...prev.loveStories];
+                stories[index] = {
+                    ...stories[index],
+                    imageFileName: file.name,
+                    imageSize: compressedBlob.size
+                };
+                return { ...prev, loveStories: stories };
+            });
+        } catch (error) {
+            setStoryUploads(prev => {
+                const next = [...prev];
+                next[index] = { error: error.message || 'Gagal mengompres foto.' };
+                return next;
+            });
+        }
+    };
+
+    const formatFileSize = (bytes) => {
+        if (!bytes && bytes !== 0) return '-';
+        if (bytes < 1024) return `${bytes} B`;
+        if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+        return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+    };
+
+    // Extra Event Handlers
+    const handleExtraEventChange = (index, field, value) => {
+        const newEvents = [...formData.extraEvents];
+        newEvents[index] = {
+            ...newEvents[index],
+            [field]: value
+        };
+        setFormData(prev => ({
+            ...prev,
+            extraEvents: newEvents
+        }));
+    };
+
+    const addExtraEvent = () => {
+        if (formData.extraEvents.length < 3) {
+            setFormData(prev => ({
+                ...prev,
+                extraEvents: [...prev.extraEvents, { name: '', date: '', time: '', place: '', maps: '', address: '' }]
+            }));
+        }
+    };
+
+    const removeExtraEvent = (index) => {
+        const newEvents = formData.extraEvents.filter((_, i) => i !== index);
+        setFormData(prev => ({
+            ...prev,
+            extraEvents: newEvents
         }));
     };
 
@@ -197,78 +379,109 @@ const FormPage = () => {
             receptionMaps: prev.akadMaps,
             receptionAddress: prev.akadAddress
         }));
-        alert('Data Akad berhasil disalin ke Resepsi. Silakan cek kembali data yang telah disalin.');
+        setShowCopyModal(true);
     };
 
-    // Helper to generate HTML for email
+    // Helper to generate HTML for email (all user input is escaped)
     const generateEmailHtml = (data) => {
-        let html = `
+        const esc = escapeHtml;
+        const orDash = (value) => (value === undefined || value === null || String(value).trim() === '')
+            ? '-'
+            : esc(value);
+
+        const invitationName = (() => {
+            const groom = (data.groomNickname || '').trim();
+            const bride = (data.brideNickname || '').trim();
+            const parts = data.nameOrder === 'bride' ? [bride, groom] : [groom, bride];
+            return parts.filter(Boolean).join(' & ') || '-';
+        })();
+
+        const html = `
             <h2>Data Pemesan</h2>
-            <p><strong>Nama:</strong> ${data.orderName}</p>
-            <p><strong>Email:</strong> ${data.orderEmail}</p>
-            <p><strong>WhatsApp:</strong> ${data.orderWhatsapp}</p>
-            <p><strong>Template:</strong> ${data.templateName}</p>
-            <p><strong>Lagu Custom:</strong> ${data.customSong || '-'}</p>
+            <p><strong>Nama:</strong> ${orDash(data.orderName)}</p>
+            <p><strong>Email:</strong> ${orDash(data.orderEmail)}</p>
+            <p><strong>WhatsApp:</strong> ${orDash(data.orderWhatsapp)}</p>
+            <p><strong>Template:</strong> ${orDash(data.templateName)}</p>
+            <p><strong>Lagu Custom:</strong> ${orDash(data.customSong)}</p>
             <hr>
 
             <h2>Mempelai Pria</h2>
-            <p><strong>Nama Lengkap:</strong> ${data.groomName || '-'}</p>
-            <p><strong>Nama Panggilan:</strong> ${data.groomNickname || '-'}</p>
-            <p><strong>Ortu:</strong> ${data.groomFather || '-'} & ${data.groomMother || '-'}</p>
-            <p><strong>Anak Ke:</strong> ${data.groomOrderInFamily || '-'}</p>
-            <p><strong>Kontak:</strong> ${data.groomWhatsapp || '-'} / ${data.groomInstagram || '-'}</p>
+            <p><strong>Nama Lengkap:</strong> ${orDash(data.groomName)}</p>
+            <p><strong>Nama Panggilan:</strong> ${orDash(data.groomNickname)}</p>
+            <p><strong>Ortu:</strong> ${orDash(data.groomFather)} &amp; ${orDash(data.groomMother)}</p>
+            <p><strong>Anak Ke:</strong> ${orDash(data.groomOrderInFamily)}</p>
+            <p><strong>Kontak:</strong> ${orDash(data.groomWhatsapp)} / ${orDash(data.groomInstagram)}</p>
             <hr>
 
             <h2>Mempelai Wanita</h2>
-            <p><strong>Nama Lengkap:</strong> ${data.brideName || '-'}</p>
-            <p><strong>Nama Panggilan:</strong> ${data.brideNickname || '-'}</p>
-            <p><strong>Ortu:</strong> ${data.brideFather || '-'} & ${data.brideMother || '-'}</p>
-            <p><strong>Anak Ke:</strong> ${data.brideOrderInFamily || '-'}</p>
-            <p><strong>Kontak:</strong> ${data.brideWhatsapp || '-'} / ${data.brideInstagram || '-'}</p>
+            <p><strong>Nama Lengkap:</strong> ${orDash(data.brideName)}</p>
+            <p><strong>Nama Panggilan:</strong> ${orDash(data.brideNickname)}</p>
+            <p><strong>Ortu:</strong> ${orDash(data.brideFather)} &amp; ${orDash(data.brideMother)}</p>
+            <p><strong>Anak Ke:</strong> ${orDash(data.brideOrderInFamily)}</p>
+            <p><strong>Kontak:</strong> ${orDash(data.brideWhatsapp)} / ${orDash(data.brideInstagram)}</p>
+            <hr>
+
+            <h2>Nama Undangan</h2>
+            <p><strong>Nama:</strong> ${orDash(invitationName)}</p>
+            <p><strong>Urutan:</strong> ${data.nameOrder === 'bride' ? 'Wanita dulu' : 'Pria dulu'}</p>
             <hr>
 
             <h2>Akad Nikah</h2>
-        <p><strong>Hari/Tanggal:</strong> ${data.akadDate || '-'}</p>
-        <p><strong>Waktu:</strong> ${data.akadTime || '-'}</p>
-        <p><strong>Tempat:</strong> ${data.akadPlace || '-'}</p>
-        <p><strong>Alamat:</strong> ${data.akadAddress || '-'}</p>
-        <p><strong>Maps:</strong> ${data.akadMaps || '-'}</p>
+        <p><strong>Hari/Tanggal:</strong> ${orDash(data.akadDate)}</p>
+        <p><strong>Waktu:</strong> ${orDash(data.akadTime)}</p>
+        <p><strong>Tempat:</strong> ${orDash(data.akadPlace)}</p>
+        <p><strong>Alamat:</strong> ${orDash(data.akadAddress)}</p>
+        <p><strong>Maps:</strong> ${orDash(data.akadMaps)}</p>
         <hr>
 
         <h2>Resepsi Pernikahan</h2>
-        <p><strong>Hari/Tanggal:</strong> ${data.receptionDate || '-'}</p>
-        <p><strong>Waktu:</strong> ${data.receptionTime || '-'}</p>
-        <p><strong>Tempat:</strong> ${data.receptionPlace || '-'}</p>
-        <p><strong>Alamat:</strong> ${data.receptionAddress || '-'}</p>
-        <p><strong>Maps:</strong> ${data.receptionMaps || '-'}</p>
+        <p><strong>Hari/Tanggal:</strong> ${orDash(data.receptionDate)}</p>
+        <p><strong>Waktu:</strong> ${orDash(data.receptionTime)}</p>
+        <p><strong>Tempat:</strong> ${orDash(data.receptionPlace)}</p>
+        <p><strong>Alamat:</strong> ${orDash(data.receptionAddress)}</p>
+        <p><strong>Maps:</strong> ${orDash(data.receptionMaps)}</p>
         <hr>
 
+            <h2>Informasi Acara Tambahan</h2>
+            ${(data.extraEvents || []).map((event, i) => `
+                <p><strong>#${i + 1} Nama Acara:</strong> ${orDash(event.name)}</p>
+                <p><strong>Hari/Tanggal:</strong> ${orDash(event.date)}</p>
+                <p><strong>Waktu:</strong> ${orDash(event.time)}</p>
+                <p><strong>Tempat:</strong> ${orDash(event.place)}</p>
+                <p><strong>Alamat:</strong> ${orDash(event.address)}</p>
+                <p><strong>Maps:</strong> ${orDash(event.maps)}</p>
+            `).join('')}
+            <hr>
+
             <h2>Data Pelengkap</h2>
-            <p><strong>Foto/Video Link:</strong> ${data.photoVideoLink || '-'}</p>
+            <p><strong>Foto/Video Link:</strong> ${orDash(data.photoVideoLink)}</p>
             <hr>
 
             <h2>Amplop Digital</h2>
             <ul>
-                ${data.digitalEnvelopes.map((env, i) => `
-                    <li><strong>#${i + 1}:</strong> ${env.bank || '-'} ${env.number} a.n ${env.owner}</li>
+                ${(data.digitalEnvelopes || []).map((env, i) => `
+                    <li><strong>#${i + 1}:</strong> ${orDash(env.bank)} ${orDash(env.number)} a.n ${orDash(env.owner)}</li>
                 `).join('')}
             </ul>
             <hr>
 
             <h2>Love Story</h2>
             <ul>
-                ${data.loveStories.map((story, i) => `
+                ${(data.loveStories || []).map((story, i) => `
                     <li>
-                        <strong>#${i + 1} ${story.title || 'Story'} (${story.date || '-'})</strong><br>
-                        <em>Image: ${story.imageCode || '-'}</em><br>
-                        ${story.story || '-'}
+                        <strong>#${i + 1} ${orDash(story.title) === '-' ? 'Story' : orDash(story.title)} (${orDash(story.date)})</strong><br>
+                        <em>Image: ${orDash(story.imageCode)}</em><br>
+                        ${story.imageFileName ? `<em>Foto Upload: ${orDash(story.imageFileName)} (terlampir di backend)</em><br>` : ''}
+                        ${orDash(story.story)}
                     </li>
                 `).join('')}
             </ul>
             <hr>
 
             <h2>Catatan Tambahan</h2>
-            <p>${data.additionalNotes ? data.additionalNotes.replace(/\n/g, '<br>') : '-'}</p>
+            <p>${data.additionalNotes
+                ? esc(data.additionalNotes).replace(/\r?\n/g, '<br>')
+                : '-'}</p>
         `;
         return html;
     };
@@ -276,14 +489,29 @@ const FormPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const targetEmails = import.meta.env.VITE_TARGET_EMAILS;
-        const emailArray = targetEmails ? targetEmails.split(',').map(email => email.trim()) : [];
-        const htmlBody = generateEmailHtml(formData);
+        const submissionData = {
+            ...formData,
+            loveStories: formData.loveStories.map((story, index) => {
+                const upload = storyUploads[index];
+                return upload && upload.blob
+                    ? story
+                    : { ...story, imageFileName: '', imageSize: 0 };
+            })
+        };
+
+        const htmlBody = generateEmailHtml(submissionData);
 
         const payload = {
             email_body: htmlBody,
-            Data: formData
+            Data: submissionData
         };
+
+        const hasImages = storyUploads.some(upload => upload && upload.blob);
+        if (storyUploads.some(upload => upload && upload.loading)) {
+            setErrorMessage('Tunggu kompresi foto selesai sebelum mengirim.');
+            setSubmitStatus('error');
+            return;
+        }
 
         setSubmitStatus('loading');
 
@@ -294,14 +522,42 @@ const FormPage = () => {
 
             console.log("Sending to Primary Webhook...");
 
+            let requestBody;
+            let requestHeaders;
+
+            if (hasImages) {
+                requestBody = new FormData();
+                requestBody.append('payload', JSON.stringify(payload));
+                storyUploads.forEach((upload, index) => {
+                    if (upload && upload.blob) {
+                        requestBody.append(`storyImage_${index}`, upload.blob, `story-${index}.jpg`);
+                    }
+                });
+            } else {
+                requestBody = JSON.stringify(payload);
+                requestHeaders = { 'Content-Type': 'application/json' };
+            }
+
             const primaryResponse = await fetch(primaryWebhook, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+                headers: requestHeaders,
+                body: requestBody
             });
 
             if (!primaryResponse.ok) {
-                throw new Error(`Primary Webhook Failed: ${primaryResponse.status}`);
+                let serverMessage = '';
+                try {
+                    const errorBody = await primaryResponse.json();
+                    serverMessage = errorBody && errorBody.message ? `: ${errorBody.message}` : '';
+                } catch (parseError) {
+                    serverMessage = '';
+                }
+                throw new Error(`Primary Webhook Failed: ${primaryResponse.status}${serverMessage}`);
+            }
+
+            const primaryResult = await primaryResponse.json().catch(() => null);
+            if (primaryResult && Array.isArray(primaryResult.images) && primaryResult.images.length > 0) {
+                console.log('Uploaded images:', primaryResult.images);
             }
 
             console.log("Primary Webhook Success!");
@@ -311,7 +567,7 @@ const FormPage = () => {
                 timestamp: Date.now(),
                 data: formData
             };
-            localStorage.setItem('weddingFormData', JSON.stringify(finalDataToSave));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(finalDataToSave));
 
             setSubmitStatus('success');
 
@@ -354,9 +610,87 @@ const FormPage = () => {
         setSubmitStatus('idle');
     };
 
+    // Invitation name built from both nicknames, in the chosen order
+    const groomNickname = (formData.groomNickname || '').trim();
+    const brideNickname = (formData.brideNickname || '').trim();
+    const nameParts = formData.nameOrder === 'bride'
+        ? [brideNickname, groomNickname]
+        : [groomNickname, brideNickname];
+    const invitationName = nameParts.filter(Boolean).join(' & ');
+
     return (
         <div className="form-page-wrapper">
             <div className="form-container">
+                {/* Copy Akad Success Modal */}
+                {showCopyModal && (
+                    <div
+                        className="modal-overlay"
+                        onClick={() => setShowCopyModal(false)}
+                        style={{
+                            position: 'fixed',
+                            inset: 0,
+                            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            padding: '20px',
+                            zIndex: 1100
+                        }}
+                    >
+                        <div
+                            className="modal-content"
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                                backgroundColor: '#ffffff',
+                                padding: '2rem',
+                                borderRadius: '16px',
+                                maxWidth: '400px',
+                                width: '100%',
+                                textAlign: 'center',
+                                color: 'var(--text-main)',
+                                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.25)'
+                            }}
+                        >
+                            <div style={{
+                                width: '72px',
+                                height: '72px',
+                                borderRadius: '50%',
+                                background: 'rgba(34, 197, 94, 0.12)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                margin: '0 auto 1.25rem auto',
+                                fontSize: '2.25rem',
+                                color: '#16a34a'
+                            }}>
+                                ✓
+                            </div>
+                            <h2 style={{ marginBottom: '0.5rem', color: '#16a34a', fontSize: '1.35rem', fontWeight: '800' }}>
+                                Berhasil Menyalin Data
+                            </h2>
+                            <p style={{ marginBottom: '1.5rem', lineHeight: '1.6', color: 'var(--text-main)', opacity: 0.85 }}>
+                                Berhasil menyalin Data Akad ke Resepsi. Silakan cek/ubah data yang telah disalin.
+                            </p>
+                            <button
+                                type="button"
+                                onClick={() => setShowCopyModal(false)}
+                                style={{
+                                    background: '#1e293b',
+                                    color: '#ffffff',
+                                    padding: '12px 24px',
+                                    borderRadius: '10px',
+                                    border: 'none',
+                                    fontSize: '1rem',
+                                    fontWeight: '600',
+                                    cursor: 'pointer',
+                                    width: '100%'
+                                }}
+                            >
+                                OK
+                            </button>
+                        </div>
+                    </div>
+                )}
                 {/* Modal Overlay */}
                 {submitStatus !== 'idle' && submitStatus !== 'loading' && (
                     <div className="modal-overlay" style={{
@@ -509,6 +843,7 @@ const FormPage = () => {
                 <header className="form-header">
                     <h1>Form Pemesanan Undangan Digital</h1>
                     <p>Lengkapi data di bawah ini untuk pembuatan undangan pernikahan Anda.</p>
+
                     <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'center' }}>
                         <button
                             type="button"
@@ -530,7 +865,9 @@ const FormPage = () => {
                             🗑️ Reset Form
                         </button>
                     </div>
-
+                    <p style={{ fontSize: '0.9rem', fontWeight: 600, opacity: 0.9, marginTop: '8px' }}>
+                        Progres mengisi data anda tidak akan hilang apabila keluar dari halaman ini, sampai anda menekan tombol reset.
+                    </p>
                 </header>
 
                 <form onSubmit={handleSubmit}>
@@ -544,7 +881,7 @@ const FormPage = () => {
                                 <input
                                     type="text"
                                     name="orderName"
-                                    placeholder="Isikan Nama Pemesan Jasa"
+                                    placeholder="Contoh : Budi"
                                     value={formData.orderName}
                                     onChange={handleChange}
                                     required
@@ -555,7 +892,7 @@ const FormPage = () => {
                                 <input
                                     type="text"
                                     name="orderEmail"
-                                    placeholder="Isikan Email Aktif Pemesan"
+                                    placeholder="Contoh : budisaktiawan@gmail.com"
                                     value={formData.orderEmail}
                                     onChange={handleChange}
                                     required
@@ -566,7 +903,7 @@ const FormPage = () => {
                                 <input
                                     type="text"
                                     name="orderWhatsapp"
-                                    placeholder="Isikan Nomor Whatsapp Pemesan"
+                                    placeholder="Contoh : 089654391849"
                                     value={formData.orderWhatsapp}
                                     onChange={handleChange}
                                     required
@@ -580,8 +917,29 @@ const FormPage = () => {
                                     placeholder="Contoh: Berkesan Premium - 01"
                                     value={formData.templateName}
                                     onChange={handleChange}
+                                    readOnly={isTemplateLocked}
+                                    aria-readonly={isTemplateLocked}
+                                    title={isTemplateLocked ? 'Template dipilih dari katalog dan tidak dapat diubah' : undefined}
                                     required
+                                    style={isTemplateLocked ? {
+                                        backgroundColor: 'rgba(0, 0, 0, 0.05)',
+                                        cursor: 'not-allowed'
+                                    } : undefined}
                                 />
+                                {isTemplateLocked && (
+                                    <ul className="helper-list" style={{ fontSize: '0.8rem', marginTop: '8px', lineHeight: '1.4' }}>
+                                        <li>
+                                            Untuk mengubah template, silakan lihat{' '}
+                                            <Link
+                                                to="/katalog-undangan"
+                                                style={{ color: '#2563eb', fontWeight: '600', textDecoration: 'underline' }}
+                                            >
+                                                Katalog Template Undangan
+                                            </Link>{' '}
+                                            disini dan klik pesan
+                                        </li>
+                                    </ul>
+                                )}
                             </div>
                             <div className="form-group full-width">
                                 <label>Custom Lagu</label>
@@ -600,9 +958,9 @@ const FormPage = () => {
                         <div>
                             <strong>Catatan:</strong>
                             <ul>
-                                <li>- Semua data di bawah ini <strong>bersifat opsional</strong>.</li>
-                                <li>- Silakan <strong>dikosongkan</strong> jika tidak ingin mengisi.</li>
-                                <li>- Jika tidak berkenan atau tidak ingin mengisi, cukup <strong>biarkan kosong</strong>.</li>
+                                <li>Semua data di bawah ini <strong>bersifat opsional</strong>.</li>
+                                <li>Silakan <strong>dikosongkan</strong> jika tidak ingin mengisi.</li>
+                                <li>Jika tidak berkenan membagikan data atau tidak ingin mengisi, cukup <strong>biarkan kosong</strong>.</li>
                             </ul>
                         </div>
                     </div>
@@ -689,6 +1047,44 @@ const FormPage = () => {
                         </div>
                     </section>
 
+                    {/* Nama Undangan Preview */}
+                    <div className="name-preview-section">
+                        <div className="labeled-divider" style={{ marginTop: 0 }}>
+                            <span className="labeled-divider__line" />
+                            <span className="labeled-divider__text">Contoh Nama Undangan</span>
+                            <span className="labeled-divider__line" />
+                        </div>
+
+                        <div className="name-preview">
+                            <p className="name-preview__eyebrow">Wedding of</p>
+                            <div className={`name-preview__value${invitationName ? '' : ' is-placeholder'}`}>
+                                {invitationName || 'Nama Panggilan Pria & Nama Panggilan Wanita'}
+                            </div>
+                            <p className="name-preview__hint">
+                                Pilih urutan penulisan nama yang akan dipakai pada undangan.
+                            </p>
+
+                            <div className="name-order-switch" role="group" aria-label="Urutan nama undangan">
+                                <button
+                                    type="button"
+                                    className={formData.nameOrder === 'bride' ? 'active' : ''}
+                                    aria-pressed={formData.nameOrder === 'bride'}
+                                    onClick={() => setFormData(prev => ({ ...prev, nameOrder: 'bride' }))}
+                                >
+                                    Wanita Dulu
+                                </button>
+                                <button
+                                    type="button"
+                                    className={formData.nameOrder === 'groom' ? 'active' : ''}
+                                    aria-pressed={formData.nameOrder === 'groom'}
+                                    onClick={() => setFormData(prev => ({ ...prev, nameOrder: 'groom' }))}
+                                >
+                                    Pria Dulu
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                     {/* Section 4: Data Acara Pernikahan (Akad & Resepsi) */}
                     <section className="form-section">
                         <h2 className="section-title">💍 🎉 4. Data Acara Pernikahan</h2>
@@ -769,6 +1165,95 @@ const FormPage = () => {
                             <div className="form-group full-width">
                                 <label>Alamat Lengkap</label>
                                 <textarea name="receptionAddress" rows="3" value={formData.receptionAddress} onChange={handleChange} ></textarea>
+                            </div>
+                        </div>
+
+                        <div className="labeled-divider">
+                            <span className="labeled-divider__line" />
+                            <span className="labeled-divider__text">OPSIONAL</span>
+                            <span className="labeled-divider__line" />
+                        </div>
+
+                        <div className="extra-event-desc">
+                            <span className="extra-event-desc__icon">ℹ️</span>
+                            <p>
+                                <strong>Informasi acara tambahan.</strong> Apabila resepsi dilakukan 2x di hari berbeda
+                                atau acara lain seperti unduh mantu, silakan berikan informasinya dibawah sini.
+                            </p>
+                        </div>
+
+                        <div className="extra-event-box">
+                            <p className="helper-text">Tekan tombol tambah acara dibawah, untuk menambah acara.</p>
+
+                            {formData.extraEvents.map((event, index) => (
+                                <div key={index} className="envelope-item">
+                                    <div className="envelope-header">
+                                        <span>Acara Tambahan #{index + 1}</span>
+                                        <button type="button" className="btn-danger-link" onClick={() => removeExtraEvent(index)}>Hapus</button>
+                                    </div>
+                                    <div className="form-grid">
+                                        <div className="form-group">
+                                            <label>Nama Acara</label>
+                                            <input
+                                                type="text"
+                                                placeholder="Contoh: Unduh Mantu"
+                                                value={event.name}
+                                                onChange={(e) => handleExtraEventChange(index, 'name', e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Hari & Tanggal</label>
+                                            <input
+                                                type="text"
+                                                placeholder="Contoh: Minggu, 1 Februari 2025"
+                                                value={event.date}
+                                                onChange={(e) => handleExtraEventChange(index, 'date', e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Waktu Acara</label>
+                                            <input
+                                                type="text"
+                                                placeholder="Contoh: 10.00 WIB s/d Selesai"
+                                                value={event.time}
+                                                onChange={(e) => handleExtraEventChange(index, 'time', e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Nama Tempat</label>
+                                            <input
+                                                type="text"
+                                                placeholder="Contoh: Kediaman Mempelai Pria"
+                                                value={event.place}
+                                                onChange={(e) => handleExtraEventChange(index, 'place', e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Link Google Maps</label>
+                                            <input
+                                                type="text"
+                                                placeholder="Contoh: https://maps.app.goo.gl/..."
+                                                value={event.maps}
+                                                onChange={(e) => handleExtraEventChange(index, 'maps', e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="form-group full-width">
+                                            <label>Alamat Lengkap</label>
+                                            <textarea
+                                                rows="3"
+                                                placeholder="Tuliskan alamat lengkap acara tambahan"
+                                                value={event.address}
+                                                onChange={(e) => handleExtraEventChange(index, 'address', e.target.value)}
+                                            ></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+
+                            <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
+                                <button type="button" className="btn-secondary" onClick={addExtraEvent} disabled={formData.extraEvents.length >= 3}>
+                                    + Tambah Acara
+                                </button>
                             </div>
                         </div>
                     </section>
@@ -873,9 +1358,45 @@ const FormPage = () => {
                                                 onChange={(e) => handleLoveStoryChange(index, 'imageCode', e.target.value)}
                                             />
                                             <ul className="helper-list" style={{ fontSize: '0.8rem', marginTop: '8px', lineHeight: '1.4' }}>
-                                                <li>- Jika ingin <strong>tambah foto sendiri</strong> bisa letakan nama file yang ada di drive</li>
-                                                <li>- <strong>Silakan kosongkan</strong> jika hanya ingin menambahkan kisah cinta tanpa foto.</li>
+                                                <li>- Silakan berikan <strong>nama/kode </strong> foto apabila foto tersebut ada di link <strong>Google Drive / Dropbox</strong> </li>
                                             </ul>
+                                        </div>
+                                        <div className="form-group full-width">
+                                            <label>Upload Foto (Opsional)</label>
+                                            <div className="upload-dropzone">
+                                                <input
+                                                    type="file"
+                                                    accept="image/*"
+                                                    onChange={(e) => {
+                                                    handleStoryImageUpload(index, e.target.files && e.target.files[0]);
+                                                    e.target.value = '';
+                                                }}
+                                                />
+                                                <span className="upload-dropzone__hint">📁 Pilih file gambar</span>
+                                            </div>
+                                            <ul className="helper-list" style={{ fontSize: '0.8rem', marginTop: '8px', lineHeight: '1.4' }}>
+                                                 <li>Foto opsional, tinggalkan kosong apabila hanya ingin mengirim cerita saja</li>
+                                                 <li>Maks. 5 MB per foto, otomatis dikompres ke 1600px</li>
+                                            </ul>
+                                            {storyUploads[index] && storyUploads[index].error && (
+                                                <span className="error-text">{storyUploads[index].error}</span>
+                                            )}
+                                            {storyUploads[index] && storyUploads[index].loading && (
+                                                <span className="upload-dropzone__file" style={{ color: 'var(--text-muted)' }}>
+                                                    ⏳ Mengompres foto...
+                                                </span>
+                                            )}
+                                            {storyUploads[index] && storyUploads[index].previewUrl && (
+                                                <div className="upload-preview">
+                                                    <img src={storyUploads[index].previewUrl} alt={storyUploads[index].name} />
+                                                    <div className="upload-preview__info">
+                                                        <span className="upload-preview__name">✅ {storyUploads[index].name}</span>
+                                                        <span className="upload-preview__size">
+                                                            {formatFileSize(storyUploads[index].originalSize)} → {formatFileSize(storyUploads[index].size)} (terkompresi)
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
                                         <div className="form-group">
                                             <label>Judul</label>
