@@ -19400,10 +19400,10 @@ var bu = {
   xu = { layout: { ProjectionNode: Sc, MeasureLayout: iu } },
   X = Cl({ ...Dl, ...bu, ...au, ...xu }, wl),
   Su = u(y(), 1),
-  Cu = `./fkung/assets/ornament-header-O3W10cSD.png`,
-  wu = `./fkung/assets/ornament-footer-Bm1CjVva.png`,
-  Tu = `./fkung/assets/logo-ung-CtuJnaXw.png`,
-  Eu = `./fkung/assets/logo-4g5TXV1P.png`;
+  Cu = `./assets/ornament-header-O3W10cSD.png`,
+  wu = `./assets/ornament-footer-Bm1CjVva.png`,
+  Tu = `./assets/logo-ung-CtuJnaXw.png`,
+  Eu = `./assets/logo-4g5TXV1P.png`;
 function Du({ guestName: e, onOpen: t }) {
   return (0, V.jsxs)(X.section, {
     id: `hero`,
@@ -19661,7 +19661,7 @@ function ku() {
         (0, V.jsx)(`div`, {
           className: `flex justify-center items-center my-6`,
           children: (0, V.jsx)(`img`, {
-            src: `/request-page-live-same-system/sumpahdokter-fkung-2026/fkung/assets/ume-flower-divider.png`,
+            src: `/fkung/assets/ume-flower-divider.png`,
             alt: `Flower Divider`,
             className: `mx-auto object-contain opacity-90`,
             style: { width: `450px`, maxWidth: `90%`, height: `auto` },
@@ -19786,7 +19786,7 @@ function ku() {
                 (0, V.jsx)(`div`, {
                   className: `w-24 h-24 bg-white/90 rounded p-1 flex items-center justify-center border-2 border-gold-600/30 overflow-hidden`,
                   children: (0, V.jsx)(`img`, {
-                    src: `./fkung/qrcode.png`,
+                    src: `./qrcode.png`,
                     alt: `QR Code Signature`,
                     className: `w-full h-full object-contain`,
                   }),
@@ -19921,13 +19921,13 @@ function Mu() {
   });
 }
 var Nu = [
-  { id: 1, src: `./fkung/gallery/foto-rev-1.jpg`, title: `Dokumentasi 1` },
-  { id: 2, src: `./fkung/gallery/foto-rev-2.jpg`, title: `Dokumentasi 2` },
-  { id: 3, src: `./fkung/gallery/foto-rev-3.jpg`, title: `Dokumentasi 3` },
-  { id: 4, src: `./fkung/gallery/foto-rev-4.jpg`, title: `Dokumentasi 4` },
-  { id: 5, src: `./fkung/gallery/foto-rev-5.jpg`, title: `Dokumentasi 5` },
-  { id: 6, src: `./fkung/gallery/foto-rev-6.jpg`, title: `Dokumentasi 6` },
-  { id: 7, src: `./fkung/gallery/foto-rev-7.jpg`, title: `Dokumentasi 7` },
+  { id: 1, src: `./gallery/foto-rev-1.jpg`, title: `Dokumentasi 1` },
+  { id: 2, src: `./gallery/foto-rev-2.jpg`, title: `Dokumentasi 2` },
+  { id: 3, src: `./gallery/foto-rev-3.jpg`, title: `Dokumentasi 3` },
+  { id: 4, src: `./gallery/foto-rev-4.jpg`, title: `Dokumentasi 4` },
+  { id: 5, src: `./gallery/foto-rev-5.jpg`, title: `Dokumentasi 5` },
+  { id: 6, src: `./gallery/foto-rev-6.jpg`, title: `Dokumentasi 6` },
+  { id: 7, src: `./gallery/foto-rev-7.jpg`, title: `Dokumentasi 7` },
 ];
 function Pu() {
   let [e, t] = Ou({ threshold: 0.1 }),
@@ -20466,7 +20466,7 @@ function Iu() {
             (0, V.jsx)(`div`, {
               className: `flex justify-center mt-6 mb-2`,
               children: (0, V.jsx)(`img`, {
-                src: `/request-page-live-same-system/sumpahdokter-fkung-2026/fkung/assets/ume-flower-divider.png`,
+                src: `/fkung/assets/ume-flower-divider.png`,
                 className: `mx-auto object-contain opacity-90`,
                 style: { width: `450px`, maxWidth: `90%`, height: `auto` },
                 alt: `Flower Divider`,
@@ -20503,7 +20503,7 @@ function Lu() {
     "aria-hidden": `true`,
   });
 }
-var Ru = `./fkung/assets/GibranAlcocer-Idea-10.mp3`;
+var Ru = `./assets/GibranAlcocer-Idea-10.mp3`;
 function zu({ autoPlay: e = !1 }) {
   let [t, n] = (0, S.useState)(!1),
     r = (0, S.useRef)(null);

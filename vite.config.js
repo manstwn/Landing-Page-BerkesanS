@@ -2,50 +2,158 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import fs from 'fs'
 import path from 'path'
+import { fileURLToPath } from 'url'
 
-function copyRequestPageLivePlugin() {
-  return {
-    name: 'copy-request-page-live',
-    closeBundle() {
-      const srcDir = path.resolve(__dirname, 'request-page-live-same-system')
-      const distDir = path.resolve(__dirname, 'dist/request-page-live-same-system')
-      if (fs.existsSync(srcDir)) {
-        fs.cpSync(srcDir, distDir, { recursive: true })
-        console.log('[copy-request-page-live] Successfully copied request-page-live-same-system to dist/')
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const SITE_DIR = path.resolve(__dirname, 'request-site')
+const DIST_DIR = path.resolve(__dirname, 'dist')
 
-        // Copy standalone routes directly to dist root so static servers (npx serve / Nginx / Vercel) serve them natively
-        const fkungSrc = path.join(srcDir, 'sumpahdokter-fkung-2026')
-        if (fs.existsSync(fkungSrc)) {
-          fs.cpSync(fkungSrc, path.resolve(__dirname, 'dist/fkung'), { recursive: true })
-          fs.cpSync(fkungSrc, path.resolve(__dirname, 'dist/sumpahdokter-fkung-2026'), { recursive: true })
-          console.log('[copy-request-page-live] Successfully created dist/fkung and dist/sumpahdokter-fkung-2026')
-        }
+const MIME = {
+    '.html': 'text/html; charset=utf-8',
+    '.js': 'text/javascript; charset=utf-8',
+    '.css': 'text/css; charset=utf-8',
+    '.json': 'application/json; charset=utf-8',
+    '.png': 'image/png',
+    '.jpg': 'image/jpeg',
+    '.jpeg': 'image/jpeg',
+    '.webp': 'image/webp',
+    '.svg': 'image/svg+xml',
+    '.gif': 'image/gif',
+    '.ico': 'image/x-icon',
+    '.mp3': 'audio/mpeg',
+    '.mp4': 'video/mp4',
+    '.woff': 'font/woff',
+    '.woff2': 'font/woff2',
+    '.ttf': 'font/ttf',
+    '.map': 'application/json',
+}
 
-        const ptkpcSrc = path.join(srcDir, 'design2-pt-kpc')
-        if (fs.existsSync(ptkpcSrc)) {
-          const ptKpcDist = path.resolve(__dirname, 'dist/pt-kpc')
-          const design2Dist = path.resolve(__dirname, 'dist/design2-pt-kpc')
-          fs.cpSync(ptkpcSrc, ptKpcDist, { recursive: true })
-          fs.cpSync(ptkpcSrc, design2Dist, { recursive: true })
-          if (fs.existsSync(path.join(ptKpcDist, 'code.html'))) {
-            fs.copyFileSync(path.join(ptKpcDist, 'code.html'), path.join(ptKpcDist, 'index.html'))
-          }
-          if (fs.existsSync(path.join(design2Dist, 'code.html'))) {
-            fs.copyFileSync(path.join(design2Dist, 'code.html'), path.join(design2Dist, 'index.html'))
-          }
-          console.log('[copy-request-page-live] Successfully created dist/pt-kpc and dist/design2-pt-kpc')
-        }
-      }
+function discoverSites() {
+    if (!fs.existsSync(SITE_DIR)) return []
+    return fs.readdirSync(SITE_DIR, { withFileTypes: true })
+        .filter((d) => d.isDirectory() && !d.name.startsWith('_'))
+        .map((d) => d.name)
+        .filter((name) => fs.existsSync(path.join(SITE_DIR, name, 'index.html')))
+}
+
+function serveStatic(req, res, file) {
+    let stat
+    try {
+        stat = fs.statSync(file)
+    } catch {
+        return false
     }
-  }
+    if (!stat.isFile()) return false
+
+    const type = MIME[path.extname(file).toLowerCase()] || 'application/octet-stream'
+    const range = req.headers.range
+    if (range) {
+        const match = /bytes=(\d*)-(\d*)/.exec(range)
+        if (match) {
+            const start = match[1] ? parseInt(match[1], 10) : 0
+            const end = match[2] ? parseInt(match[2], 10) : stat.size - 1
+            if (start >= stat.size || end >= stat.size || start > end) {
+                res.writeHead(416, { 'Content-Range': `bytes */${stat.size}` })
+                res.end()
+                return true
+            }
+            res.writeHead(206, {
+                'Content-Type': type,
+                'Accept-Ranges': 'bytes',
+                'Content-Range': `bytes ${start}-${end}/${stat.size}`,
+                'Content-Length': end - start + 1,
+            })
+            fs.createReadStream(file, { start, end }).pipe(res)
+            return true
+        }
+    }
+
+    res.writeHead(200, {
+        'Content-Type': type,
+        'Content-Length': stat.size,
+        'Accept-Ranges': 'bytes',
+    })
+    if (req.method === 'HEAD') {
+        res.end()
+        return true
+    }
+    fs.createReadStream(file).pipe(res)
+    return true
+}
+
+// Serves /<folder>[/...] from `<baseDir>/<folder>`.
+// flatten=true -> assets live directly under the folder (dist output).
+// flatten=false -> assets live under `<folder>/public` (source layout).
+function createSiteMiddleware(baseDir, flatten) {
+    return (req, res, next) => {
+        if (req.method !== 'GET' && req.method !== 'HEAD') return next()
+
+        const [pathname, query = ''] = req.url.split('?')
+        const seg = pathname.split('/')[1]
+        if (!seg || seg.includes('..') || seg.includes('\\')) return next()
+
+        const segDir = path.join(baseDir, seg)
+        if (!fs.existsSync(path.join(segDir, 'index.html'))) return next()
+
+        // Relative URLs inside index.html require a trailing slash.
+        if (pathname === `/${seg}`) {
+            res.writeHead(301, { Location: `/${seg}/${query ? `?${query}` : ''}` })
+            res.end()
+            return
+        }
+
+        let file
+        if (pathname === `/${seg}/` || pathname === `/${seg}/index.html`) {
+            file = path.join(segDir, 'index.html')
+        } else {
+            const rest = pathname.slice(seg.length + 1)
+            file = flatten
+                ? path.join(segDir, rest)
+                : path.join(segDir, 'public', rest)
+        }
+
+        // Never escape the site directory.
+        if (!path.resolve(file).startsWith(path.resolve(segDir))) {
+            res.writeHead(404, { 'Content-Type': 'text/plain' })
+            res.end('Not found')
+            return
+        }
+
+        if (serveStatic(req, res, file)) return
+
+        res.writeHead(404, { 'Content-Type': 'text/plain' })
+        res.end('Not found')
+    }
+}
+
+function requestSitePlugin() {
+    return {
+        name: 'request-site',
+        configureServer(server) {
+            server.middlewares.use(createSiteMiddleware(SITE_DIR, false))
+        },
+        configurePreviewServer(server) {
+            server.middlewares.use(createSiteMiddleware(DIST_DIR, true))
+        },
+        closeBundle() {
+            for (const name of discoverSites()) {
+                const src = path.join(SITE_DIR, name)
+                const dest = path.join(DIST_DIR, name)
+                fs.mkdirSync(dest, { recursive: true })
+                fs.copyFileSync(path.join(src, 'index.html'), path.join(dest, 'index.html'))
+                const pub = path.join(src, 'public')
+                if (fs.existsSync(pub)) fs.cpSync(pub, dest, { recursive: true })
+            }
+            console.log(`[request-site] emitted ${discoverSites().length} site(s) to dist/`)
+        },
+    }
 }
 
 export default defineConfig({
-  plugins: [react(), copyRequestPageLivePlugin()],
-  server: {
-    host: true,
-    port: 8584,
-    allowedHosts: true,
-  },
+    plugins: [react(), requestSitePlugin()],
+    server: {
+        host: true,
+        port: 8584,
+        allowedHosts: true,
+    },
 })
-

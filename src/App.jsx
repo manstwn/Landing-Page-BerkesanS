@@ -13,11 +13,8 @@ import SharePage from './pages/SharePage'
 import BookingPage from './pages/BookingPage'
 import Artikel from './pages/Artikel'
 import ArtikelDetail from './pages/ArtikelDetail'
-import PtKpc from './pages/PtKpc'
 import PtKpcShare from './pages/PtKpcShare'
 import PtKpcRsvp from './pages/PtKpcRsvp'
-import LiveRequestPage from './pages/LiveRequestPage'
-import SumpahDokterPage from './pages/SumpahDokterPage'
 import SumpahDokterShare from './pages/SumpahDokterShare'
 import SumpahDokterRsvp from './pages/SumpahDokterRsvp'
 
@@ -40,19 +37,7 @@ function App() {
         location.pathname.startsWith('/share/') ||
         location.pathname.startsWith('/artikel/')
 
-    const isStandalonePage =
-        !isMainRoute ||
-        location.pathname === '/pt-kpc' ||
-        location.pathname === '/pt-kpc-share' ||
-        location.pathname === '/pt-kpc-rsvp' ||
-        location.pathname === '/design2-pt-kpc' ||
-        location.pathname === '/design-pt-kpc' ||
-        location.pathname === '/fkung' ||
-        location.pathname === '/fkung-share' ||
-        location.pathname === '/fkung-rsvp' ||
-        location.pathname === '/sumpahdokter-fkung-2026' ||
-        location.pathname === '/sumpahdokter-fkung-2026-share' ||
-        location.pathname === '/sumpahdokter-fkung-2026-rsvp'
+    const isStandalonePage = !isMainRoute
 
     return (
         <>
@@ -73,20 +58,14 @@ function App() {
                     <Route path="/artikel" element={<Artikel />} />
                     <Route path="/artikel/:slug" element={<ArtikelDetail />} />
 
-                    {/* Specific Design Landing Page Routes */}
-                    <Route path="/pt-kpc" element={<PtKpc />} />
+                    {/* Request-site admin tools. Invitation viewers are served
+                        statically from request-site/<folder> at /<folder>. */}
                     <Route path="/pt-kpc-share" element={<PtKpcShare />} />
                     <Route path="/pt-kpc-rsvp" element={<PtKpcRsvp />} />
-                    <Route path="/fkung" element={<SumpahDokterPage />} />
                     <Route path="/fkung-share" element={<SumpahDokterShare />} />
                     <Route path="/fkung-rsvp" element={<SumpahDokterRsvp />} />
-                    <Route path="/sumpahdokter-fkung-2026" element={<SumpahDokterPage />} />
                     <Route path="/sumpahdokter-fkung-2026-share" element={<SumpahDokterShare />} />
                     <Route path="/sumpahdokter-fkung-2026-rsvp" element={<SumpahDokterRsvp />} />
-
-                    {/* Dynamic Fallback for any /foldername inside request-page-live-same-system/ */}
-                    <Route path="/request-page-live-same-system/:folderName" element={<LiveRequestPage />} />
-                    <Route path="/:folderName" element={<LiveRequestPage />} />
                 </Routes>
             </main>
             {!isStandalonePage && <Footer />}
@@ -96,5 +75,3 @@ function App() {
 }
 
 export default App
-
-
