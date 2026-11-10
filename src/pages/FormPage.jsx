@@ -51,7 +51,7 @@ const INITIAL_STATE = {
     receptionAddress: '',
 
     // 5b. Informasi Acara Tambahan
-    extraEvents: [{ name: '', date: '', time: '', place: '', maps: '', address: '' }],
+    extraEvents: [],
 
     // 6. Data Pelengkap
     groomWhatsapp: '',
@@ -86,6 +86,13 @@ const FormPage = () => {
                 const isRecent = (Date.now() - parsed.timestamp) < 24 * 60 * 60 * 1000;
                 if (isRecent) {
                     Object.assign(INITIAL_LOCAL_STATE, parsed.data);
+
+                    const savedEvents = Array.isArray(INITIAL_LOCAL_STATE.extraEvents) ? INITIAL_LOCAL_STATE.extraEvents : [];
+                    INITIAL_LOCAL_STATE.extraEvents = savedEvents.filter(event =>
+                        event && ['name', 'date', 'time', 'place', 'maps', 'address'].some(field =>
+                            String(event[field] || '').trim() !== ''
+                        )
+                    );
                 } else {
                     localStorage.removeItem(STORAGE_KEY); // Expired
                 }
