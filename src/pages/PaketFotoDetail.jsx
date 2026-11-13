@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import './PaketFotoDetail.css'
 
@@ -9,6 +9,12 @@ function PaketFotoDetail() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [activeImage, setActiveImage] = useState(0)
+    const mainImageRef = useRef(null)
+
+    const handleThumbClick = (index) => {
+        setActiveImage(index)
+        mainImageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
 
     useEffect(() => {
         const fetchPaket = async () => {
@@ -20,7 +26,9 @@ function PaketFotoDetail() {
                 // Find paket in nested categories
                 let foundPaket = null
                 for (const cat of result) {
-                    const p = cat.packages.find(item => item.id === id)
+                    const p = cat.packages.find(
+                        item => item.id === id && String(item.status).toLowerCase() !== 'inactive'
+                    )
                     if (p) {
                         foundPaket = { ...p, category: cat.category_name }
                         break
@@ -95,7 +103,7 @@ function PaketFotoDetail() {
                     <div className="detail-layout">
                         {/* Left — Gallery */}
                         <div className="detail-gallery">
-                            <div className="detail-gallery__main">
+                            <div className="detail-gallery__main" ref={mainImageRef}>
                                 {paket.is_popular && (
                                     <span className="detail-gallery__badge">Popular</span>
                                 )}
@@ -109,8 +117,9 @@ function PaketFotoDetail() {
                                 {packageImages.map((img, i) => (
                                     <button
                                         key={i}
+                                        type="button"
                                         className={`detail-gallery__thumb ${i === activeImage ? 'detail-gallery__thumb--active' : ''}`}
-                                        onClick={() => setActiveImage(i)}
+                                        onClick={() => handleThumbClick(i)}
                                     >
                                         <img src={img} alt={`Thumbnail ${i + 1}`} />
                                     </button>

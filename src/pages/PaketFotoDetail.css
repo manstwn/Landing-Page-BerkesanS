@@ -65,8 +65,12 @@
     overflow: hidden;
     background: var(--color-white);
     border: var(--border);
-    aspect-ratio: 1/1;
-    display: flex;
+    aspect-ratio: 2/3;
+}
+
+.detail-gallery__main>.detail-gallery__image {
+    position: absolute;
+    inset: 0;
 }
 
 .detail-gallery__slider {

@@ -84,7 +84,16 @@ function PaketFoto() {
                 const response = await fetch(import.meta.env.VITE_API_PAKET_FOTO || 'http://localhost:3000/paket-foto')
                 if (!response.ok) throw new Error('Failed to fetch data')
                 const result = await response.json()
-                setData(result)
+                setData(
+                    result
+                        .map((cat) => ({
+                            ...cat,
+                            packages: (cat.packages || []).filter(
+                                (paket) => String(paket.status).toLowerCase() !== 'inactive'
+                            ),
+                        }))
+                        .filter((cat) => cat.packages.length > 0)
+                )
             } catch (err) {
                 console.error('Error fetching paket foto:', err)
                 setError(err.message)

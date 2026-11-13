@@ -17,8 +17,24 @@
     flex: 1;
     min-width: 0;
     /* Soft fade edges */
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 2%, black 98%, transparent 100%);
-    mask-image: linear-gradient(to right, transparent 0%, black 2%, black 98%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right,
+            transparent 0%,
+            rgba(0, 0, 0, 0.35) 0.3%,
+            rgba(0, 0, 0, 0.75) 0.75%,
+            black 1.5%,
+            black 98.5%,
+            rgba(0, 0, 0, 0.75) 99.25%,
+            rgba(0, 0, 0, 0.35) 99.7%,
+            transparent 100%);
+    mask-image: linear-gradient(to right,
+            transparent 0%,
+            rgba(0, 0, 0, 0.35) 0.3%,
+            rgba(0, 0, 0, 0.75) 0.75%,
+            black 1.5%,
+            black 98.5%,
+            rgba(0, 0, 0, 0.75) 99.25%,
+            rgba(0, 0, 0, 0.35) 99.7%,
+            transparent 100%);
     user-select: none;
     touch-action: pan-y;
     /* allow vertical scroll, block horizontal so we handle it */
@@ -103,6 +119,18 @@
     height: 150px;
     background: var(--color-light);
     overflow: hidden;
+}
+
+/* Paket foto preview on the landing page uses a 2:3 portrait frame */
+.preview:not(.preview--alt) .marquee-card__img {
+    height: auto;
+    aspect-ratio: 2/3;
+}
+
+.preview:not(.preview--alt) .marquee-card__img img,
+.preview:not(.preview--alt) .marquee-card__img-placeholder {
+    position: absolute;
+    inset: 0;
 }
 
 .marquee-card__img img {

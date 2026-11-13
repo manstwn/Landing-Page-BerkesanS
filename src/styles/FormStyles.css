@@ -208,6 +208,23 @@
     color: rgb(var(--section-color));
 }
 
+.form-page-wrapper .section-header-row {
+    margin-bottom: 4px;
+}
+
+.form-page-wrapper .section-header-row .section-title {
+    margin-bottom: 0;
+}
+
+.form-page-wrapper .helper-text {
+    position: relative;
+    z-index: 1;
+    margin: 0 0 18px;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--text-muted);
+}
+
 /* Grid */
 .form-page-wrapper .form-grid {
     display: grid;
@@ -659,10 +676,6 @@
 
 /* Extra Event Box */
 .form-page-wrapper .extra-event-box {
-    padding: 20px;
-    border: 1px dashed rgba(var(--section-color), 0.35);
-    border-radius: 12px;
-    background: rgba(var(--section-color), 0.03);
     position: relative;
     z-index: 1;
 }

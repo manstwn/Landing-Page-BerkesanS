@@ -68,7 +68,7 @@
 }
 
 .paket__image {
-    aspect-ratio: 1/1;
+    aspect-ratio: 2/3;
     background: linear-gradient(135deg, var(--color-light), var(--color-white));
     display: flex;
     align-items: center;

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import './InfiniteMarquee.css'
 
 // --- drag / swipe helpers ---
@@ -22,7 +22,7 @@ function useDragScroll({ trackRef, offsetRef, pausedRef, manualPauseRef, lastTim
     }
 
     const onDragStart = useCallback((clientX) => {
-        dragRef.current = { active: true, startX: clientX, lastX: clientX, velocity: 0, lastTime: performance.now() }
+        dragRef.current = { active: true, startX: clientX, lastX: clientX, velocity: 0, lastTime: performance.now(), moved: 0 }
         pausedRef.current = true
         manualPauseRef.current = true
     }, [pausedRef, manualPauseRef])
@@ -32,6 +32,7 @@ function useDragScroll({ trackRef, offsetRef, pausedRef, manualPauseRef, lastTim
         const now = performance.now()
         const dt = (now - dragRef.current.lastTime) / 1000 || 0.016
         const delta = clientX - dragRef.current.lastX
+        dragRef.current.moved += Math.abs(delta)
         dragRef.current.velocity = delta / dt
         dragRef.current.lastX = clientX
         dragRef.current.lastTime = now
@@ -102,9 +103,9 @@ function formatIDR(val) {
     return val ?? '-'
 }
 
-function FotoCard({ id, image, name, price }) {
+function FotoCard({ id, image, name, price, onCardClick }) {
     return (
-        <div className="marquee-card">
+        <div className="marquee-card" onClick={onCardClick} style={{ cursor: 'pointer' }}>
             <div className="marquee-card__img">
                 {image
                     ? <img src={image} alt={name} loading="lazy" />
@@ -218,6 +219,12 @@ export default function InfiniteMarquee({ type = 'foto', direction = 'left' }) {
 
     const drag = useDragScroll({ trackRef, offsetRef, pausedRef, manualPauseRef, lastTimeRef })
     const shellRef = useRef(null)
+    const navigate = useNavigate()
+
+    const handleCardClick = (item) => {
+        if (drag.dragRef.current.moved > 8) return
+        navigate(`/paket-foto/${item.id}`)
+    }
 
     // Non-passive touchmove so we can preventDefault (blocks page scroll while swiping)
     useEffect(() => {
@@ -354,7 +361,13 @@ export default function InfiniteMarquee({ type = 'foto', direction = 'left' }) {
                     className="marquee-track marquee-track--js"
                     style={{ transform: 'translateX(0)' }}
                 >
-                    {doubled.map((c, i) => <CardComp key={i} {...c} />)}
+                    {doubled.map((c, i) => (
+                        <CardComp
+                            key={i}
+                            {...c}
+                            onCardClick={type === 'foto' ? () => handleCardClick(c) : undefined}
+                        />
+                    ))}
                 </div>
             </div>
 

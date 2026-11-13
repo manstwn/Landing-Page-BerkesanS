@@ -204,7 +204,7 @@ const FormPage = () => {
     };
 
     const addLoveStory = () => {
-        if (formData.loveStories.length < 3) {
+        if (formData.loveStories.length < 4) {
             setFormData(prev => ({
                 ...prev,
                 loveStories: [...prev.loveStories, { imageCode: '', title: '', date: '', story: '', imageFileName: '', imageSize: 0 }]
@@ -1190,8 +1190,6 @@ const FormPage = () => {
                         </div>
 
                         <div className="extra-event-box">
-                            <p className="helper-text">Tekan tombol tambah acara dibawah, untuk menambah acara.</p>
-
                             {formData.extraEvents.map((event, index) => (
                                 <div key={index} className="envelope-item">
                                     <div className="envelope-header">
@@ -1285,7 +1283,7 @@ const FormPage = () => {
                         <div className="section-header-row">
                             <h2 className="section-title">💸 6. Data Amplop Digital <span style={{ fontSize: '0.9rem', fontWeight: 'normal', color: 'var(--text-muted)' }}>(Opsional)</span></h2>
                         </div>
-                        <p className="helper-text">Maksimal 4 rekening/e-wallet.</p>
+                        <p className="helper-text">Informasi untuk mengirim uang secara digital seperti E-Wallet atau Transfer bank, apabila template undangan mendukung, maksimal sampai 4 rekening.</p>
 
                         <div className="envelopes-container">
                             {formData.digitalEnvelopes.map((env, index) => (
@@ -1343,7 +1341,7 @@ const FormPage = () => {
 
 
                         </div>
-                        <p className="helper-text">Maksimal 3 cerita  (Contoh: Awal Bertemu, Proses, Lamaran/Menikah).</p>
+                        <p className="helper-text">Maksimal 4 cerita  (Contoh: Awal Bertemu, Proses, Lamaran/Menikah).</p>
 
 
                         <div className="envelopes-container">
@@ -1383,7 +1381,6 @@ const FormPage = () => {
                                             </div>
                                             <ul className="helper-list" style={{ fontSize: '0.8rem', marginTop: '8px', lineHeight: '1.4' }}>
                                                  <li>Foto opsional, tinggalkan kosong apabila hanya ingin mengirim cerita saja</li>
-                                                 <li>Maks. 5 MB per foto, otomatis dikompres ke 1600px</li>
                                             </ul>
                                             {storyUploads[index] && storyUploads[index].error && (
                                                 <span className="error-text">{storyUploads[index].error}</span>
@@ -1439,7 +1436,7 @@ const FormPage = () => {
                             ))}
 
                             <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
-                                <button type="button" className="btn-secondary" onClick={addLoveStory} disabled={formData.loveStories.length >= 3}>
+                                <button type="button" className="btn-secondary" onClick={addLoveStory} disabled={formData.loveStories.length >= 4}>
                                     + Tambah Cerita
                                 </button>
                             </div>
