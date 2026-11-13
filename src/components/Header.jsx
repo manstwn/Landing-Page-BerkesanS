@@ -68,29 +68,6 @@ function Header() {
                     >
                         WhatsApp
                     </a>
-                    <a
-                        href={import.meta.env.VITE_BACKEND_URL || '#'}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        title="Backend Admin"
-                        style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            width: '32px',
-                            height: '32px',
-                            fontSize: '1.1rem',
-                            opacity: 0.5,
-                            color: 'var(--color-gray-dark, #555)',
-                            textDecoration: 'none',
-                            transition: 'opacity 0.2s, transform 0.3s',
-                            flexShrink: 0,
-                        }}
-                        onMouseEnter={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'rotate(60deg)' }}
-                        onMouseLeave={e => { e.currentTarget.style.opacity = '0.5'; e.currentTarget.style.transform = 'rotate(0deg)' }}
-                    >
-                        ⚙
-                    </a>
                 </nav>
 
 
