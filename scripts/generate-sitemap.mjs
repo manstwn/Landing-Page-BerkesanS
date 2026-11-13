@@ -7,13 +7,24 @@ const ROOT = path.resolve(__dirname, '..')
 const SITE_URL = 'https://www.berkesanstudio.com'
 const TODAY = new Date().toISOString().slice(0, 10)
 
-for (const file of ['.env', '.env.local']) {
-    try {
-        process.loadEnvFile(path.join(ROOT, file))
-    } catch {
-        // optional env file
+function loadEnv(file) {
+    const fullPath = path.join(ROOT, file)
+    if (!fs.existsSync(fullPath)) return
+    for (const rawLine of fs.readFileSync(fullPath, 'utf8').split(/\r?\n/)) {
+        const line = rawLine.replace(/^\s*export\s+/, '')
+        const match = line.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)\s*$/)
+        if (!match) continue
+        let value = match[2].trim()
+        if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+            value = value.slice(1, -1)
+        }
+        // Shell env wins; .env.local wins over .env.
+        if (process.env[match[1]] === undefined) process.env[match[1]] = value
     }
 }
+
+loadEnv('.env.local')
+loadEnv('.env')
 
 function apiBase() {
     if (process.env.SEO_API_BASE) return process.env.SEO_API_BASE.replace(/\/$/, '')
