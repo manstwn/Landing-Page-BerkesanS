@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://www.berkesanstudio.com/sitemap.xml
-Sitemap: https://www.berkesanstudio.com/sitemap-images.xml
