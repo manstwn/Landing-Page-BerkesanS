@@ -29,8 +29,16 @@ const MIME = {
 }
 
 function findChrome() {
+    const names = ['google-chrome', 'google-chrome-stable', 'chromium', 'chromium-browser', 'chrome']
+    const fromPath = (process.env.PATH || '')
+        .split(path.delimiter)
+        .filter(Boolean)
+        .flatMap((dir) => names.map((name) => path.join(dir, name)))
+
     const candidates = [
         process.env.CHROME_PATH,
+        ...fromPath,
+        '/snap/bin/chromium',
         'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
         'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
         'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
@@ -42,6 +50,7 @@ function findChrome() {
         '/usr/bin/chromium',
         '/usr/bin/chromium-browser',
     ].filter(Boolean)
+
     return candidates.find((candidate) => {
         try {
             return fs.statSync(candidate).isFile()
@@ -147,6 +156,7 @@ async function main() {
     const chrome = spawn(chromePath, [
         '--headless=new',
         '--no-sandbox',
+        '--disable-dev-shm-usage',
         '--disable-gpu',
         '--hide-scrollbars',
         '--window-size=1280,900',
