@@ -1,23 +1,22 @@
+import { useState } from 'react'
 import useImageFallback from '../hooks/useImageFallback'
 
 function ServiceImage({ index, alt }) {
-    const { src, exhausted, onError } = useImageFallback(`/layanan-kami-img/gambar${index}`)
+    const [loaded, setLoaded] = useState(false)
+    const { src, onError } = useImageFallback(`/layanan-kami-img/gambar${index}`)
+
+    if (!src) return null
 
     return (
-        <div
-            className={`highlights__media${exhausted ? ' highlights__media--placeholder' : ''}`}
-        >
-            {src ? (
-                <img
-                    src={src}
-                    alt={alt}
-                    loading="lazy"
-                    decoding="async"
-                    onError={onError}
-                />
-            ) : (
-                <span className="highlights__media-hint">Gambar</span>
-            )}
+        <div className="highlights__media" style={loaded ? undefined : { display: 'none' }}>
+            <img
+                src={src}
+                alt={alt}
+                loading="lazy"
+                decoding="async"
+                onLoad={() => setLoaded(true)}
+                onError={onError}
+            />
         </div>
     )
 }

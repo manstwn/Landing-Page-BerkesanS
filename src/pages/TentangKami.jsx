@@ -1,3 +1,6 @@
+import Seo from '../components/Seo'
+import { breadcrumbSchema } from '../data/seo'
+import { SITE } from '../data/site'
 import './TentangKami.css'
 
 const missions = [
@@ -24,6 +27,16 @@ const missions = [
 function TentangKami() {
     return (
         <div className="tentang">
+            <Seo
+                title="Tentang Berkesan Studio — Foto Studio Cibitung"
+                description="Kenali Berkesan Studio: tim fotografer, studio nyaman di Cibitung, Bekasi, dan pengalaman melayani ribuan klien."
+                canonical="/tentang-kami"
+                robots="index, follow"
+                jsonLd={breadcrumbSchema([
+                    { name: 'Beranda', path: '/' },
+                    { name: 'Tentang Kami', path: '/tentang-kami' },
+                ])}
+            />
             {/* Page Header */}
             <section className="page-hero" style={{ position: 'relative', overflow: 'hidden' }}>
                 <div className="page-hero__overlay"></div>
@@ -67,6 +80,10 @@ function TentangKami() {
                                 Kini, kami juga hadir dengan layanan undangan digital premium — solusi
                                 modern untuk membantu Anda menyiapkan acara yang lebih praktis, elegan,
                                 dan berkesan. Semuanya dalam satu tempat.
+                            </p>
+                            <p className="tentang__story-text">
+                                Studio kami berada di {SITE.addressDisplay} dan buka {SITE.hoursDisplay}.
+                                Untuk konsultasi atau booking, hubungi {SITE.phoneDisplay} atau chat via WhatsApp.
                             </p>
                         </div>
                         <div className="tentang__story-visual">

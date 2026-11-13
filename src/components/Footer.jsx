@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { SITE } from '../data/site'
 import './Footer.css'
 
 function Footer() {
@@ -47,10 +48,13 @@ function Footer() {
                     {/* Contact */}
                     <div className="footer__contact">
                         <h4>Hubungi Kami</h4>
-                        <p>📍 Cibitung, Kabupaten Bekasi, Jawa Barat.</p>
-                        <p>🕐 08:00 – 21:00</p>
+                        <address className="footer__address">
+                            <span>📍 {SITE.addressDisplay}</span>
+                            <a href={`tel:${SITE.phone}`}>☎ {SITE.phoneDisplay}</a>
+                            <span>🕐 {SITE.hoursDisplay}</span>
+                        </address>
                         <a
-                            href={`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER || '6281234567890'}`}
+                            href={`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER || SITE.whatsapp}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="btn btn-gold btn-sm footer__wa-btn"

@@ -4,6 +4,9 @@ import useImageFallback from '../hooks/useImageFallback'
 import InfiniteMarquee from '../components/InfiniteMarquee'
 import CountUp from '../components/CountUp'
 import ServiceImage from '../components/ServiceImage'
+import Seo from '../components/Seo'
+import { localBusinessSchema, faqSchema } from '../data/seo'
+import { SITE } from '../data/site'
 import './Home.css'
 
 const highlights = [
@@ -53,6 +56,29 @@ const testimonials = [
     },
 ]
 
+const faqs = [
+    {
+        question: 'Berapa harga paket foto prewedding di Berkesan Studio?',
+        answer: 'Harga paket foto prewedding di Berkesan Studio mulai dari ratusan ribu rupiah dan menyesuaikan jumlah background, kostum, serta durasi sesi. Semua paket dan harganya bisa dilihat di halaman Paket Foto, lalu konsultasi gratis lewat WhatsApp untuk menyesuaikan budget.',
+    },
+    {
+        question: 'Berapa lama durasi sesi foto di studio?',
+        answer: 'Durasi sesi foto berkisar 30 menit hingga beberapa jam tergantung paket yang dipilih. Tim kami akan mengatur jadwal agar sesi foto tetap nyaman, tidak terburu-buru, dan hasilnya maksimal.',
+    },
+    {
+        question: 'Bisa foto di lokasi luar studio atau di rumah?',
+        answer: 'Bisa. Selain sesi di studio Cibitung, kami melayani foto di lokasi luar studio, rumah, atau venue acara di area Bekasi, Cikarang, Tambun, dan Jakarta Timur. Silakan hubungi kami untuk cek ketersediaan jadwal dan biaya tambahan.',
+    },
+    {
+        question: 'Berapa lama proses edit dan pengiriman hasil foto?',
+        answer: 'Proses edit biasanya 3–7 hari kerja setelah sesi foto. File asli dan hasil edit dikirim melalui link Google Drive agar mudah diunduh dan dibagikan.',
+    },
+    {
+        question: 'Bagaimana cara pesan undangan digital di Berkesan Studio?',
+        answer: 'Pilih template undangan di halaman Katalog Undangan, lalu isi formulir pemesanan. Setelah data diterima, tim kami akan membuat undangan digital dengan musik, RSVP, dan link yang siap dibagikan ke tamu.',
+    },
+]
+
 function Home() {
     const [highlightsRef, highlightsVisible] = useInView()
     const [whyRef, whyVisible] = useInView()
@@ -63,6 +89,14 @@ function Home() {
 
     return (
         <div className="home">
+            <Seo
+                title="Foto Studio Cibitung & Undangan Digital | Berkesan Studio"
+                description="Jasa foto studio di Cibitung, Bekasi untuk prewedding, wedding, wisuda & keluarga. Harga terjangkau, hasil rapi, plus undangan digital. Chat via WhatsApp."
+                canonical="/"
+                robots="index, follow"
+                jsonLd={[localBusinessSchema(), faqSchema(faqs)]}
+            />
+
             {/* ====== HERO ====== */}
             <section className="hero">
                 <div className="hero__overlay"></div>
@@ -102,18 +136,20 @@ function Home() {
 
                 <div className="container hero__content">
                     <img
-                        src="/website-logo.png"
-                        alt="Berkesan Studio"
+                        src="/logo-280.png"
+                        alt="Berkesan Studio — foto studio dan undangan digital di Cibitung, Bekasi"
                         className="hero__logo hero-anim hero-anim--1"
                         width="140"
                         height="140"
+                        decoding="async"
                     />
                     <h1 className="hero__title hero-anim hero-anim--2">
-                        Foto Bagus,<br />
-                        <span className="text-gradient">Harga Bersahabat</span>
+                        Foto Studio & Undangan Digital<br />
+                        <span className="text-gradient">di Cibitung, Bekasi</span>
                     </h1>
                     <p className="hero__subtitle hero-anim hero-anim--3">
-                        Jasa foto studio & undangan digital untuk momen spesialmu. Simpel, rapi, dan terjangkau.
+                        Berkesan Studio melayani foto prewedding, wedding, wisuda, keluarga, dan couple
+                        plus pembuatan undangan digital pernikahan. Studio nyaman, harga jelas, hasil diedit rapi.
                     </p>
                     <div className="hero__buttons hero-anim hero-anim--4">
                         <Link to="/paket-foto" className="btn btn-gold">
@@ -242,31 +278,6 @@ function Home() {
                 </div>
             </section>
 
-            {/* ====== LOKASI ====== */}
-            <section className="section lokasi">
-                <div className="container">
-                    <div className="section-header">
-                        <div className="gold-line"></div>
-                        <h2 className="lokasi__title">
-                            <svg className="lokasi__icon" viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" />
-                            </svg>
-                            Lokasi Studio
-                        </h2>
-                        <p>Mampir langsung ke studio kami — lokasinya gampang ditemukan.</p>
-                    </div>
-                    <div className="lokasi__map">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11217.904045876512!2d107.08613868178229!3d-6.246857003275013!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e698fcd6b4e8055%3A0x38abb44e29f99256!2sBerkesan%20Studio!5e0!3m2!1sid!2sid!4v1794321700740!5m2!1sid!2sid"
-                            title="Lokasi Berkesan Studio"
-                            allowFullScreen
-                            loading="lazy"
-                            referrerPolicy="strict-origin-when-cross-origin"
-                        ></iframe>
-                    </div>
-                </div>
-            </section>
-
             {/* ====== PREVIEW: PAKET FOTO ====== */}
             <section className="section preview" ref={previewRef} style={{ paddingTop: '60px', paddingBottom: '28px', position: 'relative', overflow: 'hidden' }}>
                 {/* Visual Decors */}
@@ -319,6 +330,35 @@ function Home() {
                 </div>
             </section>
 
+            {/* ====== LOKASI ====== */}
+            <section className="section lokasi">
+                <div className="container">
+                    <div className="section-header">
+                        <div className="gold-line"></div>
+                        <h2 className="lokasi__title">
+                            <svg className="lokasi__icon" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" />
+                            </svg>
+                            Lokasi Studio
+                        </h2>
+                        <p>Mampir langsung ke studio kami — lokasinya gampang ditemukan.</p>
+                    </div>
+                    <div className="lokasi__map">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11217.904045876512!2d107.08613868178229!3d-6.246857003275013!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e698fcd6b4e8055%3A0x38abb44e29f99256!2sBerkesan%20Studio!5e0!3m2!1sid!2sid!4v1794321700740!5m2!1sid!2sid"
+                            title="Lokasi Berkesan Studio di Cibitung, Bekasi"
+                            allowFullScreen
+                            loading="lazy"
+                            referrerPolicy="strict-origin-when-cross-origin"
+                        ></iframe>
+                    </div>
+                    <p className="lokasi__address">
+                        <strong>{SITE.name}</strong> — {SITE.addressDisplay}. Buka {SITE.hoursDisplay}.{' '}
+                        <a href={SITE.mapsUrl} target="_blank" rel="noopener noreferrer">Lihat di Google Maps</a>
+                    </p>
+                </div>
+            </section>
+
             {/* ====== TICKER 2 ====== */}
             <div className="text-ticker text-ticker--alt" aria-hidden="true">
                 <div className="text-ticker__inner">
@@ -363,6 +403,39 @@ function Home() {
                     </div>
                 </div>
             </section>
+
+            {/* ====== FAQ ====== */}
+            <section className="section faq" id="faq">
+                <div className="bg-pattern-dots"></div>
+                <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+                    <div className="section-header">
+                        <div className="gold-line"></div>
+                        <h2>Pertanyaan yang Sering Ditanyakan</h2>
+                        <p>Info singkat seputar sesi foto dan undangan digital</p>
+                    </div>
+                    <div className="faq__list">
+                        {faqs.map((item, i) => (
+                            <details className="faq__item" key={i}>
+                                <summary>{item.question}</summary>
+                                <p>{item.answer}</p>
+                            </details>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ====== INTERNAL LINKS ====== */}
+            <nav className="seo-links" aria-label="Layanan dan halaman Berkesan Studio">
+                <div className="container seo-links__inner">
+                    <span className="seo-links__label">Jelajahi:</span>
+                    <Link to="/paket-foto">Paket foto prewedding Bekasi</Link>
+                    <Link to="/paket-foto">Harga foto wisuda Cibitung</Link>
+                    <Link to="/paket-foto">Foto keluarga Bekasi</Link>
+                    <Link to="/katalog-undangan">Katalog undangan digital</Link>
+                    <Link to="/artikel">Artikel foto & undangan</Link>
+                    <Link to="/tentang-kami">Tentang Berkesan Studio</Link>
+                </div>
+            </nav>
 
             {/* ====== CTA BANNER ====== */}
             <section className="cta-banner" ref={ctaRef}>

@@ -39,11 +39,12 @@ function Header() {
             <div className="container header__inner">
                 <Link to="/" className="header__logo">
                     <img
-                        src="/website-logo.png"
-                        alt=""
+                        src="/logo-280.png"
+                        alt="Logo Berkesan Studio"
                         className="header__logo-img"
                         width="48"
                         height="48"
+                        decoding="async"
                     />
                     <span className="header__logo-text">Berkesan<span className="text-gold"> Studio</span></span>
                 </Link>

@@ -95,6 +95,23 @@
     color: var(--color-gray-dark);
 }
 
+.footer__address {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-style: normal;
+    font-size: 0.88rem;
+    color: var(--color-gray-dark);
+}
+
+.footer__address a {
+    color: var(--color-gray-dark);
+}
+
+.footer__address a:hover {
+    color: var(--color-black);
+}
+
 .footer__wa-btn {
     margin-top: 12px;
     width: fit-content;

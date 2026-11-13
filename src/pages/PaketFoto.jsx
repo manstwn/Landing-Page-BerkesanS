@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import Seo from '../components/Seo'
+import { breadcrumbSchema } from '../data/seo'
 import './PaketFoto.css'
 
 function PaketCard({ paket }) {
@@ -106,9 +108,23 @@ function PaketFoto() {
 
     const categories = ['Semua', ...data.map(cat => cat.category_name)]
 
+    const seo = (
+        <Seo
+            title="Paket & Harga Foto Studio Bekasi | Berkesan Studio"
+            description="Pilih paket foto prewedding, wedding, wisuda, dan keluarga di Berkesan Studio Cibitung. Harga jelas, fasilitas lengkap, bisa request revisi."
+            canonical="/paket-foto"
+            robots="index, follow"
+            jsonLd={breadcrumbSchema([
+                { name: 'Beranda', path: '/' },
+                { name: 'Paket Foto', path: '/paket-foto' },
+            ])}
+        />
+    )
+
     if (loading) {
         return (
             <div className="paket-foto">
+                {seo}
                 <section className="section" style={{ position: 'relative', overflow: 'hidden' }}>
                     <div className="bg-grid"></div>
                     <div className="container" style={{ textAlign: 'center', padding: '100px 0', position: 'relative', zIndex: 2 }}>
@@ -123,6 +139,7 @@ function PaketFoto() {
     if (error) {
         return (
             <div className="paket-foto">
+                {seo}
                 <section className="section" style={{ position: 'relative', overflow: 'hidden' }}>
                     <div className="bg-grid"></div>
                     <div className="container" style={{ textAlign: 'center', padding: '100px 0', position: 'relative', zIndex: 2 }}>
@@ -136,6 +153,7 @@ function PaketFoto() {
 
     return (
         <div className="paket-foto">
+            {seo}
             {/* Page Header */}
             <section className="page-hero" style={{ position: 'relative', overflow: 'hidden' }}>
                 <div className="page-hero__overlay"></div>

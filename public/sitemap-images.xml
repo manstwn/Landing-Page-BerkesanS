@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://www.berkesanstudio.com/</loc>
+    <image:image>
+      <image:loc>https://www.berkesanstudio.com/studio-kami/gambar-studio.webp</image:loc>
+      <image:title>Studio foto Berkesan Studio di Cibitung, Bekasi</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.berkesanstudio.com/og-image.jpg</image:loc>
+      <image:title>Berkesan Studio — Foto Studio &amp; Undangan Digital</image:title>
+    </image:image>
+  </url>
+</urlset>

@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import Seo from '../components/Seo'
+import { breadcrumbSchema } from '../data/seo'
 import './KatalogUndangan.css'
 
 function KatalogUndangan() {
@@ -37,9 +39,23 @@ function KatalogUndangan() {
         }
     }, [isWedding, data])
 
+    const seo = (
+        <Seo
+            title="Katalog Undangan Digital Pernikahan | Berkesan Studio"
+            description="Lihat koleksi template undangan digital pernikahan Berkesan Studio. Desain elegan, ada musik, RSVP, dan link demo. Bisa pesan online."
+            canonical="/katalog-undangan"
+            robots="index, follow"
+            jsonLd={breadcrumbSchema([
+                { name: 'Beranda', path: '/' },
+                { name: 'Katalog Undangan', path: '/katalog-undangan' },
+            ])}
+        />
+    )
+
     if (loading) {
         return (
             <div className="katalog">
+                {seo}
                 <section className="section" style={{ position: 'relative', overflow: 'hidden' }}>
                     <div className="bg-grid"></div>
                     <div className="container" style={{ textAlign: 'center', padding: '100px 0', position: 'relative', zIndex: 2 }}>
@@ -54,6 +70,7 @@ function KatalogUndangan() {
     if (error) {
         return (
             <div className="katalog">
+                {seo}
                 <section className="section" style={{ position: 'relative', overflow: 'hidden' }}>
                     <div className="bg-grid"></div>
                     <div className="container" style={{ textAlign: 'center', padding: '100px 0', position: 'relative', zIndex: 2 }}>
@@ -67,6 +84,7 @@ function KatalogUndangan() {
 
     return (
         <div className="katalog">
+            {seo}
             {/* Page Header */}
             <section className="page-hero" style={{ position: 'relative', overflow: 'hidden' }}>
                 <div className="page-hero__overlay"></div>
