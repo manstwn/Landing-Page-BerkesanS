@@ -144,8 +144,7 @@ function Home() {
                         decoding="async"
                     />
                     <h1 className="hero__title hero-anim hero-anim--2">
-                        Foto Studio & Undangan Digital<br />
-                        <span className="text-gradient">di Cibitung, Bekasi</span>
+                        Foto Studio & <span className="text-gradient">Undangan Digital</span>
                     </h1>
                     <p className="hero__subtitle hero-anim hero-anim--3">
                         Berkesan Studio melayani foto prewedding, wedding, wisuda, keluarga, dan couple
