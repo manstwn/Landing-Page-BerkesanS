@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import Seo from '../components/Seo'
-import { breadcrumbSchema } from '../data/seo'
 import './Artikel.css'
 
 function ArtikelCard({ artikel }) {
@@ -76,23 +74,9 @@ function Artikel() {
         fetchData()
     }, [])
 
-    const seo = (
-        <Seo
-            title="Artikel Foto & Undangan Digital | Berkesan Studio"
-            description="Tips, panduan harga, dan inspirasi foto prewedding, wedding, wisuda, serta undangan digital dari Berkesan Studio."
-            canonical="/artikel"
-            robots="index, follow"
-            jsonLd={breadcrumbSchema([
-                { name: 'Beranda', path: '/' },
-                { name: 'Artikel', path: '/artikel' },
-            ])}
-        />
-    )
-
     if (loading) {
         return (
             <div className="artikel">
-                {seo}
                 <section className="section">
                     <div className="container" style={{ textAlign: 'center', padding: '100px 0' }}>
                         <div className="loading-spinner"></div>
@@ -106,7 +90,6 @@ function Artikel() {
     if (error) {
         return (
             <div className="artikel">
-                {seo}
                 <section className="section">
                     <div className="container" style={{ textAlign: 'center', padding: '100px 0' }}>
                         <p style={{ color: 'red' }}>Error: {error}</p>
@@ -128,7 +111,6 @@ function Artikel() {
 
     return (
         <div className="artikel">
-            {seo}
             {/* Page Header */}
             <section className="page-hero" style={{ position: 'relative', overflow: 'hidden' }}>
                 <div className="page-hero__overlay"></div>

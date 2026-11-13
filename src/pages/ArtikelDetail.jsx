@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import Seo from '../components/Seo'
-import { articleSchema, breadcrumbSchema } from '../data/seo'
 import './Artikel.css'
 
 function ArtikelDetail() {
@@ -50,7 +48,6 @@ function ArtikelDetail() {
     if (loading) {
         return (
             <div className="artikel-detail">
-                <Seo title="Artikel — Berkesan Studio" robots="noindex, follow" />
                 <div className="container" style={{ textAlign: 'center', padding: '100px 0' }}>
                     <div className="loading-spinner"></div>
                     <p>Memuat Artikel...</p>
@@ -62,7 +59,6 @@ function ArtikelDetail() {
     if (error || !artikel) {
         return (
             <div className="artikel-detail">
-                <Seo title="Artikel Tidak Ditemukan — Berkesan Studio" robots="noindex, follow" />
                 <div className="container" style={{ textAlign: 'center', padding: '100px 0' }}>
                     <Link to="/artikel" className="artikel-detail__back">
                         ← Kembali ke Artikel
@@ -74,29 +70,8 @@ function ArtikelDetail() {
         )
     }
 
-    const rawDescription = (artikel.content && artikel.content[0]) || ''
-    const seo = (
-        <Seo
-            title={`${artikel.title} | Berkesan Studio`}
-            description={rawDescription.length > 155 ? `${rawDescription.slice(0, 152)}...` : rawDescription}
-            canonical={`/artikel/${artikel.slug}`}
-            robots="index, follow"
-            image={artikel.image}
-            type="article"
-            jsonLd={[
-                articleSchema(artikel),
-                breadcrumbSchema([
-                    { name: 'Beranda', path: '/' },
-                    { name: 'Artikel', path: '/artikel' },
-                    { name: artikel.title, path: `/artikel/${artikel.slug}` },
-                ]),
-            ]}
-        />
-    )
-
     return (
         <div className="artikel-detail">
-            {seo}
             <div className="container">
                 <div className="artikel-detail__back-wrapper">
                     <Link to="/artikel" className="artikel-detail__back">

@@ -1,5 +1,3 @@
-import Seo from '../components/Seo'
-import { breadcrumbSchema } from '../data/seo'
 import { SITE } from '../data/site'
 import './TentangKami.css'
 
@@ -27,16 +25,6 @@ const missions = [
 function TentangKami() {
     return (
         <div className="tentang">
-            <Seo
-                title="Tentang Berkesan Studio — Foto Studio Cibitung"
-                description="Kenali Berkesan Studio: tim fotografer, studio nyaman di Cibitung, Bekasi, dan pengalaman melayani ribuan klien."
-                canonical="/tentang-kami"
-                robots="index, follow"
-                jsonLd={breadcrumbSchema([
-                    { name: 'Beranda', path: '/' },
-                    { name: 'Tentang Kami', path: '/tentang-kami' },
-                ])}
-            />
             {/* Page Header */}
             <section className="page-hero" style={{ position: 'relative', overflow: 'hidden' }}>
                 <div className="page-hero__overlay"></div>

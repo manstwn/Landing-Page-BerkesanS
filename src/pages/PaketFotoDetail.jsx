@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import Seo from '../components/Seo'
-import { productSchema, breadcrumbSchema } from '../data/seo'
 import './PaketFotoDetail.css'
 
 function PaketFotoDetail() {
@@ -55,7 +53,6 @@ function PaketFotoDetail() {
     if (loading) {
         return (
             <div className="paket-detail">
-                <Seo title="Paket Foto — Berkesan Studio" robots="noindex, follow" />
                 <div className="container" style={{ textAlign: 'center', padding: '100px 0' }}>
                     <div className="loading-spinner"></div>
                     <p>Memuat Detail Paket...</p>
@@ -67,7 +64,6 @@ function PaketFotoDetail() {
     if (error || !paket) {
         return (
             <div className="detail-not-found">
-                <Seo title="Paket Tidak Ditemukan — Berkesan Studio" robots="noindex, follow" />
                 <div className="container">
                     <div className="detail-not-found__content">
                         <span className="detail-not-found__icon">📸</span>
@@ -86,29 +82,8 @@ function PaketFotoDetail() {
         ? paket.images.map(img => img.url)
         : [paket.thumbnail]
 
-    const priceText = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(paket.price)
-    const seo = (
-        <Seo
-            title={`${paket.name} — Paket Foto ${paket.category || ''} | Berkesan Studio`}
-            description={`${paket.name} ${priceText}. Cek fasilitas, durasi, dan cara booking paket foto ini di Berkesan Studio Cibitung, Bekasi.`}
-            canonical={`/paket-foto/${paket.id}`}
-            robots="index, follow"
-            image={packageImages[0]}
-            type="product"
-            jsonLd={[
-                productSchema(paket, paket.category),
-                breadcrumbSchema([
-                    { name: 'Beranda', path: '/' },
-                    { name: 'Paket Foto', path: '/paket-foto' },
-                    { name: paket.name, path: `/paket-foto/${paket.id}` },
-                ]),
-            ]}
-        />
-    )
-
     return (
         <div className="paket-detail">
-            {seo}
             {/* Breadcrumb */}
             <div className="detail-breadcrumb">
                 <div className="container">
